@@ -5,20 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
-@Table(name = "game")
+@Table(name = "images")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameEntity {
+public class ImagesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-    private String title;
+    private String name;
     private String description;
-    private String linkDownoload;
-    private LocalDate releaseDate;
+    private long characterId;
+    private long gameId;
+    private long mercancyId;
 }

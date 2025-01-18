@@ -17,4 +17,5 @@ public class CharacterDTO {
     private String biography;
     private String relations;
     private String importantFacts;
+    private String species;
 }

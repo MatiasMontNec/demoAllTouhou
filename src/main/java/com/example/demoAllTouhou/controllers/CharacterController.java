@@ -117,6 +117,14 @@ public class CharacterController {
         return ResponseEntity.ok(characterDTOs);
     }
 
+    // **Buscar personajes por especie**
+    @GetMapping("/search/species")
+    public ResponseEntity<List<CharacterDTO>> getCharactersBySpecies(@RequestParam String species) {
+        List<CharacterEntity> characters = characterService.getCharactersBySpecies(species);
+        List<CharacterDTO> characterDTOs = characters.stream().map(this::mapToDTO).toList();
+        return ResponseEntity.ok(characterDTOs);
+    }
+
     // **Mapear de DTO a Entidad**
     private CharacterEntity mapToEntity(CharacterDTO dto) {
         return new CharacterEntity(
@@ -128,7 +136,8 @@ public class CharacterController {
                 dto.getWeight(),
                 dto.getBiography(),
                 dto.getRelations(),
-                dto.getImportantFacts()
+                dto.getImportantFacts(),
+                dto.getSpecies()
         );
     }
 
@@ -143,7 +152,8 @@ public class CharacterController {
                 entity.getWeight(),
                 entity.getBiography(),
                 entity.getRelations(),
-                entity.getImportantFacts()
+                entity.getImportantFacts(),
+                entity.getSpecies()
         );
     }
 }

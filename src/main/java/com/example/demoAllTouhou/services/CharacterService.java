@@ -94,4 +94,9 @@ public class CharacterService {
     public List<CharacterEntity> getCharactersByImportantFactsContaining(String keyword) {
         return characterRepository.findByImportantFactsContainingIgnoreCase(keyword);
     }
+
+    // **Buscar personajes por especie**
+    public List<CharacterEntity> getCharactersBySpecies(String species) {
+        return characterRepository.findBySpeciesIgnoreCase(species);
+    }
 }

@@ -23,4 +23,5 @@ public class CharacterEntity {
     private String biography;
     private String relations;
     private String importantFacts;
+    private String species;
 }

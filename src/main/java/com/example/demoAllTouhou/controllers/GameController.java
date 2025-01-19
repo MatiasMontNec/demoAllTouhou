@@ -82,6 +82,23 @@ public class GameController {
         return ResponseEntity.ok(dtos);
     }
 
+    // **Obtener todos los Games que salieron antes de una fecha con año, mes, día**
+    @PostMapping("/before-specific-date")
+    public ResponseEntity<List<GameDTO>> getGamesBeforeSpecificDate(@RequestBody DateDTO dateDTO) {
+        List<GameEntity> entities = gameService.getGamesBeforeSpecificDate(dateDTO.getYear(), dateDTO.getMonth(), dateDTO.getDay());
+        List<GameDTO> dtos = entities.stream().map(this::mapToDTO).toList();
+        return ResponseEntity.ok(dtos);
+    }
+
+    // **Obtener todos los Games que salieron después de una fecha con año, mes, día**
+    @PostMapping("/after-specific-date")
+    public ResponseEntity<List<GameDTO>> getGamesAfterSpecificDate(@RequestBody DateDTO dateDTO) {
+        List<GameEntity> entities = gameService.getGamesAfterSpecificDate(dateDTO.getYear(), dateDTO.getMonth(), dateDTO.getDay());
+        List<GameDTO> dtos = entities.stream().map(this::mapToDTO).toList();
+        return ResponseEntity.ok(dtos);
+    }
+
+
     // **Mapear de DTO a Entidad**
     private GameEntity mapToEntity(GameDTO dto) {
         GameEntity entity = new GameEntity();

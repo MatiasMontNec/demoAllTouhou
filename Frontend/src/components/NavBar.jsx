@@ -1,142 +1,135 @@
 import { useState } from "react";
-import { AppBar, Box, IconButton, Toolbar, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, Popover, Fade } from "@mui/material";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import MenuIcon from '@mui/icons-material/Menu';
-import { useLocation } from "react-router-dom";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Sidemenu from "./SideMenu.jsx";
+import { AppBar, Box, Toolbar, Typography, Button, Menu, MenuItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/Touhou101.png"; // Logo de la aplicación
 
 export default function Navbar() {
-    const [open, setOpen] = useState(false);
-    const [helpOpen, setHelpOpen] = useState(false);
-    const [popoverAnchor, setPopoverAnchor] = useState(null);
-    const [showScrollArrow, setShowScrollArrow] = useState(false);
-    const [popoverShown, setPopoverShown] = useState(false);
-    const location = useLocation();
+    const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState(null); // Para manejar el menú desplegable
 
-    const toggleHelpDialog = () => {
-        setHelpOpen(!helpOpen); // Abre o cierra el Dialog
+    // Abrir el menú desplegable
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    const toggleDrawer = (open) => (event) => {
-        setOpen(open);
+    // Cerrar el menú desplegable
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     };
 
-    useState(() => {
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
+    // Función para manejar navegación
+    const handleNavigation = (path) => {
+        navigate(path);
+        handleMenuClose(); // Cierra el menú si estaba abierto
+    };
 
-            if (scrollTop + windowHeight >= documentHeight) {
-                setShowScrollArrow(false);
-            } else {
-                setShowScrollArrow(true);
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [location.pathname]);
-
-    useState(() => {
-        const interval = setInterval(() => {
-            setPopoverAnchor(document.body);
-            setPopoverShown(true);
-        }, 60000); // Cambia a 60 segundos
-        return () => clearInterval(interval);
-    }, []);
+    // Función para buscar con un tipo
+    const handleSearch = (type) => {
+        navigate(`/buscador?type=${type}`); // Envía el parámetro de tipo
+        handleMenuClose();
+    };
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                        onClick={toggleDrawer(true)}
+            <AppBar position="sticky" >
+                <Toolbar sx={{ justifyContent: "space-between", padding: "0 2rem" }}>
+                    {/* Logo con navegación al Home */}
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => handleNavigation("/")}
                     >
-                        <MenuIcon />
-                    </IconButton>
-
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Touhou101
+                        <img
+                            src={logo}
+                            alt="Touhou101 Logo"
+                            style={{
+                                height: "40px",
+                                marginRight: "1rem",
+                            }}
+                        />
                     </Typography>
 
-                    <IconButton color="inherit" onClick={toggleHelpDialog}>
-                        <HelpOutlineIcon />
-                    </IconButton>
+                    {/* Botones del NavBar */}
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        {/* Botón Buscar con menú desplegable */}
+                        <Button
+                            color="inherit"
+                            onClick={handleMenuOpen}
+                            sx={{
+                                marginRight: 2,
+                                "&:hover": {
+                                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                },
+                            }}
+                        >
+                            Buscar
+                        </Button>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                            anchorOrigin={{
+                                vertical: "bottom",
+                                horizontal: "left",
+                            }}
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "left",
+                            }}
+                        >
+                            <MenuItem onClick={() => handleSearch(0)}>Personaje</MenuItem>
+                            <MenuItem onClick={() => handleSearch(1)}>Juego</MenuItem>
+                            <MenuItem onClick={() => handleSearch(2)}>Manga</MenuItem>
+                        </Menu>
+
+                        {/* Botón Mercancía */}
+                        <Button
+                            color="inherit"
+                            onClick={() => handleNavigation("/mercancia")}
+                            sx={{
+                                marginRight: 2,
+                                "&:hover": {
+                                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                },
+                            }}
+                        >
+                            Ver Mercancía
+                        </Button>
+
+                        {/* Botón Canciones */}
+                        <Button
+                            color="inherit"
+                            onClick={() => handleNavigation("/canciones")}
+                            sx={{
+                                marginRight: 2,
+                                "&:hover": {
+                                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                },
+                            }}
+                        >
+                            Ver Canciones
+                        </Button>
+
+                        {/* Botón Tests */}
+                        <Button
+                            color="inherit"
+                            onClick={() => handleNavigation("/tests")}
+                            sx={{
+                                "&:hover": {
+                                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                },
+                            }}
+                        >
+                            Probar Tests
+                        </Button>
+                    </Box>
                 </Toolbar>
             </AppBar>
-
-            <Sidemenu open={open} toggleDrawer={toggleDrawer} />
-
-            {/* Dialog para mostrar ayuda */}
-            <Dialog open={helpOpen} onClose={toggleHelpDialog} fullWidth maxWidth="sm">
-                <DialogTitle>Ayuda</DialogTitle>
-                <DialogContent>
-                    <Typography variant="body1">Aquí va el texto de ayuda...</Typography>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={toggleHelpDialog} color="primary">
-                        Cerrar
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            {/* Popover */}
-            <Popover
-                open={Boolean(popoverAnchor)}
-                anchorEl={popoverAnchor}
-                onClose={() => setPopoverAnchor(null)}
-                anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
-            >
-                <Box p={2}>
-                    <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                        ¿Te quedaste atascado? Consulta el botón de ayuda.
-                        <br />
-                        Está en la esquina derecha de la barra azul.
-                        <br />
-                        Presiona el símbolo de interrogación para obtener la ayuda.
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        color="inherit"
-                        onClick={() => setPopoverAnchor(null)}
-                        sx={{
-                            marginTop: 1,
-                        }}
-                    >
-                        Cerrar
-                    </Button>
-                </Box>
-            </Popover>
-
-            <Fade in={showScrollArrow}>
-                <Box
-                    sx={{
-                        position: "fixed",
-                        right: 16,
-                        bottom: 32,
-                        zIndex: 1000,
-                        backgroundColor: "rgba(0, 0, 0, 0.6)",
-                        borderRadius: "50%",
-                        padding: "8px",
-                        cursor: "pointer",
-                    }}
-                    onClick={() => {
-                        window.scrollBy({ top: window.innerHeight / 2, behavior: "smooth" });
-                    }}
-                >
-                    <KeyboardArrowDownIcon sx={{ color: "white", fontSize: "2rem" }} />
-                </Box>
-            </Fade>
         </Box>
     );
 }

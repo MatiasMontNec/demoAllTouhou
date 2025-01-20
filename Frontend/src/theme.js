@@ -1,56 +1,53 @@
 import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
+// Tema principal para la vista Home
+const homeTheme = createTheme({
     palette: {
-        mode: "light", // Puedes cambiar esto a "dark" si prefieres un fondo oscuro
-        primary: {
-            main: "#7EC8E8", // Azul claro para fondos y áreas de lectura
-        },
-        secondary: {
-            main: "#81C784", // Verde claro para botones y enlaces
-        },
-        text: {
-            primary: "#B23C47", // Rojo oscuro para títulos y textos principales
-            secondary: "#9B59B6", // Morado suave para elementos de detalle
-        },
-        background: {
-            default: "#F0F0F0", // Beige para fondo principal
-            paper: "#D8D8D8", // Gris claro para tarjetas y contenedores
-        },
-    },
-    components: {
-        MuiTextField: {
-            styleOverrides: {
-                root: {
-                    color: "#7EC8E8", // Azul claro para entradas de texto
-                },
-            },
-        },
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: "8px",
-                    textTransform: "none", // Mantener el texto en su forma original
-                    fontWeight: "bold",
-                    fontSize: "1rem",
-                },
-                containedPrimary: {
-                    backgroundColor: "#FF9800", // Naranja para botones de acción
-                    color: "#FFFFFF",
-                    "&:hover": {
-                        backgroundColor: "#FF5722", // Naranja más oscuro para hover
-                    },
-                },
-                containedSecondary: {
-                    backgroundColor: "#F8BBD0", // Rosa pastel para botones secundarios
-                    color: "#7EC8E8", // Azul claro
-                    "&:hover": {
-                        backgroundColor: "#F48FB1", // Rosa más oscuro para hover
-                    },
-                },
-            },
-        },
+        primary: { main: "#7EC8E8" }, // Azul claro para serenidad y neutralidad
+        secondary: { main: "#81C784" }, // Verde para armonía
+        background: { default: "#F0F0F0", paper: "#cae5e8" },
+        text: { primary: "#7e93e8", secondary: "#9B59B6" },
     },
 });
 
-export default theme;
+// Tema para la vista Buscador
+const searchTheme = createTheme({
+    palette: {
+        primary: { main: "#FFC107" }, // Amarillo para estimular la atención
+        secondary: { main: "#FF9800" }, // Naranja para creatividad
+        background: { default: "#FFF8E1", paper: "#FFE0B2" }, // Colores cálidos para enfoque
+        text: { primary: "#5D4037", secondary: "#8D6E63" }, // Tonos marrones para contraste
+    },
+});
+
+// Tema para la vista Mercancía
+const merchandiseTheme = createTheme({
+    palette: {
+        primary: { main: "#8E24AA" }, // Morado para lujo y exclusividad
+        secondary: { main: "#F48FB1" }, // Rosa suave para atractivo visual
+        background: { default: "#F3E5F5", paper: "#E1BEE7" }, // Tonos pasteles suaves
+        text: { primary: "#4A148C", secondary: "#6A1B9A" },
+    },
+});
+
+// Tema para la vista Canciones
+const songsTheme = createTheme({
+    palette: {
+        primary: { main: "#2196F3" }, // Azul para serenidad
+        secondary: { main: "#64B5F6" }, // Azul claro para energía positiva
+        background: { default: "#E3F2FD", paper: "#BBDEFB" }, // Fondos claros y calmantes
+        text: { primary: "#0D47A1", secondary: "#1565C0" },
+    },
+});
+
+// Tema para la vista Tests
+const testsTheme = createTheme({
+    palette: {
+        primary: { main: "#FF5722" }, // Naranja para dinamismo
+        secondary: { main: "#FF7043" }, // Naranja más claro para estímulo
+        background: { default: "#FFEBEE", paper: "#FFCDD2" }, // Tonos rojizos para energía
+        text: { primary: "#B71C1C", secondary: "#D32F2F" },
+    },
+});
+
+export { homeTheme, searchTheme, merchandiseTheme, songsTheme, testsTheme };

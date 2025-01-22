@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Grid, IconButton, Slider } from "@mui/material";
+import { Box, Typography, IconButton, Slider } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 // Importa las imágenes locales
-import image1 from "../../Images/MEME.jpg";
-import image2 from "../../Images/Reimu.jpg";
-import image3 from "../../Images/Scarlets.jpg";
-import image4 from "../../Images/Yuuka.jpg";
+import image1 from "../Images/Reimu.jpg";
+import image4 from "../Images/MEME.jpg";
+import image3 from "../Images/Scarlets.jpg";
+import image2 from "../Images/Yuuka.jpg";
+import image5 from "../Images/buscar.jpg";
+import image6 from "../Images/mercancía.jpg";
+import image7 from "../Images/canciones2.jpg";
+import image8 from "../Images/test2.jpg";
 
 const imageTexts = [
     "Busca acerca de Touhou Project!",
@@ -47,42 +51,33 @@ const Home = () => {
 
     return (
         <Box sx={{ textAlign: "center", p: 3 }}>
-            {/* Imagen deslizante */}
+            {/* Contenedor principal del carrusel */}
             <Box sx={{ position: "relative", overflow: "hidden", width: "100%", height: "400px" }}>
-                <Grid container spacing={0} sx={{ display: "flex", width: "400%" }}>
-                    {/* Mapea las imágenes a las posiciones correspondientes */}
-                    {[0, 1, 2, 3].map((index) => (
-                        <Grid item xs={3} key={index}>
-                            <Box
-                                sx={{
-                                    position: "relative",
-                                    width: "100%",
-                                    height: "100%",
-                                    backgroundImage: `url(${images[index]})`, // Aquí se asignan las imágenes importadas
-                                    backgroundPosition: "center",
-                                    backgroundSize: "cover", // Ajusta la imagen para cubrir el contenedor
-                                    transition: "transform 1s ease-in-out",
-                                    transform: `translateX(-${currentImage * 25}%)`, // Ajuste para el desplazamiento
-                                }}
-                            >
-                                <Typography
-                                    variant="h6"
-                                    sx={{
-                                        position: "absolute",
-                                        bottom: "10%",
-                                        left: "50%",
-                                        transform: "translateX(-50%)",
-                                        color: "white",
-                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                        padding: "10px",
-                                    }}
-                                >
-                                    {imageTexts[index]}
-                                </Typography>
-                            </Box>
-                        </Grid>
-                    ))}
-                </Grid>
+                {/* Imagen actual */}
+                <img
+                    src={images[currentImage]}
+                    alt={`Imagen ${currentImage + 1}`}
+                    style={{
+                        width: "100%", // Ocupa todo el ancho disponible
+                        height: "100%", // Ocupa toda la altura disponible
+                        objectFit: "cover", // Asegura que la imagen se recorte correctamente sin distorsionarse
+                    }}
+                />
+                {/* Texto sobre la imagen */}
+                <Typography
+                    variant="h6"
+                    sx={{
+                        position: "absolute",
+                        bottom: "10%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        color: "white",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        padding: "10px",
+                    }}
+                >
+                    {imageTexts[currentImage]}
+                </Typography>
             </Box>
 
             {/* Barra deslizante */}
@@ -113,6 +108,47 @@ const Home = () => {
                     </Box>
                 </Box>
             </Box>
+
+            <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 3, mt: 4 }}>
+                {[
+                    { image: image5, link: "/buscador" },
+                    { image: image6, link: "/mercancia" },
+                    { image: image7, link: "/canciones" },
+                    { image: image8, link: "/tests" },
+                ].map((item, index) => (
+                    <Box
+                        key={index}
+                        onClick={() => window.location.href = item.link} // Redirigir
+                        sx={{
+                            width: 180,
+                            height: 180,
+                            overflow: "hidden",
+                            borderRadius: 10, // Esquinas ligeramente redondeadas
+                            cursor: "pointer",
+                            position: "relative",
+                            transition: "box-shadow 0.3s ease",
+                            "&:hover": {
+                                boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3)", // Efecto sombra
+                            },
+                            "&:hover img": {
+                                transform: "scale(1.2)", // Agrandar la imagen
+                                transition: "transform 0.3s ease",
+                            },
+                        }}
+                    >
+                        <img
+                            src={item.image}
+                            alt={`Cuadro ${index + 1}`}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                            }}
+                        />
+                    </Box>
+                ))}
+            </Box>
+
         </Box>
     );
 };

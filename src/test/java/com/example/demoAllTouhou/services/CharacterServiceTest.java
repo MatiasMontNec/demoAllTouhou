@@ -144,7 +144,7 @@ public class CharacterServiceTest {
         CharacterEntity character2 = new CharacterEntity();
         character2.setAge(17);
 
-        when(characterRepository.findByAgeLessThanOrEqual(17)).thenReturn(Arrays.asList(character1, character2));
+        when(characterRepository.findByAgeLessThanEqual(17)).thenReturn(Arrays.asList(character1, character2));
 
         List<CharacterEntity> characters = characterService.getCharactersByAgeLessThanOrEqual(17);
 
@@ -173,7 +173,7 @@ public class CharacterServiceTest {
         CharacterEntity character2 = new CharacterEntity();
         character2.setAge(20);
 
-        when(characterRepository.findByAgeGreaterThanOrEqual(18)).thenReturn(Arrays.asList(character1, character2));
+        when(characterRepository.findByAgeGreaterThanEqual(18)).thenReturn(Arrays.asList(character1, character2));
 
         List<CharacterEntity> characters = characterService.getCharactersByAgeGreaterThanOrEqual(18);
 

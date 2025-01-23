@@ -14,8 +14,11 @@ import java.util.List;
 @RequestMapping("/api/characters")
 public class CharacterController {
 
-    @Autowired
-    private CharacterService characterService;
+    private final CharacterService characterService;
+
+    public CharacterController(CharacterService characterService) {
+        this.characterService = characterService;
+    }
 
     // **Crear un nuevo personaje**
     @PostMapping

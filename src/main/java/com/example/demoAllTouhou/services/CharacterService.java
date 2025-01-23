@@ -2,15 +2,17 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.CharacterEntity;
 import com.example.demoAllTouhou.repositories.CharacterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CharacterService {
-    @Autowired
-    CharacterRepository characterRepository;
+    final CharacterRepository characterRepository;
+
+    public CharacterService(CharacterRepository characterRepository) {
+        this.characterRepository = characterRepository;
+    }
 
     // **Crear un nuevo personaje**
     public CharacterEntity createCharacter(CharacterEntity characterEntity) {
@@ -62,12 +64,12 @@ public class CharacterService {
 
     // **Encontrar personajes con edad menor o igual a la ingresada**
     public List<CharacterEntity> getCharactersByAgeLessThanOrEqual(int age) {
-        return characterRepository.findByAgeLessThanOrEqual(age);
+        return characterRepository.findByAgeLessThanEqual(age);
     }
 
     // **Encontrar personajes con edad mayor o igual a la ingresada**
     public List<CharacterEntity> getCharactersByAgeGreaterThanOrEqual(int age) {
-        return characterRepository.findByAgeGreaterThanOrEqual(age);
+        return characterRepository.findByAgeGreaterThanEqual(age);
     }
 
     // **Encontrar personajes con altura mayor a la ingresada**

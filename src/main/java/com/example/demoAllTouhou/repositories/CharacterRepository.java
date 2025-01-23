@@ -14,10 +14,10 @@ public interface CharacterRepository extends JpaRepository<CharacterEntity, Long
     Optional<CharacterEntity> findByName(String name);
 
     // Encontrar personajes con edad menor o igual
-    List<CharacterEntity> findByAgeLessThanOrEqual(int age);
+    List<CharacterEntity> findByAgeLessThanEqual(int age);
 
     // Encontrar personajes con edad mayor o igual
-    List<CharacterEntity> findByAgeGreaterThanOrEqual(int age);
+    List<CharacterEntity> findByAgeGreaterThanEqual(int age);
 
     // Encontrar personajes con altura mayor
     List<CharacterEntity> findByHeightGreaterThan(int height);

@@ -5,6 +5,7 @@ import Navbar from "./components/NavBar.jsx";
 import NotFound from "./components/NotFound.jsx";
 import { ThemeProvider } from "@mui/material";
 import { homeTheme, searchTheme, merchandiseTheme, songsTheme, testsTheme } from "./theme";
+import Footer from './components/Footer'; // Importa el Footer
 
 // import Buscador from "./components/Buscador.jsx"; // Importación pendiente
 // import Mercancia from "./components/Mercancia.jsx"; // Importación pendiente
@@ -42,6 +43,7 @@ function App() {
                     {/* <Route path="/tests" element={<Tests />} /> */}
                     <Route path="*" element={<NotFound />} />
                 </Routes>
+                <Footer /> {/* Agregar Footer al final de la página */}
             </div>
         </ThemeProvider>
     );

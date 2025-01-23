@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { AppBar, Box, Toolbar, Typography, Button, Menu, MenuItem } from "@mui/material";
+import { useState, useEffect } from "react";
+import { AppBar, Box, Toolbar, Typography, Button, Menu, MenuItem, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Touhou101.png"; // Logo de la aplicación
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 export default function Navbar() {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null); // Para manejar el menú desplegable
+    const [scrollPosition, setScrollPosition] = useState(0); // Estado para la posición del scroll
 
     // Abrir el menú desplegable
     const handleMenuOpen = (event) => {
@@ -29,9 +31,29 @@ export default function Navbar() {
         handleMenuClose();
     };
 
+    // Detectar la posición del scroll al hacer scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollPosition(window.scrollY);
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    // Función para ir al top
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
+
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="sticky" >
+            <AppBar position="sticky">
                 <Toolbar sx={{ justifyContent: "space-between", padding: "0 2rem" }}>
                     {/* Logo con navegación al Home */}
                     <Typography
@@ -87,7 +109,7 @@ export default function Navbar() {
                             <MenuItem onClick={() => handleSearch(2)}>Manga</MenuItem>
                         </Menu>
 
-                        {/* Botón Mercancía */}
+                        {/* Botones de navegación */}
                         <Button
                             color="inherit"
                             onClick={() => handleNavigation("/mercancia")}
@@ -100,8 +122,6 @@ export default function Navbar() {
                         >
                             Ver Mercancía
                         </Button>
-
-                        {/* Botón Canciones */}
                         <Button
                             color="inherit"
                             onClick={() => handleNavigation("/canciones")}
@@ -114,8 +134,6 @@ export default function Navbar() {
                         >
                             Ver Canciones
                         </Button>
-
-                        {/* Botón Tests */}
                         <Button
                             color="inherit"
                             onClick={() => handleNavigation("/tests")}
@@ -130,6 +148,24 @@ export default function Navbar() {
                     </Box>
                 </Toolbar>
             </AppBar>
+
+            {/* Solo botón para scroll arriba */}
+            <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
+                {scrollPosition > 0 && (
+                    <IconButton
+                        color="primary"
+                        onClick={scrollToTop}
+                        sx={{
+                            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                            '&:hover': {
+                                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                            },
+                        }}
+                    >
+                        <ArrowUpwardIcon />
+                    </IconButton>
+                )}
+            </Box>
         </Box>
     );
 }

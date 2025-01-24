@@ -1,34 +1,16 @@
 import { useState, useEffect } from "react";
-import { AppBar, Box, Toolbar, Typography, Button, Menu, MenuItem, IconButton } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Touhou101.png"; // Logo de la aplicación
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState(null); // Para manejar el menú desplegable
     const [scrollPosition, setScrollPosition] = useState(0); // Estado para la posición del scroll
-
-    // Abrir el menú desplegable
-    const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    // Cerrar el menú desplegable
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
 
     // Función para manejar navegación
     const handleNavigation = (path) => {
         navigate(path);
-        handleMenuClose(); // Cierra el menú si estaba abierto
-    };
-
-    // Función para buscar con un tipo
-    const handleSearch = (type) => {
-        navigate(`/buscador?type=${type}`); // Envía el parámetro de tipo
-        handleMenuClose();
     };
 
     // Detectar la posición del scroll al hacer scroll
@@ -78,10 +60,10 @@ export default function Navbar() {
 
                     {/* Botones del NavBar */}
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        {/* Botón Buscar con menú desplegable */}
+                        {/* Botón Buscar que navega directamente */}
                         <Button
                             color="inherit"
-                            onClick={handleMenuOpen}
+                            onClick={() => handleNavigation("/buscador")}
                             sx={{
                                 marginRight: 2,
                                 "&:hover": {
@@ -91,23 +73,6 @@ export default function Navbar() {
                         >
                             Buscar
                         </Button>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
-                            }}
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                        >
-                            <MenuItem onClick={() => handleSearch(0)}>Personaje</MenuItem>
-                            <MenuItem onClick={() => handleSearch(1)}>Juego</MenuItem>
-                            <MenuItem onClick={() => handleSearch(2)}>Manga</MenuItem>
-                        </Menu>
 
                         {/* Botones de navegación */}
                         <Button

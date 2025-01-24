@@ -7,7 +7,7 @@ import { ThemeProvider } from "@mui/material";
 import { homeTheme, searchTheme, merchandiseTheme, songsTheme, testsTheme } from "./theme";
 import Footer from './components/Footer'; // Importa el Footer
 
-// import Buscador from "./components/Buscador.jsx"; // Importación pendiente
+import Buscador from "./components/Buscador.jsx"; // Importación pendiente
 // import Mercancia from "./components/Mercancia.jsx"; // Importación pendiente
 // import Canciones from "./components/Canciones.jsx"; // Importación pendiente
 // import Tests from "./components/Tests.jsx"; // Importación pendiente
@@ -37,7 +37,7 @@ function App() {
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    {/* <Route path="/buscador" element={<Buscador />} /> */}
+                    <Route path="/buscador" element={<Buscador />} />
                     {/* <Route path="/mercancia" element={<Mercancia />} /> */}
                     {/* <Route path="/canciones" element={<Canciones />} /> */}
                     {/* <Route path="/tests" element={<Tests />} /> */}

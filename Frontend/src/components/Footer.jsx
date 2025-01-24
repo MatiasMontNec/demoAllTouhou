@@ -91,7 +91,7 @@ const Footer = () => {
                 </Link>{" "}
                 (para el frontend), y{" "}
                 <Link href="https://www.pgadmin.org/" target="_blank" rel="noopener">
-                    PgAdmin4
+                    PostgresSQL
                 </Link>{" "}
                 (para la base de datos).
             </Typography>

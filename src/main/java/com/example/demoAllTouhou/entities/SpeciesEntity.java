@@ -8,25 +8,23 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "images")
+@Table(name = "species")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImagesEntity {
+public class SpeciesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
     private String name;
     private String description;
-    @Lob
-    @Column(nullable = false)
-    private byte[] image;
+    private String type;
 
     @ManyToMany
     @JoinTable(
-        name = "images_character",
-        joinColumns = @JoinColumn(name = "images_id"),
+        name = "species_character",
+        joinColumns = @JoinColumn(name = "species_id"),
         inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     private List<CharacterEntity> characters;

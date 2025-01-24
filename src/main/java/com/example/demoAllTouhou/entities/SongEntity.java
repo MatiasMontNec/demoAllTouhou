@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "song")
 @Data
@@ -19,4 +21,12 @@ public class SongEntity {
     private String artist;
     private String description;
     private String lyrics;
+
+    @ManyToMany
+    @JoinTable(
+        name = "song_character",
+        joinColumns = @JoinColumn(name = "song_id"),
+        inverseJoinColumns = @JoinColumn(name = "character_id")
+    )
+    private List<CharacterEntity> characters;
 }

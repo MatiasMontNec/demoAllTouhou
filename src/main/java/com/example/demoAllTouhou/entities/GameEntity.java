@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "game")
@@ -19,6 +20,14 @@ public class GameEntity {
     private Long id;
     private String title;
     private String description;
-    private String linkDownoload;
+    private String linkDownload;
     private LocalDate releaseDate;
+
+    @ManyToMany
+    @JoinTable(
+            name = "game_character",
+            joinColumns = @JoinColumn(name = "game_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id")
+    )
+    private List<CharacterEntity> characters;
 }

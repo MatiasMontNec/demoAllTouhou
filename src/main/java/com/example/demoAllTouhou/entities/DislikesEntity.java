@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "dislikes")
 @Data
@@ -17,5 +19,12 @@ public class DislikesEntity {
     private Long id;
     private String name;
     private String description;
-    private long characterId;
+
+    @ManyToMany
+    @JoinTable(
+        name = "character_dislikes",
+        joinColumns = @JoinColumn(name = "dislike_id"),
+        inverseJoinColumns = @JoinColumn(name = "character_id")
+    )
+    private List<CharacterEntity> characters;
 }

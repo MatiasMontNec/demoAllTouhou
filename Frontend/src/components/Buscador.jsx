@@ -12,13 +12,14 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
+import waitAnimation from "../animations/waitBuscador.json"; // Importar animación
 
 export default function Buscador() {
     const [tipoBusqueda, setTipoBusqueda] = useState(""); // Principal tipo de búsqueda
     const [filtros, setFiltros] = useState({}); // Filtros específicos según el tipo de búsqueda
     const [resultados, setResultados] = useState([]); // Resultados de búsqueda
     const [query, setQuery] = useState(""); // Texto ingresado en el buscador
+    const [isLoading, setIsLoading] = useState(false); // Estado de carga
 
     // Manejar selección del tipo de búsqueda
     const handleTipoBusquedaChange = (tipo) => {
@@ -26,22 +27,30 @@ export default function Buscador() {
         setFiltros({});
     };
 
-    // Manejar búsqueda (placeholder para conectar con backend)
+    // Manejar búsqueda (simular conexión con backend)
     const handleBuscar = () => {
-        const mockResultados = [
-            {
-                id: 1,
-                tipo: tipoBusqueda,
-                titulo: tipoBusqueda === "Personaje" ? "Reimu Hakurei" : tipoBusqueda === "Juego" ? "Touhou 6" : "Manga 1",
-                descripcion: "Descripción de ejemplo.",
-                imagen: "https://via.placeholder.com/150",
-            },
-        ];
-        setResultados(query ? mockResultados : []);
+        setIsLoading(true); // Activar estado de carga
+        setResultados([]); // Limpiar resultados mientras se cargan
+
+        // Simular una llamada a la API
+        setTimeout(() => {
+            const mockResultados = [
+                {
+                    id: 1,
+                    tipo: tipoBusqueda,
+                    titulo: tipoBusqueda === "Personaje" ? "Reimu Hakurei" : "Touhou 6",
+                    descripcion: "Descripción de ejemplo.",
+                    imagen: "https://via.placeholder.com/150",
+                },
+            ];
+            setResultados(query ? mockResultados : []);
+            setIsLoading(false); // Desactivar estado de carga
+        }, 2000); // Simular retraso de 2 segundos
     };
 
     return (
         <Box sx={{ padding: 4 }}>
+            {/* Buscador */}
             <Box sx={{ display: "flex", gap: 2, marginBottom: 4 }}>
                 <TextField
                     fullWidth
@@ -95,21 +104,6 @@ export default function Buscador() {
                             <SportsEsportsIcon />
                         </IconButton>
                         <Typography>Juego</Typography>
-
-                        <IconButton
-                            color={tipoBusqueda === "Manga" ? "primary" : "default"}
-                            onClick={() => handleTipoBusquedaChange("Manga")}
-                            sx={{
-                                border: "2px solid",
-                                borderColor: tipoBusqueda === "Manga" ? "primary.main" : "grey.400",
-                                borderRadius: "50%",
-                                padding: 2,
-                                marginBottom: 2,
-                            }}
-                        >
-                            <MenuBookIcon />
-                        </IconButton>
-                        <Typography>Manga</Typography>
                     </Box>
 
                     {/* Filtros dinámicos */}
@@ -158,24 +152,6 @@ export default function Buscador() {
                                 />
                             </Box>
                         )}
-
-                        {tipoBusqueda === "Manga" && (
-                            <Box>
-                                <TextField
-                                    fullWidth
-                                    label="Título"
-                                    variant="outlined"
-                                    sx={{ marginBottom: 2 }}
-                                    onChange={(e) => setFiltros({ ...filtros, titulo: e.target.value })}
-                                />
-                                <TextField
-                                    fullWidth
-                                    label="Autor"
-                                    variant="outlined"
-                                    onChange={(e) => setFiltros({ ...filtros, autor: e.target.value })}
-                                />
-                            </Box>
-                        )}
                     </Box>
                 </Grid>
 
@@ -185,7 +161,15 @@ export default function Buscador() {
                         Resultados
                     </Typography>
                     <Box sx={{ marginTop: 2 }}>
-                        {resultados.length === 0 ? (
+                        {isLoading ? (
+                            // Mostrar animación mientras se cargan los resultados
+                            <Player
+                                autoplay
+                                loop
+                                src={waitAnimation}
+                                style={{ height: "300px", width: "300px", margin: "0 auto" }}
+                            />
+                        ) : resultados.length === 0 ? (
                             <Typography variant="body1">Sin resultados</Typography>
                         ) : (
                             <Grid container spacing={2}>

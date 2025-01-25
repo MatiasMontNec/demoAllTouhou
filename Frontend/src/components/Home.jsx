@@ -17,11 +17,14 @@ import image8 from "../Images/test2.jpg";
 import image9 from "../Images/Touhou.jpg";
 import image10 from "../Images/Touhou101.jpg";
 import image11 from "../Images/wallpaper.jpg";
+import image12 from "../Images/Manga.jpg"; // Nueva imagen deslizante
+import image13 from "../Images/IconManga.jpg"; // Nueva imagen del cuadro
 
 const imageTexts = [
     "Busca acerca de Touhou Project!",
     "Compra acerca de Touhou Project!",
     "Descubre canciones de Touhou Project!",
+    "Descubre Mangas de Touhou!", // Nuevo texto
     "Prueba divertidos Tests de Touhou Project!",
 ];
 
@@ -29,6 +32,7 @@ const links = [
     "/buscador", // Ruta asociada a la imagen 1
     "/mercancia", // Ruta asociada a la imagen 2
     "/canciones", // Ruta asociada a la imagen 3
+    "/mangas",    // Nueva ruta asociada a la imagen 12
     "/tests",     // Ruta asociada a la imagen 4
 ];
 
@@ -38,7 +42,7 @@ const Home = () => {
     // Cambiar imagen cada 6 segundos
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentImage((prev) => (prev + 1) % 4); // Circular
+            setCurrentImage((prev) => (prev + 1) % images.length);
         }, 6000);
 
         return () => clearInterval(interval); // Limpiar el intervalo al desmontar
@@ -46,11 +50,11 @@ const Home = () => {
 
     // Cambiar imagen manualmente
     const handleNext = () => {
-        setCurrentImage((prev) => (prev + 1) % 4);
+        setCurrentImage((prev) => (prev + 1) % images.length);
     };
 
     const handlePrevious = () => {
-        setCurrentImage((prev) => (prev - 1 + 4) % 4); // Asegura circularidad
+        setCurrentImage((prev) => (prev - 1 + images.length) % images.length); // Asegura circularidad
     };
 
     // Cambiar a la imagen seleccionada al hacer clic en la barra deslizante
@@ -59,7 +63,7 @@ const Home = () => {
     };
 
     // Array de las imágenes importadas
-    const images = [image1, image2, image3, image4];
+    const images = [image1, image2, image3, image12, image4];
 
     return (
         <Box sx={{ textAlign: "center", p: 3 }}>
@@ -101,7 +105,7 @@ const Home = () => {
                     value={currentImage}
                     onChange={handleSliderChange}
                     min={0}
-                    max={3}
+                    max={4}
                     step={1}
                     valueLabelDisplay="auto"
                     valueLabelFormat={(value) => `${value + 1}`}
@@ -115,7 +119,7 @@ const Home = () => {
                             <ArrowBackIosIcon />
                         </IconButton>
                         <Typography variant="body2" sx={{ mx: 1 }}>
-                            {currentImage + 1} / 4
+                            {currentImage + 1} / 5
                         </Typography>
                         <IconButton onClick={handleNext}>
                             <ArrowForwardIosIcon />
@@ -130,6 +134,7 @@ const Home = () => {
                     { image: image5, link: "/buscador" },
                     { image: image6, link: "/mercancia" },
                     { image: image7, link: "/canciones" },
+                    { image: image13, link: "/mangas" },
                     { image: image8, link: "/tests" },
                 ].map((item, index) => (
                     <Box

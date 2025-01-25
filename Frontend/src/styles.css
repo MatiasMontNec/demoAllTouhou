@@ -1,0 +1,18 @@
+.CardContent {
+    transition: transform 0.3s ease; /* Suaviza el desliz */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    text-align: center;
+    height: 100%; /* Ocupa todo el contenedor */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+}
+
+.CardContentHovered {
+    transform: translateY(-30%); /* Desliza un 30% del contenedor */
+}

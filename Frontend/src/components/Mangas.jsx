@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Lottie from "react-lottie";
+import React, { useState } from "react";
+import Lottie from "react-lottie";  // Importa Lottie
 import {
     Box,
     Typography,
@@ -12,17 +12,15 @@ import {
     IconButton,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import BookIcon from "@mui/icons-material/Book";
+import animationData from "../animations/waitMangas.json";  // Asegúrate de que la ruta es correcta
 
-// Importa la animación
-import waitCancionesAnimation from "../animations/waitCanciones.json";
-
-export default function Canciones() {
+export default function Mangas() {
     const [tipoBusqueda, setTipoBusqueda] = useState([]); // Tipos de búsqueda seleccionados
     const [filtros, setFiltros] = useState({}); // Filtros específicos según los tipos de búsqueda seleccionados
     const [resultados, setResultados] = useState([]); // Resultados de búsqueda
     const [query, setQuery] = useState(""); // Texto ingresado en el buscador general
-    const [cargando, setCargando] = useState(false); // Estado de carga
+    const [loading, setLoading] = useState(false);  // Estado de carga
 
     // Manejar selección del tipo de búsqueda (permite seleccionar múltiples opciones)
     const handleTipoBusquedaChange = (tipo) => {
@@ -33,31 +31,30 @@ export default function Canciones() {
         }
     };
 
-    // Manejar búsqueda (simulación con datos mock para conectar con backend)
+    // Manejar búsqueda (placeholder para conectar con backend)
     const handleBuscar = () => {
-        setCargando(true); // Empieza a cargar
-
-        // Simulación de búsqueda asincrónica
-        setTimeout(() => {
-            const mockResultados = [
-                {
-                    id: 1,
-                    titulo: "Shape of You",
-                    descripcion: "Canción de Ed Sheeran del álbum Divide.",
-                    artista: "Ed Sheeran",
-                    imagen: "https://via.placeholder.com/150",
-                },
-            ];
+        setLoading(true);  // Activar la carga
+        setResultados([]);  // Limpiar los resultados
+        const mockResultados = [
+            {
+                id: 1,
+                titulo: "One Piece",
+                descripcion: "Un manga sobre piratas en busca del tesoro legendario.",
+                autor: "Eiichiro Oda",
+                imagen: "https://via.placeholder.com/150",
+            },
+        ];
+        setTimeout(() => {  // Simular tiempo de carga
             setResultados(query || tipoBusqueda.length > 0 ? mockResultados : []);
-            setCargando(false); // Termina de cargar
-        }, 2000); // Simulación de carga (2 segundos)
+            setLoading(false);  // Desactivar la carga
+        }, 2000);  // Ajusta el tiempo de carga simulado según lo necesario
     };
 
-    // Configuración de Lottie para la animación
+    // Opciones de animación
     const defaultOptions = {
         loop: true,
-        autoplay: true, // Reproduce la animación automáticamente
-        animationData: waitCancionesAnimation, // La animación que se debe mostrar
+        autoplay: true,
+        animationData: animationData,  // La animación JSON
         rendererSettings: {
             preserveAspectRatio: "xMidYMid slice",
         },
@@ -90,21 +87,21 @@ export default function Canciones() {
                         Filtros
                     </Typography>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        {/* Filtro Artista */}
+                        {/* Filtro Autor */}
                         <IconButton
-                            color={tipoBusqueda.includes("Artista") ? "primary" : "default"}
-                            onClick={() => handleTipoBusquedaChange("Artista")}
+                            color={tipoBusqueda.includes("Autor") ? "primary" : "default"}
+                            onClick={() => handleTipoBusquedaChange("Autor")}
                             sx={{
                                 border: "2px solid",
-                                borderColor: tipoBusqueda.includes("Artista") ? "primary.main" : "grey.400",
+                                borderColor: tipoBusqueda.includes("Autor") ? "primary.main" : "grey.400",
                                 borderRadius: "50%",
                                 padding: 2,
                                 marginBottom: 2,
                             }}
                         >
-                            <MusicNoteIcon />
+                            <BookIcon />
                         </IconButton>
-                        <Typography>Artista</Typography>
+                        <Typography>Autor</Typography>
 
                         {/* Filtro Personaje */}
                         <IconButton
@@ -125,13 +122,13 @@ export default function Canciones() {
 
                     {/* Filtros dinámicos */}
                     <Box sx={{ marginTop: 4 }}>
-                        {tipoBusqueda.includes("Artista") && (
+                        {tipoBusqueda.includes("Autor") && (
                             <TextField
                                 fullWidth
-                                label="Nombre del Artista"
+                                label="Autor del Manga"
                                 variant="outlined"
                                 sx={{ marginBottom: 2 }}
-                                onChange={(e) => setFiltros({ ...filtros, artista: e.target.value })}
+                                onChange={(e) => setFiltros({ ...filtros, autor: e.target.value })}
                             />
                         )}
                         {tipoBusqueda.includes("Personaje") && (
@@ -152,8 +149,8 @@ export default function Canciones() {
                         Resultados
                     </Typography>
                     <Box sx={{ marginTop: 2 }}>
-                        {cargando ? (
-                            <Lottie options={defaultOptions} height={150} width={150} />
+                        {loading ? (  // Mostrar animación de carga
+                            <Lottie options={defaultOptions} height={200} width={200} />
                         ) : resultados.length === 0 ? (
                             <Typography variant="body1">Sin resultados</Typography>
                         ) : (

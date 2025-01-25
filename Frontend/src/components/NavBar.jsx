@@ -101,6 +101,18 @@ export default function Navbar() {
                         </Button>
                         <Button
                             color="inherit"
+                            onClick={() => handleNavigation("/mangas")}
+                            sx={{
+                                marginRight: 2,
+                                "&:hover": {
+                                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                },
+                            }}
+                        >
+                            Ver Mangas
+                        </Button>
+                        <Button
+                            color="inherit"
                             onClick={() => handleNavigation("/tests")}
                             sx={{
                                 "&:hover": {

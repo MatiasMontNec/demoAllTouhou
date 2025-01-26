@@ -33,7 +33,6 @@ public class LikesServiceTest {
         LikesEntity like = new LikesEntity();
         like.setName("Like Name");
         like.setDescription("Like Description");
-        like.setCharacterId(1L);
 
         when(likesRepository.save(any(LikesEntity.class))).thenReturn(like);
 
@@ -41,7 +40,6 @@ public class LikesServiceTest {
 
         assertEquals("Like Name", createdLike.getName());
         assertEquals("Like Description", createdLike.getDescription());
-        assertEquals(1L, createdLike.getCharacterId());
     }
 
     // **Test: Obtener todos los Likes**
@@ -49,11 +47,9 @@ public class LikesServiceTest {
     public void whenGetAllLikes_thenReturnListOfLikes() {
         LikesEntity like1 = new LikesEntity();
         like1.setName("Like 1");
-        like1.setCharacterId(1L);
 
         LikesEntity like2 = new LikesEntity();
         like2.setName("Like 2");
-        like2.setCharacterId(2L);
 
         when(likesRepository.findAll()).thenReturn(Arrays.asList(like1, like2));
 
@@ -70,7 +66,6 @@ public class LikesServiceTest {
         LikesEntity like = new LikesEntity();
         like.setId(1L);
         like.setName("Like Name");
-        like.setCharacterId(1L);
 
         when(likesRepository.findById(1L)).thenReturn(Optional.of(like));
 
@@ -94,12 +89,10 @@ public class LikesServiceTest {
         existingLike.setId(1L);
         existingLike.setName("Old Name");
         existingLike.setDescription("Old Description");
-        existingLike.setCharacterId(1L);
 
         LikesEntity updatedLike = new LikesEntity();
         updatedLike.setName("New Name");
         updatedLike.setDescription("New Description");
-        updatedLike.setCharacterId(2L);
 
         when(likesRepository.findById(1L)).thenReturn(Optional.of(existingLike));
         when(likesRepository.save(any(LikesEntity.class))).thenReturn(updatedLike);
@@ -108,7 +101,6 @@ public class LikesServiceTest {
 
         assertEquals("New Name", result.getName());
         assertEquals("New Description", result.getDescription());
-        assertEquals(2L, result.getCharacterId());
     }
 
     @Test
@@ -164,13 +156,11 @@ public class LikesServiceTest {
 
         LikesEntity like1 = new LikesEntity();
         like1.setName("Like 1");
-        like1.setCharacterId(characterId);
 
         LikesEntity like2 = new LikesEntity();
         like2.setName("Like 2");
-        like2.setCharacterId(characterId);
 
-        when(likesRepository.findByCharacterId(characterId)).thenReturn(Arrays.asList(like1, like2));
+        when(likesRepository.findByCharacters_Id(characterId)).thenReturn(Arrays.asList(like1, like2));
 
         List<LikesEntity> likes = likesService.getLikesByCharacterId(characterId);
 

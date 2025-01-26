@@ -13,5 +13,5 @@ public interface PowersRepository extends JpaRepository<PowersEntity, Long> {
     List<PowersEntity> findByNameContainingIgnoreCase(String name);
 
     // Buscar Powers por Character ID
-    List<PowersEntity> findByCharacterId(long characterId);
+    List<PowersEntity> findByCharacters_Id(long characterId);
 }

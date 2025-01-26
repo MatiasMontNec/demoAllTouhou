@@ -1,7 +1,7 @@
 package com.example.demoAllTouhou.controllers;
 
 import com.example.demoAllTouhou.entities.PowersEntity;
-import com.example.demoAllTouhou.models.IdListDTO;
+import com.example.demoAllTouhou.dtos.IdListDTO;
 import com.example.demoAllTouhou.services.PowersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

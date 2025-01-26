@@ -2,7 +2,6 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.SpeciesEntity;
 import com.example.demoAllTouhou.repositories.SpeciesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class SpeciesService {
 
-    @Autowired
-    private SpeciesRepository SpeciesRepository;
+    private final SpeciesRepository SpeciesRepository;
+
+    public SpeciesService(SpeciesRepository SpeciesRepository) {
+        this.SpeciesRepository = SpeciesRepository;
+    }
 
     // **Crear una nueva Species**
     public SpeciesEntity createSpecies(SpeciesEntity SpeciesEntity) {
@@ -19,7 +21,7 @@ public class SpeciesService {
     }
 
     // **Obtener todas las Speciess**
-    public List<SpeciesEntity> getAllSpeciess() {
+    public List<SpeciesEntity> getAllSpecies() {
         return SpeciesRepository.findAll();
     }
 
@@ -33,10 +35,10 @@ public class SpeciesService {
     public SpeciesEntity updateSpecies(Long id, SpeciesEntity updatedSpecies) {
         SpeciesEntity existingSpecies = SpeciesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Species not found with id: " + id));
-        existingSpecies.setName(updatedSpecies.getName());
-        existingSpecies.setDescription(updatedSpecies.getDescription());
-        existingSpecies.setType(updatedSpecies.getType());
-        existingSpecies.setCharacters(updatedSpecies.getCharacters());
+
+        if (updatedSpecies.getName() != null && !updatedSpecies.getName().isEmpty()) existingSpecies.setName(updatedSpecies.getName());
+        if (updatedSpecies.getDescription() != null && !updatedSpecies.getDescription().isEmpty()) existingSpecies.setDescription(updatedSpecies.getDescription());
+        if (updatedSpecies.getType() != null && !updatedSpecies.getType().isEmpty()) existingSpecies.setType(updatedSpecies.getType());
 
         return SpeciesRepository.save(existingSpecies);
     }
@@ -49,13 +51,13 @@ public class SpeciesService {
         SpeciesRepository.deleteById(id);
     }
 
-    // **Obtener Speciess cuyo título contiene un texto**
-    public List<SpeciesEntity> getSpeciessByTitle(String title) {
-        return SpeciesRepository.findByTitleContainingIgnoreCase(title);
+    // **Obtener especie cuyo nombre contiene un texto**
+    public List<SpeciesEntity> getSpeciesByName(String name) {
+        return SpeciesRepository.findByNameContainingIgnoreCase(name);
     }
 
-    // **Obtener Speciess cuyo artista contiene un texto**
-    public List<SpeciesEntity> getSpeciessByArtist(String artist) {
-        return SpeciesRepository.findByArtistContainingIgnoreCase(artist);
+    // **Obtener especie cuyo tipo contiene un texto**
+    public List<SpeciesEntity> getSpeciesByType(String type) {
+        return SpeciesRepository.findByTypeContainingIgnoreCase(type);
     }
 }

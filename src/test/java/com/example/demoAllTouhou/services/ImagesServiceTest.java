@@ -33,7 +33,6 @@ public class ImagesServiceTest {
         ImagesEntity image = new ImagesEntity();
         image.setName("Image Name");
         image.setDescription("Image Description");
-        image.setCharacterId(1L);
 
         when(imagesRepository.save(any(ImagesEntity.class))).thenReturn(image);
 
@@ -41,7 +40,6 @@ public class ImagesServiceTest {
 
         assertEquals("Image Name", createdImage.getName());
         assertEquals("Image Description", createdImage.getDescription());
-        assertEquals(1L, createdImage.getCharacterId());
     }
 
     // **Test: Obtener todas las imágenes**
@@ -49,11 +47,9 @@ public class ImagesServiceTest {
     public void whenGetAllImages_thenReturnListOfImages() {
         ImagesEntity image1 = new ImagesEntity();
         image1.setName("Image 1");
-        image1.setCharacterId(1L);
 
         ImagesEntity image2 = new ImagesEntity();
         image2.setName("Image 2");
-        image2.setCharacterId(2L);
 
         when(imagesRepository.findAll()).thenReturn(Arrays.asList(image1, image2));
 
@@ -92,11 +88,9 @@ public class ImagesServiceTest {
         ImagesEntity existingImage = new ImagesEntity();
         existingImage.setId(1L);
         existingImage.setName("Old Name");
-        existingImage.setCharacterId(1L);
 
         ImagesEntity updatedImage = new ImagesEntity();
         updatedImage.setName("New Name");
-        updatedImage.setCharacterId(2L);
 
         when(imagesRepository.findById(1L)).thenReturn(Optional.of(existingImage));
         when(imagesRepository.save(any(ImagesEntity.class))).thenReturn(updatedImage);
@@ -104,7 +98,6 @@ public class ImagesServiceTest {
         ImagesEntity result = imagesService.updateImage(1L, updatedImage);
 
         assertEquals("New Name", result.getName());
-        assertEquals(2L, result.getCharacterId());
     }
 
     @Test
@@ -151,62 +144,5 @@ public class ImagesServiceTest {
         assertThat(images).hasSize(2);
         assertThat(images).extracting(ImagesEntity::getName)
                 .containsExactlyInAnyOrder("Test Image 1", "Another Test Image");
-    }
-
-    // **Test: Obtener imágenes por characterId**
-    @Test
-    public void whenGetImagesByCharacterId_thenReturnListOfImages() {
-        Long characterId = 1L;
-
-        ImagesEntity image1 = new ImagesEntity();
-        image1.setCharacterId(characterId);
-
-        ImagesEntity image2 = new ImagesEntity();
-        image2.setCharacterId(characterId);
-
-        when(imagesRepository.findByCharacterId(characterId))
-                .thenReturn(Arrays.asList(image1, image2));
-
-        List<ImagesEntity> images = imagesService.getImagesByCharacterId(characterId);
-
-        assertThat(images).hasSize(2);
-    }
-
-    // **Test: Obtener imágenes por gameId**
-    @Test
-    public void whenGetImagesByGameId_thenReturnListOfImages() {
-        Long gameId = 1L;
-
-        ImagesEntity image1 = new ImagesEntity();
-        image1.setGameId(gameId);
-
-        ImagesEntity image2 = new ImagesEntity();
-        image2.setGameId(gameId);
-
-        when(imagesRepository.findByGameId(gameId))
-                .thenReturn(Arrays.asList(image1, image2));
-
-        List<ImagesEntity> images = imagesService.getImagesByGameId(gameId);
-
-        assertThat(images).hasSize(2);
-    }
-
-    // **Test: Obtener imágenes por mercancyId**
-    @Test
-    public void whenGetImagesByMercancyId_thenReturnListOfImages() {
-        Long mercancyId = 1L;
-
-        ImagesEntity image1 = new ImagesEntity();
-        image1.setMercancyId(mercancyId);
-
-        ImagesEntity image2 = new ImagesEntity();
-        image2.setMercancyId(mercancyId);
-
-        when(imagesRepository.findByMercancyId(mercancyId))
-                .thenReturn(Arrays.asList(image1, image2));
-
-        List<ImagesEntity> images = imagesService.getImagesByMercancyId(mercancyId);
-
-        assertThat(images).hasSize(2);
     }
 }

@@ -13,5 +13,5 @@ public interface LikesRepository extends JpaRepository<LikesEntity, Long> {
     List<LikesEntity> findByNameContainingIgnoreCase(String name);
 
     // Obtener likes por characterId
-    List<LikesEntity> findByCharacterId(Long characterId);
+    List<LikesEntity> findByCharacters_Id(Long characterId);
 }

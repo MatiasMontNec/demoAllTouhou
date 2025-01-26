@@ -2,7 +2,6 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.MangaEntity;
 import com.example.demoAllTouhou.repositories.MangaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class MangaService {
 
-    @Autowired
-    private MangaRepository mangaRepository;
+    private final MangaRepository mangaRepository;
+
+    public MangaService(MangaRepository mangaRepository) {
+        this.mangaRepository = mangaRepository;
+    }
 
     // **Crear un nuevo Manga**
     public MangaEntity createManga(MangaEntity mangaEntity) {
@@ -34,10 +36,10 @@ public class MangaService {
         MangaEntity existingManga = mangaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Manga not found with id: " + id));
 
-        existingManga.setTitle(updatedManga.getTitle());
-        existingManga.setAuthor(updatedManga.getAuthor());
-        existingManga.setDescription(updatedManga.getDescription());
-        existingManga.setAccessLink(updatedManga.getAccessLink());
+        if (updatedManga.getTitle() != null && !updatedManga.getTitle().isEmpty()) existingManga.setTitle(updatedManga.getTitle());
+        if (updatedManga.getAuthor() != null && !updatedManga.getAuthor().isEmpty()) existingManga.setAuthor(updatedManga.getAuthor());
+        if (updatedManga.getDescription() != null && !updatedManga.getDescription().isEmpty()) existingManga.setDescription(updatedManga.getDescription());
+        if (updatedManga.getAccessLink() != null && !updatedManga.getAccessLink().isEmpty()) existingManga.setAccessLink(updatedManga.getAccessLink());
 
         return mangaRepository.save(existingManga);
     }

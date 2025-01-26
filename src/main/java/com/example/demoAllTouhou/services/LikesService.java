@@ -2,7 +2,6 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.LikesEntity;
 import com.example.demoAllTouhou.repositories.LikesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class LikesService {
 
-    @Autowired
-    private LikesRepository likesRepository;
+    private final LikesRepository likesRepository;
+
+    public LikesService(LikesRepository likesRepository) {
+        this.likesRepository = likesRepository;
+    }
 
     // **Crear un nuevo like**
     public LikesEntity createLike(LikesEntity likesEntity) {
@@ -34,8 +36,8 @@ public class LikesService {
         LikesEntity existingLike = likesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Like not found with id: " + id));
 
-        existingLike.setName(updatedLike.getName());
-        existingLike.setDescription(updatedLike.getDescription());
+        if (updatedLike.getName() != null && !updatedLike.getName().isEmpty()) existingLike.setName(updatedLike.getName());
+        if (updatedLike.getDescription() != null && !updatedLike.getDescription().isEmpty())existingLike.setDescription(updatedLike.getDescription());
 
         return likesRepository.save(existingLike);
     }
@@ -55,6 +57,6 @@ public class LikesService {
 
     // **Obtener likes por characterId**
     public List<LikesEntity> getLikesByCharacterId(Long characterId) {
-        return likesRepository.findByCharacterId(characterId);
+        return likesRepository.findByCharacters_Id(characterId);
     }
 }

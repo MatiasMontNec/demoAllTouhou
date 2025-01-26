@@ -1,5 +1,6 @@
 package com.example.demoAllTouhou.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,33 +26,39 @@ public class CharacterEntity {
     private String biography;
     private String relations;
     private String importantFacts;
+    private String livesIn;
 
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DislikesEntity> dislikes;
 
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LikesEntity> likes;
 
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PowersEntity> powers;
 
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SpeciesEntity> species;
 
     // Es parte de...
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<GameEntity> games;
 
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<MangaEntity> manga;
 
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<SongEntity> songs;
 
     // Tiene
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
-    private List<MercancyEntity> mercancy;
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<MerchEntity> merch;
 
-    @ManyToMany(mappedBy = "characterId", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<ImagesEntity> images;
 }

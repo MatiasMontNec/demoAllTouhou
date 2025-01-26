@@ -11,13 +11,4 @@ public interface ImagesRepository extends JpaRepository<ImagesEntity, Long> {
 
     // Buscar imágenes por parte del nombre (case-insensitive)
     List<ImagesEntity> findByNameContainingIgnoreCase(String name);
-
-    // Obtener imágenes por characterId
-    List<ImagesEntity> findByCharacterId(Long characterId);
-
-    // Obtener imágenes por gameId
-    List<ImagesEntity> findByGameId(Long gameId);
-
-    // Obtener imágenes por mercancyId
-    List<ImagesEntity> findByMercancyId(Long mercancyId);
 }

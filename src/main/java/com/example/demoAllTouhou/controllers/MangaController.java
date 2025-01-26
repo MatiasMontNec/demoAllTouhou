@@ -1,8 +1,8 @@
 package com.example.demoAllTouhou.controllers;
 
 import com.example.demoAllTouhou.entities.MangaEntity;
-import com.example.demoAllTouhou.models.MangaDTO;
-import com.example.demoAllTouhou.models.MangaListDTO;
+import com.example.demoAllTouhou.dtos.MangaDTO;
+import com.example.demoAllTouhou.dtos.MangaListDTO;
 import com.example.demoAllTouhou.services.MangaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

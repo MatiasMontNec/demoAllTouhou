@@ -10,5 +10,5 @@ import java.util.List;
 public interface DislikesRepository extends JpaRepository<DislikesEntity, Long> {
 
     // Obtener lista de Dislikes por Character ID
-    List<DislikesEntity> findByCharacterId(Long characterId);
+    List<DislikesEntity> findByCharacters_Id(Long characterId);
 }

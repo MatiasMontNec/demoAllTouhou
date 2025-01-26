@@ -1,7 +1,7 @@
 package com.example.demoAllTouhou.controllers;
 
 import com.example.demoAllTouhou.entities.SpeciesEntity;
-import com.example.demoAllTouhou.models.IdListDTO;
+import com.example.demoAllTouhou.dtos.IdListDTO;
 import com.example.demoAllTouhou.services.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class SpeciesController {
     // **Obtener todas las Speciess**
     @GetMapping("/all")
     public ResponseEntity<List<SpeciesEntity>> getAllSpecies() {
-        List<SpeciesEntity> speciess = speciesService.getAllSpeciess();
+        List<SpeciesEntity> speciess = speciesService.getAllSpecies();
         return ResponseEntity.ok(speciess);
     }
 

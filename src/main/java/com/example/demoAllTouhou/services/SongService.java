@@ -2,7 +2,6 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.SongEntity;
 import com.example.demoAllTouhou.repositories.SongRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class SongService {
 
-    @Autowired
-    private SongRepository songRepository;
+    private final SongRepository songRepository;
+
+    public SongService(SongRepository songRepository) {
+        this.songRepository = songRepository;
+    }
 
     // **Crear una nueva Song**
     public SongEntity createSong(SongEntity songEntity) {
@@ -34,10 +36,10 @@ public class SongService {
         SongEntity existingSong = songRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Song not found with id: " + id));
 
-        existingSong.setTitle(updatedSong.getTitle());
-        existingSong.setArtist(updatedSong.getArtist());
-        existingSong.setDescription(updatedSong.getDescription());
-        existingSong.setLyrics(updatedSong.getLyrics());
+        if (updatedSong.getTitle() != null && !updatedSong.getTitle().isEmpty()) existingSong.setTitle(updatedSong.getTitle());
+        if (updatedSong.getArtist() != null && !updatedSong.getArtist().isEmpty()) existingSong.setArtist(updatedSong.getArtist());
+        if (updatedSong.getDescription() != null && !updatedSong.getDescription().isEmpty()) existingSong.setDescription(updatedSong.getDescription());
+        if (updatedSong.getLyrics() != null && !updatedSong.getLyrics().isEmpty()) existingSong.setLyrics(updatedSong.getLyrics());
 
         return songRepository.save(existingSong);
     }

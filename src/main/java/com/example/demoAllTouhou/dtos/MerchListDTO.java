@@ -1,4 +1,4 @@
-package com.example.demoAllTouhou.models;
+package com.example.demoAllTouhou.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class ImagesListDTO {
-    private List<ImagesDTO> images;
+public class MerchListDTO {
+    private List<MerchDTO> merch;
 }

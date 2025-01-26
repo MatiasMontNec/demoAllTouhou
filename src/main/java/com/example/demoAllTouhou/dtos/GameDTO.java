@@ -1,4 +1,4 @@
-package com.example.demoAllTouhou.models;
+package com.example.demoAllTouhou.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

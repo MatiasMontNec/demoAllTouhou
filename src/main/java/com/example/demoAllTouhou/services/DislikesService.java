@@ -2,7 +2,6 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.DislikesEntity;
 import com.example.demoAllTouhou.repositories.DislikesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class DislikesService {
 
-    @Autowired
-    private DislikesRepository dislikesRepository;
+    private final DislikesRepository dislikesRepository;
+
+    public DislikesService(DislikesRepository dislikesRepository) {
+        this.dislikesRepository = dislikesRepository;
+    }
 
     // **Crear un nuevo Dislike**
     public DislikesEntity createDislike(DislikesEntity dislikesEntity) {
@@ -50,6 +52,6 @@ public class DislikesService {
 
     // **Obtener todos los Dislikes asociados a un Character ID**
     public List<DislikesEntity> getDislikesByCharacterId(Long characterId) {
-        return dislikesRepository.findByCharacterId(characterId);
+        return dislikesRepository.findByCharacters_Id(characterId);
     }
 }

@@ -30,21 +30,29 @@ public class CharacterService {
                 .orElseThrow(() -> new RuntimeException("Character not found with id: " + id));
     }
 
-    // **Actualizar un personaje existente**
+    // **Actualizar un personaje existente usando id y el cuerpo**
     public CharacterEntity updateCharacter(Long id, CharacterEntity updatedCharacter) {
+        if ( updatedCharacter == null ) throw new RuntimeException("Character is null, can't update");
+
         CharacterEntity existingCharacter = characterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Character not found with id: " + id));
 
         // Actualizamos los campos
-        existingCharacter.setName(updatedCharacter.getName());
-        existingCharacter.setAge(updatedCharacter.getAge());
-        existingCharacter.setGender(updatedCharacter.getGender());
-        existingCharacter.setHeight(updatedCharacter.getHeight());
-        existingCharacter.setWeight(updatedCharacter.getWeight());
-        existingCharacter.setBiography(updatedCharacter.getBiography());
-        existingCharacter.setRelations(updatedCharacter.getRelations());
-        existingCharacter.setImportantFacts(updatedCharacter.getImportantFacts());
-
+        if (updatedCharacter.getName() != null && !updatedCharacter.getName().isEmpty()) existingCharacter.setName(updatedCharacter.getName());
+        if (updatedCharacter.getAge() != 0) existingCharacter.setAge(updatedCharacter.getAge());
+        if (updatedCharacter.getGender() != null && !updatedCharacter.getGender().isEmpty()) existingCharacter.setGender(updatedCharacter.getGender());
+        if (updatedCharacter.getHeight() != 0) existingCharacter.setHeight(updatedCharacter.getHeight());
+        if (updatedCharacter.getHeight() != 0) existingCharacter.setWeight(updatedCharacter.getWeight());
+        if (updatedCharacter.getBiography() != null && !updatedCharacter.getBiography().isEmpty()) existingCharacter.setBiography(updatedCharacter.getBiography());
+        if (updatedCharacter.getRelations() != null && !updatedCharacter.getRelations().isEmpty()) existingCharacter.setRelations(updatedCharacter.getRelations());
+        if (updatedCharacter.getImportantFacts() != null && !updatedCharacter.getImportantFacts().isEmpty()) existingCharacter.setImportantFacts(updatedCharacter.getImportantFacts());
+        if (updatedCharacter.getLivesIn() != null && !updatedCharacter.getLivesIn().isEmpty()) existingCharacter.setLivesIn(updatedCharacter.getLivesIn());
+        if (updatedCharacter.getDislikes() != null && !updatedCharacter.getDislikes().isEmpty()) existingCharacter.setDislikes(updatedCharacter.getDislikes());
+        if (updatedCharacter.getLikes() != null && !updatedCharacter.getLikes().isEmpty()) existingCharacter.setLikes(updatedCharacter.getLikes());
+        if (updatedCharacter.getPowers() != null && !updatedCharacter.getPowers().isEmpty()) existingCharacter.setPowers(updatedCharacter.getPowers());
+        if (updatedCharacter.getSpecies() != null && !updatedCharacter.getSpecies().isEmpty()) existingCharacter.setSpecies(updatedCharacter.getSpecies());
+        if (updatedCharacter.getGames() != null) existingCharacter.setGames(updatedCharacter.getGames());
+        // ¿Por qué no con manga, canciones o mercancia? Porque puede que no pertenezcan a uno o que tade demasiado en cargar jeje
         return characterRepository.save(existingCharacter);
     }
 
@@ -99,6 +107,6 @@ public class CharacterService {
 
     // **Buscar personajes por especie**
     public List<CharacterEntity> getCharactersBySpecies(String species) {
-        return characterRepository.findBySpeciesIgnoreCase(species);
+        return characterRepository.findBySpecies_NameIgnoreCase(species);
     }
 }

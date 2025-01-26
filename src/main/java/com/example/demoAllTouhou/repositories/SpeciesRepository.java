@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface SpeciesRepository extends JpaRepository<SpeciesEntity, Long> {
 
-    // Buscar Speciess cuyo título contiene un texto (ignorar mayúsculas/minúsculas)
-    List<SpeciesEntity> findByTitleContainingIgnoreCase(String title);
+    // Buscar Species cuyo nombre contiene un texto (ignorar mayúsculas/minúsculas)
+    List<SpeciesEntity> findByNameContainingIgnoreCase(String title);
 
-    // Buscar Speciess cuyo artista contiene un texto (ignorar mayúsculas/minúsculas)
-    List<SpeciesEntity> findByArtistContainingIgnoreCase(String artist);
+    // Buscar Species cuyo tipo contiene un texto (ignorar mayúsculas/minúsculas)
+    List<SpeciesEntity> findByTypeContainingIgnoreCase(String artist);
 }

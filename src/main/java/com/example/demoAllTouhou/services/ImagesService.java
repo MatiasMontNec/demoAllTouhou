@@ -2,7 +2,6 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.ImagesEntity;
 import com.example.demoAllTouhou.repositories.ImagesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class ImagesService {
 
-    @Autowired
-    private ImagesRepository imagesRepository;
+    private final ImagesRepository imagesRepository;
+
+    public ImagesService(ImagesRepository imagesRepository) {
+        this.imagesRepository = imagesRepository;
+    }
 
     // **Crear una nueva imagen**
     public ImagesEntity createImage(ImagesEntity imagesEntity) {
@@ -34,11 +36,9 @@ public class ImagesService {
         ImagesEntity existingImage = imagesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Image not found with id: " + id));
 
-        existingImage.setName(updatedImage.getName());
-        existingImage.setDescription(updatedImage.getDescription());
-        existingImage.setCharacterId(updatedImage.getCharacterId());
-        existingImage.setGameId(updatedImage.getGameId());
-        existingImage.setMercancyId(updatedImage.getMercancyId());
+        if (updatedImage.getName() != null && !updatedImage.getName().isEmpty()) existingImage.setName(updatedImage.getName());
+        if (updatedImage.getDescription() != null && !updatedImage.getDescription().isEmpty()) existingImage.setDescription(updatedImage.getDescription());
+        if (updatedImage.getImage() != null) existingImage.setImage(updatedImage.getImage());
 
         return imagesRepository.save(existingImage);
     }
@@ -54,20 +54,5 @@ public class ImagesService {
     // **Buscar imágenes por parte del nombre**
     public List<ImagesEntity> getImagesByNameContains(String name) {
         return imagesRepository.findByNameContainingIgnoreCase(name);
-    }
-
-    // **Obtener imágenes por characterId**
-    public List<ImagesEntity> getImagesByCharacterId(Long characterId) {
-        return imagesRepository.findByCharacterId(characterId);
-    }
-
-    // **Obtener imágenes por gameId**
-    public List<ImagesEntity> getImagesByGameId(Long gameId) {
-        return imagesRepository.findByGameId(gameId);
-    }
-
-    // **Obtener imágenes por mercancyId**
-    public List<ImagesEntity> getImagesByMercancyId(Long mercancyId) {
-        return imagesRepository.findByMercancyId(mercancyId);
     }
 }

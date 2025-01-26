@@ -1,4 +1,4 @@
-package com.example.demoAllTouhou.models;
+package com.example.demoAllTouhou.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DislikesDTO {
+public class GameCharacterDTO {
     private Long id;
-    private String name;
-    private String description;
     private Long characterId;
+    private Long gameId;
 }

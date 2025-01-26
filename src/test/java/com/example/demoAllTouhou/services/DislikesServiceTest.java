@@ -33,7 +33,6 @@ public class DislikesServiceTest {
         DislikesEntity dislike = new DislikesEntity();
         dislike.setName("Dislike Name");
         dislike.setDescription("Dislike Description");
-        dislike.setCharacterId(1L);
 
         when(dislikesRepository.save(any(DislikesEntity.class))).thenReturn(dislike);
 
@@ -41,7 +40,6 @@ public class DislikesServiceTest {
 
         assertEquals("Dislike Name", createdDislike.getName());
         assertEquals("Dislike Description", createdDislike.getDescription());
-        assertEquals(1L, createdDislike.getCharacterId());
     }
 
     // **Test: Obtener todos los Dislikes**
@@ -49,11 +47,9 @@ public class DislikesServiceTest {
     public void whenGetAllDislikes_thenReturnListOfDislikes() {
         DislikesEntity dislike1 = new DislikesEntity();
         dislike1.setName("Dislike 1");
-        dislike1.setCharacterId(1L);
 
         DislikesEntity dislike2 = new DislikesEntity();
         dislike2.setName("Dislike 2");
-        dislike2.setCharacterId(2L);
 
         when(dislikesRepository.findAll()).thenReturn(Arrays.asList(dislike1, dislike2));
 
@@ -62,8 +58,6 @@ public class DislikesServiceTest {
         assertThat(dislikes).hasSize(2);
         assertThat(dislikes).extracting(DislikesEntity::getName)
                 .containsExactlyInAnyOrder("Dislike 1", "Dislike 2");
-        assertThat(dislikes).extracting(DislikesEntity::getCharacterId)
-                .containsExactlyInAnyOrder(1L, 2L);
     }
 
     // **Test: Obtener un Dislike por ID**
@@ -72,7 +66,6 @@ public class DislikesServiceTest {
         DislikesEntity dislike = new DislikesEntity();
         dislike.setId(1L);
         dislike.setName("Dislike Name");
-        dislike.setCharacterId(1L);
 
         when(dislikesRepository.findById(1L)).thenReturn(Optional.of(dislike));
 
@@ -80,7 +73,6 @@ public class DislikesServiceTest {
 
         assertEquals(1L, result.getId());
         assertEquals("Dislike Name", result.getName());
-        assertEquals(1L, result.getCharacterId());
     }
 
     @Test
@@ -97,12 +89,10 @@ public class DislikesServiceTest {
         existingDislike.setId(1L);
         existingDislike.setName("Old Name");
         existingDislike.setDescription("Old Description");
-        existingDislike.setCharacterId(1L);
 
         DislikesEntity updatedDislike = new DislikesEntity();
         updatedDislike.setName("New Name");
         updatedDislike.setDescription("New Description");
-        updatedDislike.setCharacterId(2L);
 
         when(dislikesRepository.findById(1L)).thenReturn(Optional.of(existingDislike));
         when(dislikesRepository.save(any(DislikesEntity.class))).thenReturn(updatedDislike);
@@ -111,7 +101,6 @@ public class DislikesServiceTest {
 
         assertEquals("New Name", result.getName());
         assertEquals("New Description", result.getDescription());
-        assertEquals(2L, result.getCharacterId());
     }
 
     @Test
@@ -149,13 +138,11 @@ public class DislikesServiceTest {
 
         DislikesEntity dislike1 = new DislikesEntity();
         dislike1.setName("Dislike 1");
-        dislike1.setCharacterId(characterId);
 
         DislikesEntity dislike2 = new DislikesEntity();
         dislike2.setName("Dislike 2");
-        dislike2.setCharacterId(characterId);
 
-        when(dislikesRepository.findByCharacterId(characterId)).thenReturn(Arrays.asList(dislike1, dislike2));
+        when(dislikesRepository.findByCharacters_Id(characterId)).thenReturn(Arrays.asList(dislike1, dislike2));
 
         List<DislikesEntity> dislikes = dislikesService.getDislikesByCharacterId(characterId);
 

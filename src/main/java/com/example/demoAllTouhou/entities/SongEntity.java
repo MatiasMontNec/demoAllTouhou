@@ -1,5 +1,6 @@
 package com.example.demoAllTouhou.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,5 +29,6 @@ public class SongEntity {
         joinColumns = @JoinColumn(name = "song_id"),
         inverseJoinColumns = @JoinColumn(name = "character_id")
     )
+    @JsonManagedReference
     private List<CharacterEntity> characters;
 }

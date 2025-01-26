@@ -10,16 +10,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "mercancy")
+@Table(name = "merch")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MercancyEntity {
+public class MerchEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-    private Long characterId;
     private String name;
     private String description;
     private int price;
@@ -28,8 +27,8 @@ public class MercancyEntity {
 
     @ManyToMany
     @JoinTable(
-        name = "mercancy_character",
-        joinColumns = @JoinColumn(name = "mercancy_id"),
+        name = "merch_character",
+        joinColumns = @JoinColumn(name = "merch_id"),
         inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     private List<CharacterEntity> characters;

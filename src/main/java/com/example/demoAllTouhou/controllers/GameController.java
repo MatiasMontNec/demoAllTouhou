@@ -1,8 +1,8 @@
 package com.example.demoAllTouhou.controllers;
 
 import com.example.demoAllTouhou.entities.GameEntity;
-import com.example.demoAllTouhou.models.DateDTO;
-import com.example.demoAllTouhou.models.GameDTO;
+import com.example.demoAllTouhou.dtos.DateDTO;
+import com.example.demoAllTouhou.dtos.GameDTO;
 import com.example.demoAllTouhou.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -105,7 +105,7 @@ public class GameController {
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
-        entity.setLinkDownoload(dto.getLinkDownload());
+        entity.setLinkDownload(dto.getLinkDownload());
         entity.setReleaseDate(dto.getReleaseDate());
         return entity;
     }
@@ -116,7 +116,7 @@ public class GameController {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getDescription(),
-                entity.getLinkDownoload(),
+                entity.getLinkDownload(),
                 entity.getReleaseDate()
         );
     }

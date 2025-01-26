@@ -33,7 +33,6 @@ public class PowersServiceTest {
         PowersEntity power = new PowersEntity();
         power.setName("Power Name");
         power.setDescription("Power Description");
-        power.setCharacterId(1L);
 
         when(powersRepository.save(any(PowersEntity.class))).thenReturn(power);
 
@@ -41,7 +40,6 @@ public class PowersServiceTest {
 
         assertEquals("Power Name", createdPower.getName());
         assertEquals("Power Description", createdPower.getDescription());
-        assertEquals(1L, createdPower.getCharacterId());
     }
 
     // **Test: Obtener todos los Powers**
@@ -49,11 +47,9 @@ public class PowersServiceTest {
     public void whenGetAllPowers_thenReturnListOfPowers() {
         PowersEntity power1 = new PowersEntity();
         power1.setName("Power 1");
-        power1.setCharacterId(1L);
 
         PowersEntity power2 = new PowersEntity();
         power2.setName("Power 2");
-        power2.setCharacterId(2L);
 
         when(powersRepository.findAll()).thenReturn(Arrays.asList(power1, power2));
 
@@ -62,8 +58,6 @@ public class PowersServiceTest {
         assertThat(powers).hasSize(2);
         assertThat(powers).extracting(PowersEntity::getName)
                 .containsExactlyInAnyOrder("Power 1", "Power 2");
-        assertThat(powers).extracting(PowersEntity::getCharacterId)
-                .containsExactlyInAnyOrder(1L, 2L);
     }
 
     // **Test: Obtener un Power por ID**
@@ -72,7 +66,6 @@ public class PowersServiceTest {
         PowersEntity power = new PowersEntity();
         power.setId(1L);
         power.setName("Power Name");
-        power.setCharacterId(1L);
 
         when(powersRepository.findById(1L)).thenReturn(Optional.of(power));
 
@@ -80,7 +73,6 @@ public class PowersServiceTest {
 
         assertEquals(1L, result.getId());
         assertEquals("Power Name", result.getName());
-        assertEquals(1L, result.getCharacterId());
     }
 
     @Test
@@ -97,12 +89,10 @@ public class PowersServiceTest {
         existingPower.setId(1L);
         existingPower.setName("Old Name");
         existingPower.setDescription("Old Description");
-        existingPower.setCharacterId(1L);
 
         PowersEntity updatedPower = new PowersEntity();
         updatedPower.setName("New Name");
         updatedPower.setDescription("New Description");
-        updatedPower.setCharacterId(2L);
 
         when(powersRepository.findById(1L)).thenReturn(Optional.of(existingPower));
         when(powersRepository.save(any(PowersEntity.class))).thenReturn(updatedPower);
@@ -111,7 +101,6 @@ public class PowersServiceTest {
 
         assertEquals("New Name", result.getName());
         assertEquals("New Description", result.getDescription());
-        assertEquals(2L, result.getCharacterId());
     }
 
     @Test
@@ -149,37 +138,13 @@ public class PowersServiceTest {
 
         PowersEntity power1 = new PowersEntity();
         power1.setName("Power 1");
-        power1.setCharacterId(1L);
 
         PowersEntity power2 = new PowersEntity();
         power2.setName("Power 2");
-        power2.setCharacterId(2L);
 
         when(powersRepository.findByNameContainingIgnoreCase(name)).thenReturn(Arrays.asList(power1, power2));
 
         List<PowersEntity> powers = powersService.getPowersByName(name);
-
-        assertThat(powers).hasSize(2);
-        assertThat(powers).extracting(PowersEntity::getName)
-                .containsExactlyInAnyOrder("Power 1", "Power 2");
-    }
-
-    // **Test: Obtener Powers por Character ID**
-    @Test
-    public void whenGetPowersByCharacterId_thenReturnListOfPowers() {
-        Long characterId = 1L;
-
-        PowersEntity power1 = new PowersEntity();
-        power1.setName("Power 1");
-        power1.setCharacterId(characterId);
-
-        PowersEntity power2 = new PowersEntity();
-        power2.setName("Power 2");
-        power2.setCharacterId(characterId);
-
-        when(powersRepository.findByCharacterId(characterId)).thenReturn(Arrays.asList(power1, power2));
-
-        List<PowersEntity> powers = powersService.getPowersByCharacterId(characterId);
 
         assertThat(powers).hasSize(2);
         assertThat(powers).extracting(PowersEntity::getName)

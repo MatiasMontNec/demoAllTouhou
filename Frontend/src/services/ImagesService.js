@@ -42,9 +42,9 @@ const getImagesByGameId = (gameId) => {
     return httpClient.get(`/images/by-game/${gameId}`);
 };
 
-// Obtiene imágenes por mercancyId
-const getImagesByMercancyId = (mercancyId) => {
-    return httpClient.get(`/images/by-mercancy/${mercancyId}`);
+// Obtiene imágenes por merchId
+const getImagesByMerchId = (merchId) => {
+    return httpClient.get(`/images/by-merch/${merchId}`);
 };
 
 export default {
@@ -56,5 +56,5 @@ export default {
     getImagesByNameContains,
     getImagesByCharacterId,
     getImagesByGameId,
-    getImagesByMercancyId
+    getImagesByMerchId
 };

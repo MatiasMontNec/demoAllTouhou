@@ -2,7 +2,6 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.PowersEntity;
 import com.example.demoAllTouhou.repositories.PowersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class PowersService {
 
-    @Autowired
-    private PowersRepository powersRepository;
+    private final PowersRepository powersRepository;
+
+    public PowersService(PowersRepository powersRepository) {
+        this.powersRepository = powersRepository;
+    }
 
     // **Crear un nuevo Power**
     public PowersEntity createPower(PowersEntity powersEntity) {
@@ -34,8 +36,8 @@ public class PowersService {
         PowersEntity existingPower = powersRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Power not found with id: " + id));
 
-        existingPower.setName(updatedPower.getName());
-        existingPower.setDescription(updatedPower.getDescription());
+        if (updatedPower.getName() !=null && !updatedPower.getName().isEmpty()) existingPower.setName(updatedPower.getName());
+        if (updatedPower.getDescription() !=null && !updatedPower.getDescription().isEmpty()) existingPower.setDescription(updatedPower.getDescription());
 
         return powersRepository.save(existingPower);
     }
@@ -55,6 +57,6 @@ public class PowersService {
 
     // **Obtener Powers por Character ID**
     public List<PowersEntity> getPowersByCharacterId(long characterId) {
-        return powersRepository.findByCharacterId(characterId);
+        return powersRepository.findByCharacters_Id(characterId);
     }
 }

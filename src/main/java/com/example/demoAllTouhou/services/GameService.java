@@ -2,7 +2,6 @@ package com.example.demoAllTouhou.services;
 
 import com.example.demoAllTouhou.entities.GameEntity;
 import com.example.demoAllTouhou.repositories.GameRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -11,8 +10,11 @@ import java.util.List;
 @Service
 public class GameService {
 
-    @Autowired
-    private GameRepository gameRepository;
+    private final GameRepository gameRepository;
+
+    public GameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
 
     // **Crear un nuevo Game**
     public GameEntity createGame(GameEntity gameEntity) {
@@ -32,13 +34,15 @@ public class GameService {
 
     // **Actualizar un Game**
     public GameEntity updateGame(Long id, GameEntity updatedGame) {
+        if (updatedGame == null) throw new IllegalArgumentException("Updated game data must not be null.");
+
         GameEntity existingGame = gameRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Game not found with id: " + id));
 
-        existingGame.setTitle(updatedGame.getTitle());
-        existingGame.setDescription(updatedGame.getDescription());
-        existingGame.setLinkDownoload(updatedGame.getLinkDownoload());
-        existingGame.setReleaseDate(updatedGame.getReleaseDate());
+        if (updatedGame.getTitle() != null && !updatedGame.getTitle().isEmpty()) existingGame.setTitle(updatedGame.getTitle());
+        if (updatedGame.getDescription() != null && !updatedGame.getDescription().isEmpty()) existingGame.setDescription(updatedGame.getDescription());
+        if (updatedGame.getLinkDownload() != null && !updatedGame.getLinkDownload().isEmpty()) existingGame.setLinkDownload(updatedGame.getLinkDownload());
+        if (updatedGame.getReleaseDate() != null && !updatedGame.getReleaseDate().isEqual(LocalDate.now())) existingGame.setReleaseDate(updatedGame.getReleaseDate());
 
         return gameRepository.save(existingGame);
     }

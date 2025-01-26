@@ -60,14 +60,14 @@ const mangasTheme = createTheme({
     },
 });
 
-// Tema para la vista NotFound
+// Tema para la vista NotFound con tonalidades de grises
 const notFoundTheme = createTheme({
     palette: {
-        primary: { main: "#FFFFFF" }, // Blanco puro
-        secondary: { main: "#B0BEC5" }, // Gris claro para detalles secundarios
+        primary: { main: "#B0B0B0" }, // Gris suave para el color primario
+        secondary: { main: "#8C8C8C" }, // Gris medio para detalles secundarios
         background: {
-            default: "#FFFFFF", // Fondo blanco
-            paper: "#F5F5F5", // Fondo gris muy claro para tarjetas o elementos flotantes
+            default: "#E0E0E0", // Fondo gris claro
+            paper: "#D5D5D5", // Fondo gris muy claro para tarjetas o elementos flotantes
         },
         text: {
             primary: "#424242", // Gris oscuro para texto principal
@@ -75,6 +75,7 @@ const notFoundTheme = createTheme({
         },
     },
 });
+
 
 const pinkTheme = createTheme({
     palette: {

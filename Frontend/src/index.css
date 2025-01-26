@@ -15,7 +15,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-
+  cursor: url('/Frontend/public/cursors/suwako1.Ani'), auto !important;
   /* Eliminamos el color y el fondo para usar los temas */
   color: inherit;
   background-color: inherit;
@@ -44,7 +44,6 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: inherit; /* Usar fondo del tema */
-  cursor: pointer;
   transition: border-color 0.25s;
 }
 
@@ -56,4 +55,71 @@ button:hover {
   :root {
     /* Eliminar colores específicos */
   }
+}
+
+/* Cursor para selección de ayuda */
+.help-cursor {
+  cursor: url('/Frontend/public/cursors/suwako2.cur'), help !important;
+}
+
+/* Cursor para trabajando en segundo plano */
+.working-cursor {
+  cursor: url('/Frontend/public/cursors/suwako3.Ani'), progress !important;
+}
+
+/* Cursor para ocupado */
+.busy-cursor {
+  cursor: url('/Frontend/public/cursors/suwako15.Ani'), wait !important;
+}
+
+/* Cursor para selección de precisión */
+.precision-cursor {
+  cursor: url('/Frontend/public/cursors/suwako4.Ani'), crosshair !important;
+}
+
+/* Cursor para selección de texto */
+.text-cursor {
+  cursor: url('/Frontend/public/cursors/suwako5.cur'), text !important;
+}
+
+/* Cursor para escritura manual */
+.write-cursor {
+  cursor: url('/Frontend/public/cursors/suwako6.cur'), pointer !important;
+}
+
+/* Cursor para no disponible */
+.disabled-cursor {
+  cursor: url('/Frontend/public/cursors/suwako7.cur'), not-allowed !important;
+}
+
+/* Cursors de ajuste */
+.resize-vertical {
+  cursor: url('/Frontend/public/cursors/suwako8.Ani'), ns-resize !important;
+}
+
+.resize-horizontal {
+  cursor: url('/Frontend/public/cursors/suwako9.Ani'), ew-resize !important;
+}
+
+.resize-diagonal1 {
+  cursor: url('/Frontend/public/cursors/suwako10.Ani'), nesw-resize !important;
+}
+
+.resize-diagonal2 {
+  cursor: url('/Frontend/public/cursors/suwako11.Ani'), nwse-resize !important;
+}
+
+/* Cursor de mover */
+.move-cursor {
+  cursor: url('/Frontend/public/cursors/suwako12.Ani'), move !important;
+}
+
+/* Cursor para selección alternativa */
+.alt-cursor {
+  cursor: url('/Frontend/public/cursors/suwako13.Ani'), alias !important;
+}
+
+/* Cursor para selección de vínculo */
+.link-cursor {
+  cursor: url('/Frontend/public/cursors/suwako14.Ani'), pointer !important;
 }

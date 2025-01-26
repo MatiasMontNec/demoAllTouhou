@@ -76,6 +76,15 @@ const notFoundTheme = createTheme({
     },
 });
 
+const pinkTheme = createTheme({
+    palette: {
+        primary: { main: "#E91E63" }, // Rosa fuerte
+        secondary: { main: "#F06292" }, // Rosa claro
+        background: { default: "#FCE4EC", paper: "#F8BBD0" }, // Fondo rosado suave
+        text: { primary: "#880E4F", secondary: "#AD1457" }, // Texto rosado oscuro
+    },
+});
+
 export {
     homeTheme,
     searchTheme,
@@ -83,5 +92,6 @@ export {
     songsTheme,
     testsTheme,
     mangasTheme,
-    notFoundTheme, // Exportamos el nuevo tema
+    notFoundTheme,
+    pinkTheme,
 };

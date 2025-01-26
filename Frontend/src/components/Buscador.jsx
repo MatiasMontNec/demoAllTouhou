@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Box,
     Typography,
@@ -12,19 +12,30 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import waitAnimation from "../animations/waitBuscador.json"; // Importar animación
+import waitAnimation from "../animations/waitBuscador.json";
+import Lottie from "react-lottie"; // Importar animación
+import { saveToSessionStorage, loadFromSessionStorage } from '../services/sessionStorageService';
 
 export default function Buscador() {
-    const [tipoBusqueda, setTipoBusqueda] = useState(""); // Principal tipo de búsqueda
-    const [filtros, setFiltros] = useState({}); // Filtros específicos según el tipo de búsqueda
-    const [resultados, setResultados] = useState([]); // Resultados de búsqueda
-    const [query, setQuery] = useState(""); // Texto ingresado en el buscador
-    const [isLoading, setIsLoading] = useState(false); // Estado de carga
+    const [tipoBusqueda, setTipoBusqueda] = useState(() => loadFromSessionStorage("buscador_tipoBusqueda", []));
+    const [filtros, setFiltros] = useState(() => loadFromSessionStorage("buscador_filtros", {}));
+    const [query, setQuery] = useState(() => loadFromSessionStorage("buscador_query", ""));
+    const [resultados, setResultados] = useState(() => loadFromSessionStorage("buscador_resultados", []));
+
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        saveToSessionStorage("buscador_tipoBusqueda", tipoBusqueda);
+        saveToSessionStorage("buscador_filtros", filtros);
+        saveToSessionStorage("buscador_query", query);
+        saveToSessionStorage("buscador_resultados", resultados);
+    }, [tipoBusqueda, filtros, query, resultados]);
 
     // Manejar selección del tipo de búsqueda
     const handleTipoBusquedaChange = (tipo) => {
         setTipoBusqueda(tipo);
-        setFiltros({});
+        setFiltros({}); // Limpiar filtros al cambiar tipo de búsqueda
     };
 
     // Manejar búsqueda (simular conexión con backend)
@@ -46,6 +57,15 @@ export default function Buscador() {
             setResultados(query ? mockResultados : []);
             setIsLoading(false); // Desactivar estado de carga
         }, 2000); // Simular retraso de 2 segundos
+    };
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: waitAnimation, // Animación Lottie
+        rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice",
+        },
     };
 
     return (
@@ -115,6 +135,7 @@ export default function Buscador() {
                                     label="Nombre"
                                     variant="outlined"
                                     sx={{ marginBottom: 2 }}
+                                    value={filtros.nombre || ""}
                                     onChange={(e) => setFiltros({ ...filtros, nombre: e.target.value })}
                                 />
                                 <TextField
@@ -122,12 +143,14 @@ export default function Buscador() {
                                     label="Edad"
                                     variant="outlined"
                                     sx={{ marginBottom: 2 }}
+                                    value={filtros.edad || ""}
                                     onChange={(e) => setFiltros({ ...filtros, edad: e.target.value })}
                                 />
                                 <TextField
                                     fullWidth
                                     label="Género"
                                     variant="outlined"
+                                    value={filtros.genero || ""}
                                     onChange={(e) => setFiltros({ ...filtros, genero: e.target.value })}
                                 />
                             </Box>
@@ -140,6 +163,7 @@ export default function Buscador() {
                                     label="Título"
                                     variant="outlined"
                                     sx={{ marginBottom: 2 }}
+                                    value={filtros.titulo || ""}
                                     onChange={(e) => setFiltros({ ...filtros, titulo: e.target.value })}
                                 />
                                 <TextField
@@ -148,6 +172,7 @@ export default function Buscador() {
                                     type="date"
                                     InputLabelProps={{ shrink: true }}
                                     variant="outlined"
+                                    value={filtros.fecha || ""}
                                     onChange={(e) => setFiltros({ ...filtros, fecha: e.target.value })}
                                 />
                             </Box>
@@ -163,11 +188,11 @@ export default function Buscador() {
                     <Box sx={{ marginTop: 2 }}>
                         {isLoading ? (
                             // Mostrar animación mientras se cargan los resultados
-                            <Player
-                                autoplay
-                                loop
-                                src={waitAnimation}
-                                style={{ height: "300px", width: "300px", margin: "0 auto" }}
+                            <Lottie
+                                options={defaultOptions}
+                                height={300}
+                                width={300}
+                                style={{ margin: "0 auto" }}
                             />
                         ) : resultados.length === 0 ? (
                             <Typography variant="body1">Sin resultados</Typography>

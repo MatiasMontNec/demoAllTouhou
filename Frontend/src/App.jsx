@@ -4,8 +4,18 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from "./components/Home.jsx";
 import Navbar from "./components/NavBar.jsx";
 import NotFound from "./components/NotFound.jsx";
+import Preguntas from "./components/Preguntas.jsx"; // Importamos el nuevo componente
 import { ThemeProvider } from "@mui/material";
-import { homeTheme, searchTheme, merchandiseTheme, songsTheme, testsTheme, mangasTheme, notFoundTheme } from "./theme";
+import {
+    homeTheme,
+    searchTheme,
+    merchandiseTheme,
+    songsTheme,
+    testsTheme,
+    mangasTheme,
+    notFoundTheme,
+    pinkTheme // Importamos el nuevo tema
+} from "./theme";
 import Footer from './components/Footer';
 import Buscador from "./components/Buscador.jsx";
 import Mercancia from "./components/Mercancia.jsx";
@@ -19,7 +29,6 @@ function App() {
     const location = useLocation();
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-    // Escuchar cambios de conexión
     useEffect(() => {
         const handleOnline = () => setIsOnline(true);
         const handleOffline = () => setIsOnline(false);
@@ -27,30 +36,28 @@ function App() {
         window.addEventListener("online", handleOnline);
         window.addEventListener("offline", handleOffline);
 
-        // Limpieza de eventos
         return () => {
             window.removeEventListener("online", handleOnline);
             window.removeEventListener("offline", handleOffline);
         };
     }, []);
 
-    // Determinar el tema según la ruta
     const getTheme = () => {
-        switch (location.pathname) {
-            case "/buscador":
+        switch (location.pathname.split("/")[1]) {
+            case "buscador":
                 return searchTheme;
-            case "/mercancia":
+            case "mercancia":
                 return merchandiseTheme;
-            case "/canciones":
+            case "canciones":
                 return songsTheme;
-            case "/tests":
+            case "tests":
                 return testsTheme;
-            case "/mangas":
+            case "mangas":
                 return mangasTheme;
-            default: // Rutas no encontradas
-                return notFoundTheme;
-            case "/":
-                return homeTheme; // Tema por defecto
+            case "Preguntas":
+                return pinkTheme; // Tema para Preguntas
+            default:
+                return location.pathname === "/" ? homeTheme : notFoundTheme;
         }
     };
 
@@ -67,6 +74,7 @@ function App() {
                             <Route path="/canciones" element={<Canciones />} />
                             <Route path="/mangas" element={<Mangas />} />
                             <Route path="/tests" element={<Tests />} />
+                            <Route path="/Preguntas/:id" element={<Preguntas />} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                         <Footer />

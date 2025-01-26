@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Lottie from "react-lottie";  // Importa Lottie
 import {
     Box,
@@ -14,13 +14,22 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import BookIcon from "@mui/icons-material/Book";
 import animationData from "../animations/waitMangas.json";  // Asegúrate de que la ruta es correcta
+import { saveToSessionStorage, loadFromSessionStorage } from '../services/sessionStorageService';
 
 export default function Mangas() {
-    const [tipoBusqueda, setTipoBusqueda] = useState([]); // Tipos de búsqueda seleccionados
-    const [filtros, setFiltros] = useState({}); // Filtros específicos según los tipos de búsqueda seleccionados
-    const [resultados, setResultados] = useState([]); // Resultados de búsqueda
-    const [query, setQuery] = useState(""); // Texto ingresado en el buscador general
-    const [loading, setLoading] = useState(false);  // Estado de carga
+    const [tipoBusqueda, setTipoBusqueda] = useState(() => loadFromSessionStorage("mangas_tipoBusqueda", []));
+    const [filtros, setFiltros] = useState(() => loadFromSessionStorage("mangas_filtros", {}));
+    const [query, setQuery] = useState(() => loadFromSessionStorage("mangas_query", ""));
+    const [resultados, setResultados] = useState(() => loadFromSessionStorage("mangas_resultados", []));
+
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        saveToSessionStorage("mangas_tipoBusqueda", tipoBusqueda);
+        saveToSessionStorage("mangas_filtros", filtros);
+        saveToSessionStorage("mangas_query", query);
+        saveToSessionStorage("mangas_resultados", resultados);
+    }, [tipoBusqueda, filtros, query, resultados]);
 
     // Manejar selección del tipo de búsqueda (permite seleccionar múltiples opciones)
     const handleTipoBusquedaChange = (tipo) => {

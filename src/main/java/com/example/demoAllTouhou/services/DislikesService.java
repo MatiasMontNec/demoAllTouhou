@@ -36,7 +36,6 @@ public class DislikesService {
 
         existingDislike.setName(updatedDislike.getName());
         existingDislike.setDescription(updatedDislike.getDescription());
-        existingDislike.setCharacterId(updatedDislike.getCharacterId());
 
         return dislikesRepository.save(existingDislike);
     }

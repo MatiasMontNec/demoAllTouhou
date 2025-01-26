@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Box,
     Typography,
@@ -13,17 +13,25 @@ import {
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import PersonIcon from "@mui/icons-material/Person";
-import Lottie from "react-lottie"; // Importar Lottie para las animaciones
-import waitAnimation from "../animations/waitMercancia.json"; // Importar animación
+import Lottie from "react-lottie";
+import waitAnimation from "../animations/waitMercancia.json";
+import { saveToSessionStorage, loadFromSessionStorage } from '../services/sessionStorageService';
 
 export default function Mercancia() {
-    const [tipoBusqueda, setTipoBusqueda] = useState([]); // Tipos de búsqueda seleccionados
-    const [filtros, setFiltros] = useState({}); // Filtros específicos según los tipos de búsqueda seleccionados
-    const [resultados, setResultados] = useState([]); // Resultados de búsqueda
-    const [query, setQuery] = useState(""); // Texto ingresado en el buscador general
-    const [loading, setLoading] = useState(false); // Estado de carga
+    const [tipoBusqueda, setTipoBusqueda] = useState(() => loadFromSessionStorage("mercancia_tipoBusqueda", []));
+    const [filtros, setFiltros] = useState(() => loadFromSessionStorage("mercancia_filtros", {}));
+    const [query, setQuery] = useState(() => loadFromSessionStorage("mercancia_query", ""));
+    const [resultados, setResultados] = useState(() => loadFromSessionStorage("mercancia_resultados", []));
 
-    // Configuración de la animación Lottie
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        saveToSessionStorage("mercancia_tipoBusqueda", tipoBusqueda);
+        saveToSessionStorage("mercancia_filtros", filtros);
+        saveToSessionStorage("mercancia_query", query);
+        saveToSessionStorage("mercancia_resultados", resultados);
+    }, [tipoBusqueda, filtros, query, resultados]);
+
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -33,7 +41,6 @@ export default function Mercancia() {
         },
     };
 
-    // Manejar selección del tipo de búsqueda
     const handleTipoBusquedaChange = (tipo) => {
         if (tipoBusqueda.includes(tipo)) {
             setTipoBusqueda(tipoBusqueda.filter((t) => t !== tipo));
@@ -42,9 +49,8 @@ export default function Mercancia() {
         }
     };
 
-    // Simular búsqueda con datos mock
     const handleBuscar = () => {
-        setLoading(true); // Iniciar estado de carga
+        setLoading(true);
         setTimeout(() => {
             const mockResultados = [
                 {
@@ -56,13 +62,12 @@ export default function Mercancia() {
                 },
             ];
             setResultados(query || tipoBusqueda.length > 0 ? mockResultados : []);
-            setLoading(false); // Finalizar estado de carga
-        }, 2000); // Simular 2 segundos de carga
+            setLoading(false);
+        }, 2000);
     };
 
     return (
         <Box sx={{ padding: 4 }}>
-            {/* Buscador General */}
             <Box sx={{ display: "flex", gap: 2, marginBottom: 4 }}>
                 <TextField
                     fullWidth
@@ -81,13 +86,11 @@ export default function Mercancia() {
             </Box>
 
             <Grid container spacing={4}>
-                {/* Filtros */}
                 <Grid item xs={3}>
                     <Typography variant="h5" gutterBottom>
                         Filtros
                     </Typography>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        {/* Filtro Precio */}
                         <IconButton
                             color={tipoBusqueda.includes("Precio") ? "primary" : "default"}
                             onClick={() => handleTipoBusquedaChange("Precio")}
@@ -102,8 +105,6 @@ export default function Mercancia() {
                             <AttachMoneyIcon />
                         </IconButton>
                         <Typography>Precio</Typography>
-
-                        {/* Filtro Fecha */}
                         <IconButton
                             color={tipoBusqueda.includes("Fecha") ? "primary" : "default"}
                             onClick={() => handleTipoBusquedaChange("Fecha")}
@@ -118,8 +119,6 @@ export default function Mercancia() {
                             <CalendarTodayIcon />
                         </IconButton>
                         <Typography>Fecha</Typography>
-
-                        {/* Filtro Personaje */}
                         <IconButton
                             color={tipoBusqueda.includes("Personaje") ? "primary" : "default"}
                             onClick={() => handleTipoBusquedaChange("Personaje")}
@@ -136,7 +135,6 @@ export default function Mercancia() {
                         <Typography>Personaje</Typography>
                     </Box>
 
-                    {/* Filtros dinámicos */}
                     <Box sx={{ marginTop: 4 }}>
                         {tipoBusqueda.includes("Precio") && (
                             <>
@@ -192,7 +190,6 @@ export default function Mercancia() {
                     </Box>
                 </Grid>
 
-                {/* Resultados */}
                 <Grid item xs={9}>
                     <Typography variant="h5" gutterBottom>
                         Resultados

@@ -36,7 +36,6 @@ public class PowersService {
 
         existingPower.setName(updatedPower.getName());
         existingPower.setDescription(updatedPower.getDescription());
-        existingPower.setCharacterId(updatedPower.getCharacterId());
 
         return powersRepository.save(existingPower);
     }

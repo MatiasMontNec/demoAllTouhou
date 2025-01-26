@@ -36,7 +36,6 @@ public class LikesService {
 
         existingLike.setName(updatedLike.getName());
         existingLike.setDescription(updatedLike.getDescription());
-        existingLike.setCharacterId(updatedLike.getCharacterId());
 
         return likesRepository.save(existingLike);
     }

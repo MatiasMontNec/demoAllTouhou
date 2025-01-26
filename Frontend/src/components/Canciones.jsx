@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Lottie from "react-lottie";
 import {
     Box,
@@ -13,16 +13,25 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import { saveToSessionStorage, loadFromSessionStorage } from '../services/sessionStorageService';
 
 // Importa la animación
 import waitCancionesAnimation from "../animations/waitCanciones.json";
 
 export default function Canciones() {
-    const [tipoBusqueda, setTipoBusqueda] = useState([]); // Tipos de búsqueda seleccionados
-    const [filtros, setFiltros] = useState({}); // Filtros específicos según los tipos de búsqueda seleccionados
-    const [resultados, setResultados] = useState([]); // Resultados de búsqueda
-    const [query, setQuery] = useState(""); // Texto ingresado en el buscador general
-    const [cargando, setCargando] = useState(false); // Estado de carga
+    const [tipoBusqueda, setTipoBusqueda] = useState(() => loadFromSessionStorage("canciones_tipoBusqueda", []));
+    const [filtros, setFiltros] = useState(() => loadFromSessionStorage("canciones_filtros", {}));
+    const [query, setQuery] = useState(() => loadFromSessionStorage("canciones_query", ""));
+    const [resultados, setResultados] = useState(() => loadFromSessionStorage("canciones_resultados", []));
+
+    const [cargando, setCargando] = useState(false);
+
+    useEffect(() => {
+        saveToSessionStorage("canciones_tipoBusqueda", tipoBusqueda);
+        saveToSessionStorage("canciones_filtros", filtros);
+        saveToSessionStorage("canciones_query", query);
+        saveToSessionStorage("canciones_resultados", resultados);
+    }, [tipoBusqueda, filtros, query, resultados]);
 
     // Manejar selección del tipo de búsqueda (permite seleccionar múltiples opciones)
     const handleTipoBusquedaChange = (tipo) => {

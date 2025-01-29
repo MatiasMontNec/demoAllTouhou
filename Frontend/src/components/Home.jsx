@@ -109,7 +109,7 @@ const Home = () => {
                     step={1}
                     valueLabelDisplay="auto"
                     valueLabelFormat={(value) => `${value + 1}`}
-                    sx={{ width: "80%", mx: "auto", color: "primary.main" }}
+                    sx={{ width: "80%", mx: "auto", color: "#757575" }}
                 />
 
                 {/* Barra de control con números y navegación */}
@@ -179,7 +179,7 @@ const Home = () => {
                     alignItems: "center",
                     mt: 5,
                     gap: 4,
-                    backgroundColor: "#cae5e8", // Fondo similar a paper
+                    backgroundColor: "#E0F7FA", // Fondo similar a paper
                     borderRadius: 3,
                     padding: "20px", // Espaciado interno
                 }}
@@ -189,13 +189,13 @@ const Home = () => {
                     <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold", textAlign: "center" }}>
                         ¿Qué es Touhou Project?
                     </Typography>
-                    <Typography variant="body1" sx={{ color: "text.secondary", mb: 1, textAlign: "justify", fontSize: "1.2rem" }}>
+                    <Typography variant="body1" sx={{ color: "text.secondary", mb: 1, textAlign: "justify", fontSize: "1.3rem" }}>
                         Touhou Project es mucho más que una serie de videojuegos Bullet Hell. Aunque su premisa principal parece sencilla —esquivar una lluvia de balas mientras derrotas enemigos—, lo que realmente lo hace único es la pasión y creatividad que lo rodean.
                     </Typography>
-                    <Typography variant="body1" sx={{ color: "text.secondary", mb: 1, textAlign: "justify", fontSize: "1.2rem" }}>
+                    <Typography variant="body1" sx={{ color: "text.secondary", mb: 1, textAlign: "justify", fontSize: "1.3rem" }}>
                         Creado por ZUN, el apodo del diseñador y alma detrás del proyecto, junto a su equipo Team Shanghai Alice, Touhou es el resultado de un sueño: hacer juegos que lo satisficieran a él mismo. Esa libertad creativa trajo al mundo algo mágico.
                     </Typography>
-                    <Typography variant="body1" sx={{ color: "text.secondary", mt: 2, textAlign: "justify", fontSize: "1.2rem" }}>
+                    <Typography variant="body1" sx={{ color: "text.secondary", mt: 2, textAlign: "justify", fontSize: "1.3rem" }}>
                         Touhou Project no es solo un videojuego; es un universo lleno de vida, creatividad y conexión. Es el testimonio de cómo una pasión personal puede convertirse en algo que millones de personas en el mundo aman y celebran.
                     </Typography>
                 </Box>
@@ -218,11 +218,11 @@ const Home = () => {
                 {/* Fila 1 */}
                 <Grid item xs={12} sm={6} md={6}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <MusicNote sx={{ fontSize: 40, color: "primary.main", mb: 2 }} />
+                        <MusicNote sx={{ fontSize: 40, color: "#424242", mb: 2 }} />
                         <Typography variant="h6" sx={{ mb: 1 }}>
                             El Legado Musical
                         </Typography>
-                        <Typography variant="body1" sx={{ color: "text.secondary", textAlign: "justify", fontSize: "1.2rem" }}>
+                        <Typography variant="body1" sx={{ color: "text.secondary", textAlign: "justify", fontSize: "1.3rem" }}>
                             El soundtrack de Touhou es legendario. Las composiciones de ZUN han servido de inspiración
                             para innumerables obras de fans: remixes, canciones originales, colaboraciones e incluso
                             memes. De hecho, hay personas que reconocen la música de Touhou sin siquiera saber de dónde
@@ -234,11 +234,11 @@ const Home = () => {
 
                 <Grid item xs={12} sm={6} md={6}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <AccountCircle sx={{ fontSize: 40, color: "primary.main", mb: 2 }} />
+                        <AccountCircle sx={{ fontSize: 40, color: "#424242", mb: 2 }} />
                         <Typography variant="h6" sx={{ mb: 1 }}>
                             Las Historias y el Universo Expandido
                         </Typography>
-                        <Typography variant="body1" sx={{ color: "text.secondary", textAlign: "justify", fontSize: "1.2rem" }}>
+                        <Typography variant="body1" sx={{ color: "text.secondary", textAlign: "justify", fontSize: "1.3rem" }}>
                             Touhou destaca por su elenco de personajes fascinantes, cada uno con trasfondos basados en
                             mitología japonesa, cuentos populares, vampiros, religiones y más. Aunque ZUN ofrece
                             detalles mínimos en los juegos, este "vacío" se convirtió en una invitación para los fans, quienes
@@ -251,13 +251,12 @@ const Home = () => {
                 {/* Fila 2 */}
                 <Grid item xs={12} sm={6} md={6}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <ArtTrack sx={{ fontSize: 40, color: "primary.main", mb: 2 }} />
+                        <ArtTrack sx={{ fontSize: 40, color: "#424242", mb: 2 }} />
                         <Typography variant="h6" sx={{ mb: 1 }}>
                             Diseño Único de Personajes
                         </Typography>
-                        <Typography variant="body1" sx={{ color: "text.secondary", textAlign: "justify", fontSize: "1.2rem" }}>
-                            Si bien los dibujos de ZUN no son considerados obras de arte tradicionales -de hecho, algunos
-                            diseños como el de Sakuya Izayoi en Touhou 6 han sido objeto de bromas—, su estilo se ha vuelto
+                        <Typography variant="body1" sx={{ color: "text.secondary", textAlign: "justify", fontSize: "1.3rem" }}>
+                            Si bien los dibujos de ZUN no son considerados obras de arte tradicionales, su estilo se ha vuelto
                             icónico. El llamado "ZUN Art" es tan único que se ha convertido en un símbolo de la serie, y muchos
                             artistas lo recrean como un tributo. La magia de sus personajes no solo radica en los diseños, sino
                             en su origen: ZUN se inspira únicamente en lo que le gusta, desde mitos hasta leyendas, y esa
@@ -268,11 +267,11 @@ const Home = () => {
 
                 <Grid item xs={12} sm={6} md={6}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <Group sx={{ fontSize: 40, color: "primary.main", mb: 2 }} />
+                        <Group sx={{ fontSize: 40, color: "#424242", mb: 2 }} />
                         <Typography variant="h6" sx={{ mb: 1 }}>
                             La Comunidad y el Fandom
                         </Typography>
-                        <Typography variant="body1" sx={{ color: "text.secondary", textAlign: "justify", fontSize: "1.2rem" }}>
+                        <Typography variant="body1" sx={{ color: "text.secondary", textAlign: "justify", fontSize: "1.3rem" }}>
                             Lo más sorprendente de Touhou es la relación entre ZUN y su fandom. Él nunca ha puesto
                             restricciones para que los fans creen contenido basado en su obra. Esto desató una explosión de
                             creatividad que ha llevado a Touhou a trascender fronteras, con productos, eventos, e incluso
@@ -292,7 +291,7 @@ const Home = () => {
                     alignItems: "center",
                     mt: 5,
                     gap: 4,
-                    backgroundColor: "#cae5e8", // Fondo similar a paper
+                    backgroundColor: "#E0F7FA", // Fondo similar a paper
                     borderRadius: 3,
                     padding: "20px", // Espaciado interno
                 }}
@@ -314,15 +313,15 @@ const Home = () => {
                     <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold", textAlign: "center" }}>
                         ¿Qué es Touhou101?
                     </Typography>
-                    <Typography variant="body1" sx={{ color: "text.secondary", mb: 1, textAlign: "justify", fontSize: "1.2rem" }}>
+                    <Typography variant="body1" sx={{ color: "text.secondary", mb: 1, textAlign: "justify", fontSize: "1.3rem" }}>
                         Touhou101 nació con el propósito de ser un punto de encuentro para fanáticos de Touhou Project,
                         un lugar donde puedas descubrir, aprender y conectar con otros apasionados por este increíble universo.
                     </Typography>
-                    <Typography variant="body1" sx={{ color: "text.secondary", mb: 1, textAlign: "justify", fontSize: "1.2rem" }}>
-                        Nuestro equipo está formado por entusiastas que aman el mundo de Gensokyo y todo lo que Touhou Project representa.
+                    <Typography variant="body1" sx={{ color: "text.secondary", mb: 1, textAlign: "justify", fontSize: "1.3rem" }}>
+                        Nuestro equipo está formado por 2 programadores entusiastas que aman el mundo de Gensokyo y todo lo que Touhou Project representa.
                         Trabajamos para traerte contenido accesible, informativo y divertido que celebre la creatividad y comunidad que este proyecto inspira.
                     </Typography>
-                    <Typography variant="body1" sx={{ color: "text.secondary", mt: 2, textAlign: "justify", fontSize: "1.2rem" }}>
+                    <Typography variant="body1" sx={{ color: "text.secondary", mt: 2, textAlign: "justify", fontSize: "1.3rem" }}>
                         En Touhou101 encontrarás recursos para explorar la música, los personajes, el lore, y mucho más. Queremos que esta página
                         sea una ventana para introducir nuevos fanáticos al universo Touhou y un espacio para fortalecer a nuestra increíble comunidad.
                     </Typography>

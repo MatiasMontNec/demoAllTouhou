@@ -1,88 +1,107 @@
 import { createTheme } from "@mui/material/styles";
 
-// Tema principal para la vista Home
 const homeTheme = createTheme({
     palette: {
-        primary: { main: "#7EC8E8" },
-        secondary: { main: "#81C784" },
-        background: { default: "#F0F0F0", paper: "#cae5e8" },
-        text: { primary: "#7e93e8", secondary: "#9B59B6" },
+        primary: { main: "#F5F5F5" }, // Blanco ligeramente grisáceo
+        secondary: { main: "#FAFAFA" }, // Blanco suave
+        background: { default: "#FFFFFF", paper: "#F8F8F8" },
+        text: { primary: "#424242", secondary: "#757575" },
+        neon: {
+            primary: "#00e5ff", // Celeste neón
+            secondary: "#651fff", // Morado neón
+        },
     },
 });
 
 // Tema para la vista Buscador
 const searchTheme = createTheme({
     palette: {
-        primary: { main: "#FFC107" },
-        secondary: { main: "#FF9800" },
-        background: { default: "#FFF8E1", paper: "#FFE0B2" },
-        text: { primary: "#5D4037", secondary: "#8D6E63" },
+        primary: { main: "#FFEB3B" }, // Amarillo brillante
+        secondary: { main: "#FFC107" }, // Amarillo vibrante
+        background: { default: "#212121", paper: "#424242" },
+        text: { primary: "#FFFFFF", secondary: "#424242" },
+        neon: {
+            primary: "#ffea00", // Amarillo neón intenso
+            secondary: "#ff9100", // Naranja neón
+        },
     },
 });
 
-// Tema para la vista Mercancía
 const merchandiseTheme = createTheme({
     palette: {
-        primary: { main: "#8E24AA" },
-        secondary: { main: "#F48FB1" },
-        background: { default: "#F3E5F5", paper: "#E1BEE7" },
-        text: { primary: "#4A148C", secondary: "#6A1B9A" },
+        primary: { main: "#9C27B0" }, // Púrpura puro
+        secondary: { main: "#2196F3" }, // Celeste claro
+        background: { default: "#212121", paper: "#424242" },
+        text: { primary: "#FFFFFF", secondary: "#9C27B0" },
+        neon: {
+            primary: "#e040fb", // Púrpura neón
+            secondary: "#00b0ff", // Azul celeste neón
+        },
     },
 });
 
-// Tema para la vista Canciones
 const songsTheme = createTheme({
     palette: {
-        primary: { main: "#2196F3" },
-        secondary: { main: "#64B5F6" },
-        background: { default: "#E3F2FD", paper: "#BBDEFB" },
-        text: { primary: "#0D47A1", secondary: "#1565C0" },
+        primary: { main: "#0288D1" }, // Azul celeste puro
+        secondary: { main: "#FFEB3B" }, // Amarillo brillante
+        background: { default: "#212121", paper: "#424242" },
+        text: { primary: "#FFFFFF", secondary: "#0288D1" },
+        neon: {
+            primary: "#00b8d4", // Azul celeste neón
+            secondary: "#ffff00", // Amarillo intenso
+        },
     },
 });
 
-// Tema para la vista Tests
 const testsTheme = createTheme({
     palette: {
-        primary: { main: "#FF5722" },
-        secondary: { main: "#FF7043" },
-        background: { default: "#FFEBEE", paper: "#FFCDD2" },
-        text: { primary: "#B71C1C", secondary: "#D32F2F" },
+        primary: { main: "#FF7043" }, // Naranja brillante
+        secondary: { main: "#FFEB3B" }, // Amarillo brillante
+        background: { default: "#212121", paper: "#424242" },
+        text: { primary: "#FFFFFF", secondary: "#FF7043" },
+        neon: {
+            primary: "#ff6e40", // Naranja neón
+            secondary: "#ffee33", // Amarillo neón cálido
+        },
     },
 });
 
-// Tema para la vista Mangas
 const mangasTheme = createTheme({
     palette: {
-        primary: { main: "#D32F2F" },
-        secondary: { main: "#C2185B" },
-        background: { default: "#F3E5AB", paper: "#FFF9E3" },
-        text: { primary: "#4E342E", secondary: "#6D4C41" },
+        primary: { main: "#D32F2F" }, // Rojo puro
+        secondary: { main: "#E91E63" }, // Rosa fuerte
+        background: { default: "#212121", paper: "#424242" },
+        text: { primary: "#FFFFFF", secondary: "#E91E63" },
+        neon: {
+            primary: "#ff5252", // Rojo neón
+            secondary: "#ff4081", // Rosa neón
+        },
     },
 });
 
-// Tema para la vista NotFound con tonalidades de grises
 const notFoundTheme = createTheme({
     palette: {
-        primary: { main: "#B0B0B0" }, // Gris suave para el color primario
-        secondary: { main: "#8C8C8C" }, // Gris medio para detalles secundarios
-        background: {
-            default: "#E0E0E0", // Fondo gris claro
-            paper: "#D5D5D5", // Fondo gris muy claro para tarjetas o elementos flotantes
-        },
-        text: {
-            primary: "#424242", // Gris oscuro para texto principal
-            secondary: "#757575", // Gris medio para texto secundario
+        primary: { main: "#616161" }, // Gris más neutro
+        secondary: { main: "#757575" }, // Gris medio
+        background: { default: "#212121", paper: "#424242" },
+        text: { primary: "#FFFFFF", secondary: "#B0BEC5" },
+        neon: {
+            primary: "#9e9e9e", // Gris neón suave
+            secondary: "#cfd8dc", // Gris claro con un leve efecto neón
         },
     },
 });
-
 
 const pinkTheme = createTheme({
     palette: {
-        primary: { main: "#E91E63" }, // Rosa fuerte
-        secondary: { main: "#F06292" }, // Rosa claro
-        background: { default: "#FCE4EC", paper: "#F8BBD0" }, // Fondo rosado suave
-        text: { primary: "#880E4F", secondary: "#AD1457" }, // Texto rosado oscuro
+        primary: { main: "#FF4081" }, // Rosa vibrante
+        secondary: { main: "#D81B60" }, // Rosa más fuerte
+        background: { default: "#212121", paper: "#424242" },
+        text: { primary: "#FFFFFF", secondary: "#FF4081" },
+        neon: {
+            primary: "#ff80ab", // Rosa claro neón
+            secondary: "#f50057", // Rosa intenso neón
+        },
     },
 });
 

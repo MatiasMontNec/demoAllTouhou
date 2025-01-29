@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { AppBar, Box, Toolbar, Typography, Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "../assets/Touhou101.png"; // Logo de la aplicación
+import logo from "../assets/Touhou105.png"; // Logo de la aplicación
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import HelpIcon from '@mui/icons-material/Help'; // Icono de ayuda
 
@@ -54,6 +54,8 @@ export default function Navbar() {
     const handleCloseHelp = () => {
         setOpenHelpDialog(false);
     };
+
+    const isHomeRoute = location.pathname === '/';
 
     // Función para obtener las secciones de ayuda, y manejar el cambio según la ruta actual
     const getHelpSections = () => {
@@ -134,10 +136,14 @@ export default function Navbar() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="sticky">
-                <Toolbar sx={{ justifyContent: "space-between", padding: "0 2rem" }}>
+                <Toolbar sx={{
+                    justifyContent: "space-between",
+                    padding: "0 2rem",
+                    height: "64px", // Altura fija del Toolbar (si usas el tamaño predeterminado)
+                }}>
                     {/* Logo con navegación al Home */}
                     <Typography
-                        variant="h6"
+                        variant="h1"
                         component="div"
                         sx={{
                             display: "flex",
@@ -150,7 +156,8 @@ export default function Navbar() {
                             src={logo}
                             alt="Touhou101 Logo"
                             style={{
-                                height: "40px",
+                                height: "50px", // Ajusta la altura del logo (por ejemplo, 50px)
+                                maxHeight: "100%", // Asegura que nunca exceda la altura del Toolbar
                                 marginRight: "1rem",
                             }}
                         />
@@ -232,18 +239,34 @@ export default function Navbar() {
                 zIndex: 9999, // Asegura que esté por encima de otros elementos
                 animation: helpClicked ? 'none' : 'waveAnimation 1s infinite', // Animación solo si no se ha presionado
             }}>
-                <IconButton
-                    color="primary"
-                    onClick={handleOpenHelp}
-                    sx={{
-                        fontSize: 70, // Tamaño más grande del icono
-                        '&:hover': {
-                            backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                        },
-                    }}
-                >
-                    <HelpIcon sx={{ fontSize: 'inherit' }} />
-                </IconButton>
+                {!isHomeRoute && (
+                    <IconButton
+                        color="primary"
+                        onClick={handleOpenHelp}
+                        sx={{
+                            fontSize: 70, // Tamaño más grande del icono
+                            '&:hover': {
+                                backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                            },
+                        }}
+                    >
+                        <HelpIcon sx={{ fontSize: 'inherit' }} />
+                    </IconButton>
+                )}
+                {isHomeRoute && (
+                    <IconButton
+                        color="#757575"
+                        onClick={handleOpenHelp}
+                        sx={{
+                            fontSize: 70, // Tamaño más grande del icono
+                            '&:hover': {
+                                backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                            },
+                        }}
+                    >
+                        <HelpIcon sx={{ fontSize: 'inherit' }} />
+                    </IconButton>
+                )}
             </Box>
 
             {/* Cuadro de diálogo de ayuda */}
@@ -254,28 +277,56 @@ export default function Navbar() {
                 </DialogContent>
                 <DialogActions sx={{ display: 'block' }}>
                     {/* Fila para los botones "Anterior" y "Siguiente" */}
-                    <Box sx={{ display: 'flex', justifyContent: 'right', width: '100%' }}>
-                        <Button onClick={handlePrevious} disabled={currentSection === 0} color="primary">
-                            Anterior
-                        </Button>
-                        <Button onClick={handleNext} disabled={currentSection === getHelpSections().length - 1} color="primary">
-                            Siguiente
-                        </Button>
-                    </Box>
-                    {/* Fila para el botón "Cerrar" */}
-                    <Box sx={{ display: 'flex', justifyContent: 'right', marginTop: 2 }}>
-                        <Button
-                            onClick={handleCloseHelp}
-                            color="primary"
-                            sx={{
-                                fontWeight: 'bold',  // Hacer el texto más grueso
-                                padding: '8px 16px', // Espaciado más grande
-                            }}
-                        >
-                            Cerrar
-                        </Button>
-                    </Box>
-
+                    {!isHomeRoute && (
+                        <>
+                            <Box sx={{ display: 'flex', justifyContent: 'right', width: '100%' }}>
+                                <Button onClick={handlePrevious} disabled={currentSection === 0} color="primary">
+                                    Anterior
+                                </Button>
+                                <Button onClick={handleNext} disabled={currentSection === getHelpSections().length - 1} color="primary">
+                                    Siguiente
+                                </Button>
+                            </Box>
+                            {/* Fila para el botón "Cerrar" */}
+                            <Box sx={{ display: 'flex', justifyContent: 'right', marginTop: 2 }}>
+                                <Button
+                                    onClick={handleCloseHelp}
+                                    color="primary"
+                                    sx={{
+                                        fontWeight: 'bold',  // Hacer el texto más grueso
+                                        padding: '8px 16px', // Espaciado más grande
+                                    }}
+                                >
+                                    Cerrar
+                                </Button>
+                            </Box>
+                        </>
+                    )}
+                    {isHomeRoute && (
+                        <>
+                            <Box sx={{ display: 'flex', justifyContent: 'right', width: '100%' }}>
+                                <Button onClick={handlePrevious} disabled={currentSection === 0} color="#424242">
+                                    Anterior
+                                </Button>
+                                <Button onClick={handleNext} disabled={currentSection === getHelpSections().length - 1} color="#424242">
+                                    Siguiente
+                                </Button>
+                            </Box>
+                            {/* Fila para el botón "Cerrar" */}
+                            <Box sx={{ display: 'flex', justifyContent: 'right', marginTop: 2 }}>
+                                <Button
+                                    onClick={handleCloseHelp}
+                                    color="#424242"
+                                    sx={{
+                                        fontWeight: 'bold',  // Hacer el texto más grueso
+                                        padding: '8px 16px', // Espaciado más grande
+                                    }}
+                                >
+                                    Cerrar
+                                </Button>
+                            </Box>
+                        </>
+                    )}
                 </DialogActions>
             </Dialog>
 

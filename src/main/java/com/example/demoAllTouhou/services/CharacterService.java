@@ -32,27 +32,88 @@ public class CharacterService {
 
     // **Actualizar un personaje existente usando id y el cuerpo**
     public CharacterEntity updateCharacter(Long id, CharacterEntity updatedCharacter) {
-        if ( updatedCharacter == null ) throw new RuntimeException("Character is null, can't update");
+        if (updatedCharacter == null) {
+            throw new RuntimeException("Character is null, can't update");
+        }
 
+        // Buscar el personaje existente
         CharacterEntity existingCharacter = characterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Character not found with id: " + id));
 
-        // Actualizamos los campos
-        if (updatedCharacter.getName() != null && !updatedCharacter.getName().isEmpty()) existingCharacter.setName(updatedCharacter.getName());
-        if (updatedCharacter.getAge() != 0) existingCharacter.setAge(updatedCharacter.getAge());
-        if (updatedCharacter.getGender() != null && !updatedCharacter.getGender().isEmpty()) existingCharacter.setGender(updatedCharacter.getGender());
-        if (updatedCharacter.getHeight() != 0) existingCharacter.setHeight(updatedCharacter.getHeight());
-        if (updatedCharacter.getHeight() != 0) existingCharacter.setWeight(updatedCharacter.getWeight());
-        if (updatedCharacter.getBiography() != null && !updatedCharacter.getBiography().isEmpty()) existingCharacter.setBiography(updatedCharacter.getBiography());
-        if (updatedCharacter.getRelations() != null && !updatedCharacter.getRelations().isEmpty()) existingCharacter.setRelations(updatedCharacter.getRelations());
-        if (updatedCharacter.getImportantFacts() != null && !updatedCharacter.getImportantFacts().isEmpty()) existingCharacter.setImportantFacts(updatedCharacter.getImportantFacts());
-        if (updatedCharacter.getLivesIn() != null && !updatedCharacter.getLivesIn().isEmpty()) existingCharacter.setLivesIn(updatedCharacter.getLivesIn());
-        if (updatedCharacter.getDislikes() != null && !updatedCharacter.getDislikes().isEmpty()) existingCharacter.setDislikes(updatedCharacter.getDislikes());
-        if (updatedCharacter.getLikes() != null && !updatedCharacter.getLikes().isEmpty()) existingCharacter.setLikes(updatedCharacter.getLikes());
-        if (updatedCharacter.getPowers() != null && !updatedCharacter.getPowers().isEmpty()) existingCharacter.setPowers(updatedCharacter.getPowers());
-        if (updatedCharacter.getSpecies() != null && !updatedCharacter.getSpecies().isEmpty()) existingCharacter.setSpecies(updatedCharacter.getSpecies());
-        if (updatedCharacter.getGames() != null) existingCharacter.setGames(updatedCharacter.getGames());
-        // ¿Por qué no con manga, canciones o mercancia? Porque puede que no pertenezcan a uno o que tade demasiado en cargar jeje
+        // Actualizar campos básicos
+        if (updatedCharacter.getName() != null && !updatedCharacter.getName().isEmpty()) {
+            existingCharacter.setName(updatedCharacter.getName());
+        }
+        if (updatedCharacter.getAge() != 0) {
+            existingCharacter.setAge(updatedCharacter.getAge());
+        }
+        if (updatedCharacter.getGender() != null && !updatedCharacter.getGender().isEmpty()) {
+            existingCharacter.setGender(updatedCharacter.getGender());
+        }
+        if (updatedCharacter.getHeight() != 0) {
+            existingCharacter.setHeight(updatedCharacter.getHeight());
+        }
+        if (updatedCharacter.getWeight() != 0) {
+            existingCharacter.setWeight(updatedCharacter.getWeight());
+        }
+        if (updatedCharacter.getBiography() != null && !updatedCharacter.getBiography().isEmpty()) {
+            existingCharacter.setBiography(updatedCharacter.getBiography());
+        }
+        if (updatedCharacter.getRelations() != null && !updatedCharacter.getRelations().isEmpty()) {
+            existingCharacter.setRelations(updatedCharacter.getRelations());
+        }
+        if (updatedCharacter.getImportantFacts() != null && !updatedCharacter.getImportantFacts().isEmpty()) {
+            existingCharacter.setImportantFacts(updatedCharacter.getImportantFacts());
+        }
+        if (updatedCharacter.getLivesIn() != null && !updatedCharacter.getLivesIn().isEmpty()) {
+            existingCharacter.setLivesIn(updatedCharacter.getLivesIn());
+        }
+
+        // Actualizar el grupo de especie
+        if (updatedCharacter.getGroupSpecies() != 0) {
+            existingCharacter.setGroupSpecies(updatedCharacter.getGroupSpecies());
+        }
+
+        // Actualizar listas de relaciones (dislikes, likes, powers, species)
+        if (updatedCharacter.getDislikes() != null && !updatedCharacter.getDislikes().isEmpty()) {
+            existingCharacter.setDislikes(updatedCharacter.getDislikes());
+        }
+        if (updatedCharacter.getLikes() != null && !updatedCharacter.getLikes().isEmpty()) {
+            existingCharacter.setLikes(updatedCharacter.getLikes());
+        }
+        if (updatedCharacter.getPowers() != null && !updatedCharacter.getPowers().isEmpty()) {
+            existingCharacter.setPowers(updatedCharacter.getPowers());
+        }
+        if (updatedCharacter.getSpecies() != null && !updatedCharacter.getSpecies().isEmpty()) {
+            existingCharacter.setSpecies(updatedCharacter.getSpecies());
+        }
+
+        // Actualizar relaciones con otros personajes (relatedCharacters)
+        if (updatedCharacter.getRelatedCharacters() != null && !updatedCharacter.getRelatedCharacters().isEmpty()) {
+            // Limpiamos las relaciones existentes para evitar duplicados
+            existingCharacter.getRelatedCharacters().clear();
+            // Añadimos las nuevas relaciones
+            existingCharacter.getRelatedCharacters().addAll(updatedCharacter.getRelatedCharacters());
+        }
+
+        // Actualizar relaciones con juegos, manga, canciones y mercancía (si es necesario)
+        if (updatedCharacter.getGames() != null) {
+            existingCharacter.setGames(updatedCharacter.getGames());
+        }
+        if (updatedCharacter.getManga() != null) {
+            existingCharacter.setManga(updatedCharacter.getManga());
+        }
+        if (updatedCharacter.getSongs() != null) {
+            existingCharacter.setSongs(updatedCharacter.getSongs());
+        }
+        if (updatedCharacter.getMerch() != null) {
+            existingCharacter.setMerch(updatedCharacter.getMerch());
+        }
+        if (updatedCharacter.getImages() != null) {
+            existingCharacter.setImages(updatedCharacter.getImages());
+        }
+
+        // Guardar y devolver el personaje actualizado
         return characterRepository.save(existingCharacter);
     }
 

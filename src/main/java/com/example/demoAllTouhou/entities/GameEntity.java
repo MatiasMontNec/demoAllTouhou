@@ -23,6 +23,7 @@ public class GameEntity {
     private String description;
     private String linkDownload;
     private LocalDate releaseDate;
+    private int Genre;
 
     @ManyToMany
     @JoinTable(

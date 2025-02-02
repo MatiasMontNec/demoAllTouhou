@@ -39,11 +39,32 @@ public class GameService {
         GameEntity existingGame = gameRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Game not found with id: " + id));
 
-        if (updatedGame.getTitle() != null && !updatedGame.getTitle().isEmpty()) existingGame.setTitle(updatedGame.getTitle());
-        if (updatedGame.getDescription() != null && !updatedGame.getDescription().isEmpty()) existingGame.setDescription(updatedGame.getDescription());
-        if (updatedGame.getLinkDownload() != null && !updatedGame.getLinkDownload().isEmpty()) existingGame.setLinkDownload(updatedGame.getLinkDownload());
-        if (updatedGame.getReleaseDate() != null && !updatedGame.getReleaseDate().isEqual(LocalDate.now())) existingGame.setReleaseDate(updatedGame.getReleaseDate());
+        // Actualizar el título si no es nulo ni vacío
+        if (updatedGame.getTitle() != null && !updatedGame.getTitle().isEmpty()) {
+            existingGame.setTitle(updatedGame.getTitle());
+        }
 
+        // Actualizar la descripción si no es nula ni vacía
+        if (updatedGame.getDescription() != null && !updatedGame.getDescription().isEmpty()) {
+            existingGame.setDescription(updatedGame.getDescription());
+        }
+
+        // Actualizar el enlace de descarga si no es nulo ni vacío
+        if (updatedGame.getLinkDownload() != null && !updatedGame.getLinkDownload().isEmpty()) {
+            existingGame.setLinkDownload(updatedGame.getLinkDownload());
+        }
+
+        // Actualizar la fecha de lanzamiento si no es nula y es diferente a la actual
+        if (updatedGame.getReleaseDate() != null && !updatedGame.getReleaseDate().isEqual(existingGame.getReleaseDate())) {
+            existingGame.setReleaseDate(updatedGame.getReleaseDate());
+        }
+
+        // Actualizar el género si es válido (opcionalmente puedes validar rangos si es un número categórico)
+        if (updatedGame.getGenre() >= 0) { // Aquí asumimos que género no puede ser negativo
+            existingGame.setGenre(updatedGame.getGenre());
+        }
+
+        // Guardar y devolver la entidad actualizada
         return gameRepository.save(existingGame);
     }
 

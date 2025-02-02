@@ -9,9 +9,9 @@ import {
     CardMedia,
     CardContent,
     IconButton,
+    Autocomplete,
 } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import PersonIcon from "@mui/icons-material/Person";
 import Lottie from "react-lottie";
 import waitAnimation from "../animations/waitMercancia.json";
@@ -66,6 +66,18 @@ export default function Mercancia() {
         }, 2000);
     };
 
+    // Opciones de precio para el combo box
+    const opcionesPrecio = [
+        { label: "$0", value: 0 },
+        { label: "$10", value: 10 },
+        { label: "$20", value: 20 },
+        { label: "$50", value: 50 },
+        { label: "$100", value: 100 },
+        { label: "$200", value: 200 },
+        { label: "$500", value: 500 },
+        { label: "Desconocido", value: null }, // "Desconocido" se manejará como null
+    ];
+
     return (
         <Box sx={{ padding: 4 }}>
             <Box sx={{ display: "flex", gap: 2, marginBottom: 4 }}>
@@ -106,20 +118,6 @@ export default function Mercancia() {
                         </IconButton>
                         <Typography>Precio</Typography>
                         <IconButton
-                            color={tipoBusqueda.includes("Fecha") ? "primary" : "default"}
-                            onClick={() => handleTipoBusquedaChange("Fecha")}
-                            sx={{
-                                border: "2px solid",
-                                borderColor: tipoBusqueda.includes("Fecha") ? "primary.main" : "grey.400",
-                                borderRadius: "50%",
-                                padding: 2,
-                                marginBottom: 2,
-                            }}
-                        >
-                            <CalendarTodayIcon />
-                        </IconButton>
-                        <Typography>Fecha</Typography>
-                        <IconButton
                             color={tipoBusqueda.includes("Personaje") ? "primary" : "default"}
                             onClick={() => handleTipoBusquedaChange("Personaje")}
                             sx={{
@@ -137,44 +135,47 @@ export default function Mercancia() {
 
                     <Box sx={{ marginTop: 4 }}>
                         {tipoBusqueda.includes("Precio") && (
-                            <>
-                                <TextField
-                                    fullWidth
-                                    label="Menor a"
-                                    variant="outlined"
-                                    sx={{ marginBottom: 2 }}
-                                    onChange={(e) =>
-                                        setFiltros({ ...filtros, precioMenorA: e.target.value })
-                                    }
-                                />
-                                <TextField
-                                    fullWidth
-                                    label="Mayor a"
-                                    variant="outlined"
-                                    sx={{ marginBottom: 2 }}
-                                    onChange={(e) =>
-                                        setFiltros({ ...filtros, precioMayorA: e.target.value })
-                                    }
-                                />
-                            </>
-                        )}
-                        {tipoBusqueda.includes("Fecha") && (
-                            <>
-                                <TextField
-                                    fullWidth
-                                    label="Desde (YYYY-MM-DD)"
-                                    variant="outlined"
-                                    sx={{ marginBottom: 2 }}
-                                    onChange={(e) => setFiltros({ ...filtros, fechaDesde: e.target.value })}
-                                />
-                                <TextField
-                                    fullWidth
-                                    label="Antes de (YYYY-MM-DD)"
-                                    variant="outlined"
-                                    sx={{ marginBottom: 2 }}
-                                    onChange={(e) => setFiltros({ ...filtros, fechaHasta: e.target.value })}
-                                />
-                            </>
+                            <Box sx={{ marginBottom: 2 }}>
+                                <Typography variant="subtitle1" gutterBottom>
+                                    Rango de precio en dólares
+                                </Typography>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6}>
+                                        <Autocomplete
+                                            fullWidth
+                                            options={opcionesPrecio}
+                                            value={opcionesPrecio.find((opcion) => opcion.value === filtros.precioMin) || null}
+                                            onChange={(event, newValue) => {
+                                                setFiltros({ ...filtros, precioMin: newValue ? newValue.value : null });
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label="Precio mín"
+                                                    variant="outlined"
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Autocomplete
+                                            fullWidth
+                                            options={opcionesPrecio}
+                                            value={opcionesPrecio.find((opcion) => opcion.value === filtros.precioMax) || null}
+                                            onChange={(event, newValue) => {
+                                                setFiltros({ ...filtros, precioMax: newValue ? newValue.value : null });
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label="Precio máx"
+                                                    variant="outlined"
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </Box>
                         )}
                         {tipoBusqueda.includes("Personaje") && (
                             <TextField

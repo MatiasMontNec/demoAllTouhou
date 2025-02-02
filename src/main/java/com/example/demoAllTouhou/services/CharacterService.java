@@ -1,10 +1,13 @@
 package com.example.demoAllTouhou.services;
 
+import com.example.demoAllTouhou.dto.CharacterDTO;
 import com.example.demoAllTouhou.entities.CharacterEntity;
 import com.example.demoAllTouhou.repositories.CharacterRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CharacterService {
@@ -169,5 +172,83 @@ public class CharacterService {
     // **Buscar personajes por especie**
     public List<CharacterEntity> getCharactersBySpecies(String species) {
         return characterRepository.findBySpecies_NameIgnoreCase(species);
+    }
+
+    // Obtener todos los personajes con los atributos específicos
+    public List<CharacterDTO> getAllCharactersWithSelectedAttributes() {
+        List<CharacterEntity> characters = characterRepository.findAll();
+
+        return characters.stream()
+                .map(this::mapToCharacterDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Transformar CharacterEntity en CharacterDTO
+    private CharacterDTO mapToCharacterDTO(CharacterEntity character) {
+        String firstImageUrl = character.getImages().stream()
+                .filter(image -> "first".equalsIgnoreCase(image.getName()))
+                .findFirst()
+                .map(image -> "data:image/png;base64," + Base64.getEncoder().encodeToString(image.getImage()))
+                .orElse(null);
+
+        return new CharacterDTO(
+                character.getId(),
+                character.getName(),
+                character.getAge(),
+                character.getGender(),
+                character.getHeight(),
+                character.getWeight(),
+                getSpeciesName(character.getGroupSpecies()),
+                character.getBiography(),
+                firstImageUrl
+        );
+    }
+
+    // Método auxiliar para mapear el ID del grupo de especie a un nombre
+    private String getSpeciesName(int groupSpeciesId) {
+        switch (groupSpeciesId) {
+            case 0:
+                return "Youkai";
+            case 1:
+                return "Espíritus";
+            case 2:
+                return "Seres divinos y celestiales";
+            case 3:
+                return "Seres humanos y semi-humanos";
+            case 4:
+                return "Criaturas mitológicas y folclóricas";
+            case 5:
+                return "Criaturas animales y tsukumogami";
+            case 6:
+                return "Especies exclusivas de Touhou";
+            case 7:
+                return "Otras clasificaciones";
+            default:
+                return "Desconocido";
+        }
+    }
+
+    // Método para filtrar la lista de CharacterDTO según los parámetros opcionales
+    public List<CharacterDTO> filterCharacters(
+            List<CharacterDTO> characters,
+            Integer edadMin,
+            Integer edadMax,
+            String genero,
+            String especie,
+            Integer alturaMin,
+            Integer alturaMax,
+            Integer pesoMin,
+            Integer pesoMax
+    ) {
+        return characters.stream()
+                .filter(character -> edadMin == null || character.getEdad() >= edadMin)
+                .filter(character -> edadMax == null || character.getEdad() <= edadMax)
+                .filter(character -> genero == null || character.getGenero().equalsIgnoreCase(genero))
+                .filter(character -> especie == null || character.getEspecie().equalsIgnoreCase(especie))
+                .filter(character -> alturaMin == null || character.getAltura() >= alturaMin)
+                .filter(character -> alturaMax == null || character.getAltura() <= alturaMax)
+                .filter(character -> pesoMin == null || character.getPeso() >= pesoMin)
+                .filter(character -> pesoMax == null || character.getPeso() <= pesoMax)
+                .collect(Collectors.toList());
     }
 }

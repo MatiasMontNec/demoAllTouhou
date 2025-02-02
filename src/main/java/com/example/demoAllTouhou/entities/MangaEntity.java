@@ -25,10 +25,20 @@ public class MangaEntity {
 
     @ManyToMany
     @JoinTable(
-        name = "manga_character",
-        joinColumns = @JoinColumn(name = "manga_id"),
-        inverseJoinColumns = @JoinColumn(name = "character_id")
+            name = "manga_character",
+            joinColumns = @JoinColumn(name = "manga_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     @JsonManagedReference
     private List<CharacterEntity> characters;
+
+    // Relación con ImagesEntity
+    @ManyToMany
+    @JoinTable(
+            name = "manga_images",
+            joinColumns = @JoinColumn(name = "manga_id"),
+            inverseJoinColumns = @JoinColumn(name = "images_id")
+    )
+    @JsonManagedReference
+    private List<ImagesEntity> images;
 }

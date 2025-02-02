@@ -29,15 +29,13 @@ public class CharacterEntity {
     private String livesIn;
     private int groupSpecies;
 
-    // Relación de muchos a muchos consigo misma (relación "Relation")
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "character_relation", // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "character_id"), // Columna para el personaje actual
-            inverseJoinColumns = @JoinColumn(name = "related_character_id") // Columna para el personaje relacionado
-    )
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<CharacterEntity> relatedCharacters;
+    private List<CharacterRelationEntity> characterRelations;
+
+    @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<CharacterRelationEntity> relatedCharacterRelations;
 
     @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DislikesEntity> dislikes;

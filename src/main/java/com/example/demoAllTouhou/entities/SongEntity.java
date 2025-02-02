@@ -25,10 +25,20 @@ public class SongEntity {
 
     @ManyToMany
     @JoinTable(
-        name = "song_character",
-        joinColumns = @JoinColumn(name = "song_id"),
-        inverseJoinColumns = @JoinColumn(name = "character_id")
+            name = "song_character",
+            joinColumns = @JoinColumn(name = "song_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     @JsonManagedReference
     private List<CharacterEntity> characters;
+
+    // Relación con ImagesEntity
+    @ManyToMany
+    @JoinTable(
+            name = "song_images",
+            joinColumns = @JoinColumn(name = "song_id"),
+            inverseJoinColumns = @JoinColumn(name = "images_id")
+    )
+    @JsonManagedReference
+    private List<ImagesEntity> images;
 }

@@ -33,4 +33,14 @@ public class GameEntity {
     )
     @JsonManagedReference
     private List<CharacterEntity> characters;
+
+    // Relación con ImagesEntity
+    @ManyToMany
+    @JoinTable(
+            name = "game_images",
+            joinColumns = @JoinColumn(name = "game_id"),
+            inverseJoinColumns = @JoinColumn(name = "images_id")
+    )
+    @JsonManagedReference
+    private List<ImagesEntity> images;
 }

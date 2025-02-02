@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-
 import java.util.List;
 
 @Entity
@@ -27,9 +26,18 @@ public class MerchEntity {
 
     @ManyToMany
     @JoinTable(
-        name = "merch_character",
-        joinColumns = @JoinColumn(name = "merch_id"),
-        inverseJoinColumns = @JoinColumn(name = "character_id")
+            name = "merch_character",
+            joinColumns = @JoinColumn(name = "merch_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     private List<CharacterEntity> characters;
+
+    // Relación con ImagesEntity
+    @ManyToMany
+    @JoinTable(
+            name = "merch_images",
+            joinColumns = @JoinColumn(name = "merch_id"),
+            inverseJoinColumns = @JoinColumn(name = "images_id")
+    )
+    private List<ImagesEntity> images;
 }

@@ -24,12 +24,23 @@ public class ImagesEntity {
     @Column(nullable = false)
     private byte[] image;
 
-    @ManyToMany
-    @JoinTable(
-        name = "images_character",
-        joinColumns = @JoinColumn(name = "images_id"),
-        inverseJoinColumns = @JoinColumn(name = "character_id")
-    )
+    @ManyToMany(mappedBy = "images", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<CharacterEntity> characters;
+
+    @ManyToMany(mappedBy = "images", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<GameEntity> games;
+
+    @ManyToMany(mappedBy = "images", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<MangaEntity> mangas;
+
+    @ManyToMany(mappedBy = "images", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<MerchEntity> merch;
+
+    @ManyToMany(mappedBy = "images", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<SongEntity> songs;
 }

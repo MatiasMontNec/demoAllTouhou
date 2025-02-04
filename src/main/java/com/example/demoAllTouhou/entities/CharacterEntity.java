@@ -18,17 +18,21 @@ public class CharacterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
+
     private String name;
     private int age;
     private String gender;
     private int height;
     private int weight;
     private String biography;
-    private String relations;
-    private String importantFacts;
     private String livesIn;
     private int groupSpecies;
 
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<MerchEntity> merch; // Lista de mercancías asociadas al personaje
+
+    // Otras relaciones existentes
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<CharacterRelationEntity> characterRelations;
@@ -61,11 +65,6 @@ public class CharacterEntity {
     @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<SongEntity> songs;
-
-    // Tiene
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<MerchEntity> merch;
 
     @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore

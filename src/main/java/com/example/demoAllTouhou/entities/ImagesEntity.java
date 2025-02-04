@@ -19,7 +19,6 @@ public class ImagesEntity {
     @Column(unique = true, nullable = false)
     private Long id;
     private String name;
-    private String description;
     @Lob
     @Column(nullable = false)
     private byte[] image;

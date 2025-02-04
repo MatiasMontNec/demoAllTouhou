@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import Lottie from "react-lottie";  // Importa Lottie
+import React, { useEffect, useState } from "react";
+import Lottie from "react-lottie";
 import {
     Box,
     Typography,
@@ -13,25 +13,57 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import BookIcon from "@mui/icons-material/Book";
-import animationData from "../animations/waitMangas.json";  // Asegúrate de que la ruta es correcta
-import { saveToSessionStorage, loadFromSessionStorage } from '../services/sessionStorageService';
+import animationData from "../animations/waitMangas.json";
+import { saveToSessionStorage, loadFromSessionStorage } from "../services/sessionStorageService";
 
 export default function Mangas() {
-    const [tipoBusqueda, setTipoBusqueda] = useState(() => loadFromSessionStorage("mangas_tipoBusqueda", []));
-    const [filtros, setFiltros] = useState(() => loadFromSessionStorage("mangas_filtros", {}));
-    const [query, setQuery] = useState(() => loadFromSessionStorage("mangas_query", ""));
-    const [resultados, setResultados] = useState(() => loadFromSessionStorage("mangas_resultados", []));
-
+    const [tipoBusqueda, setTipoBusqueda] = useState(() =>
+        loadFromSessionStorage("mangas_tipoBusqueda", [])
+    );
+    const [filtros, setFiltros] = useState(() =>
+        loadFromSessionStorage("mangas_filtros", {})
+    );
+    const [query, setQuery] = useState(() =>
+        loadFromSessionStorage("mangas_query", "")
+    );
+    const [resultados, setResultados] = useState([]); // Todos los resultados
+    const [resultadosFiltrados, setResultadosFiltrados] = useState([]); // Resultados filtrados
     const [loading, setLoading] = useState(false);
 
+    // Simular datos iniciales
+    const datosIniciales = [
+        {
+            id: 1,
+            titulo: "One Piece",
+            descripcion: "Un manga sobre piratas en busca del tesoro legendario.",
+            autor: "Eiichiro Oda",
+            personaje: "Luffy",
+            imagen: "https://via.placeholder.com/150",
+        },
+        {
+            id: 2,
+            titulo: "Naruto",
+            descripcion: "Un ninja que busca convertirse en Hokage.",
+            autor: "Masashi Kishimoto",
+            personaje: "Naruto Uzumaki",
+            imagen: "https://via.placeholder.com/150",
+        },
+    ];
+
+    // Cargar datos iniciales al montar
+    useEffect(() => {
+        setResultados(datosIniciales);
+        setResultadosFiltrados(datosIniciales); // Mostrar todos los resultados inicialmente
+    }, []);
+
+    // Guardar datos en sessionStorage
     useEffect(() => {
         saveToSessionStorage("mangas_tipoBusqueda", tipoBusqueda);
         saveToSessionStorage("mangas_filtros", filtros);
         saveToSessionStorage("mangas_query", query);
-        saveToSessionStorage("mangas_resultados", resultados);
-    }, [tipoBusqueda, filtros, query, resultados]);
+    }, [tipoBusqueda, filtros, query]);
 
-    // Manejar selección del tipo de búsqueda (permite seleccionar múltiples opciones)
+    // Manejar selección del tipo de búsqueda
     const handleTipoBusquedaChange = (tipo) => {
         if (tipoBusqueda.includes(tipo)) {
             setTipoBusqueda(tipoBusqueda.filter((t) => t !== tipo));
@@ -40,30 +72,42 @@ export default function Mangas() {
         }
     };
 
-    // Manejar búsqueda (placeholder para conectar con backend)
-    const handleBuscar = () => {
-        setLoading(true);  // Activar la carga
-        setResultados([]);  // Limpiar los resultados
-        const mockResultados = [
-            {
-                id: 1,
-                titulo: "One Piece",
-                descripcion: "Un manga sobre piratas en busca del tesoro legendario.",
-                autor: "Eiichiro Oda",
-                imagen: "https://via.placeholder.com/150",
-            },
-        ];
-        setTimeout(() => {  // Simular tiempo de carga
-            setResultados(query || tipoBusqueda.length > 0 ? mockResultados : []);
-            setLoading(false);  // Desactivar la carga
-        }, 2000);  // Ajusta el tiempo de carga simulado según lo necesario
+    // Manejar cambios en los filtros
+    useEffect(() => {
+        filtrarResultados();
+    }, [tipoBusqueda, filtros, query]);
+
+    // Función para filtrar resultados
+    const filtrarResultados = () => {
+        let resultadosFiltrados = resultados;
+
+        // Filtrar por query (título)
+        if (query) {
+            resultadosFiltrados = resultadosFiltrados.filter((item) =>
+                item.titulo.toLowerCase().includes(query.toLowerCase())
+            );
+        }
+
+        // Filtrar por tipo de búsqueda (Autor o Personaje)
+        if (tipoBusqueda.includes("Autor") && filtros.autor) {
+            resultadosFiltrados = resultadosFiltrados.filter((item) =>
+                item.autor.toLowerCase().includes(filtros.autor.toLowerCase())
+            );
+        }
+        if (tipoBusqueda.includes("Personaje") && filtros.personaje) {
+            resultadosFiltrados = resultadosFiltrados.filter((item) =>
+                item.personaje.toLowerCase().includes(filtros.personaje.toLowerCase())
+            );
+        }
+
+        setResultadosFiltrados(resultadosFiltrados);
     };
 
     // Opciones de animación
     const defaultOptions = {
         loop: true,
         autoplay: true,
-        animationData: animationData,  // La animación JSON
+        animationData: animationData,
         rendererSettings: {
             preserveAspectRatio: "xMidYMid slice",
         },
@@ -82,7 +126,7 @@ export default function Mangas() {
                 />
                 <Button
                     variant="contained"
-                    onClick={handleBuscar}
+                    onClick={filtrarResultados}
                     disabled={!query && tipoBusqueda.length === 0}
                 >
                     Buscar
@@ -158,13 +202,30 @@ export default function Mangas() {
                         Resultados
                     </Typography>
                     <Box sx={{ marginTop: 2 }}>
-                        {loading ? (  // Mostrar animación de carga
+                        {loading ? (
                             <Lottie options={defaultOptions} height={200} width={200} />
-                        ) : resultados.length === 0 ? (
-                            <Typography variant="body1">Sin resultados</Typography>
-                        ) : (
+                        ) : resultadosFiltrados.length === 0 ? (
                             <Grid container spacing={2}>
                                 {resultados.map((resultado) => (
+                                    <Grid item xs={12} sm={6} md={4} key={resultado.id}>
+                                        <Card>
+                                            <CardMedia
+                                                component="img"
+                                                height="150"
+                                                image={resultado.imagen}
+                                                alt={resultado.titulo}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="h6">{resultado.titulo}</Typography>
+                                                <Typography variant="body2">{resultado.descripcion}</Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        ) : (
+                            <Grid container spacing={2}>
+                                {resultadosFiltrados.map((resultado) => (
                                     <Grid item xs={12} sm={6} md={4} key={resultado.id}>
                                         <Card>
                                             <CardMedia

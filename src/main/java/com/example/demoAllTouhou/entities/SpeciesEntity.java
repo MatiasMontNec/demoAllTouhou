@@ -20,7 +20,6 @@ public class SpeciesEntity {
     private Long id;
     private String name;
     private String description;
-    private String type;
 
     @ManyToMany
     @JoinTable(

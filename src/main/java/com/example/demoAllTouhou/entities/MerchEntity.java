@@ -18,19 +18,17 @@ public class MerchEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
+
     private String name;
     private String description;
     private int price;
     private LocalDate updateDate;
     private String link;
 
-    @ManyToMany
-    @JoinTable(
-            name = "merch_character",
-            joinColumns = @JoinColumn(name = "merch_id"),
-            inverseJoinColumns = @JoinColumn(name = "character_id")
-    )
-    private List<CharacterEntity> characters;
+    // Relación con CharacterEntity (Muchos a Uno)
+    @ManyToOne
+    @JoinColumn(name = "character_id", nullable = false)
+    private CharacterEntity character;
 
     // Relación con ImagesEntity
     @ManyToMany

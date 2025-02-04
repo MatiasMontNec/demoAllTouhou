@@ -21,26 +21,44 @@ export default function Mercancia() {
     const [tipoBusqueda, setTipoBusqueda] = useState(() => loadFromSessionStorage("mercancia_tipoBusqueda", []));
     const [filtros, setFiltros] = useState(() => loadFromSessionStorage("mercancia_filtros", {}));
     const [query, setQuery] = useState(() => loadFromSessionStorage("mercancia_query", ""));
-    const [resultados, setResultados] = useState(() => loadFromSessionStorage("mercancia_resultados", []));
-
+    const [resultados, setResultados] = useState([]); // Todos los resultados
+    const [resultadosFiltrados, setResultadosFiltrados] = useState([]); // Resultados filtrados
     const [loading, setLoading] = useState(false);
 
+    // Simular datos iniciales (mercancías)
+    const datosIniciales = [
+        {
+            id: 1,
+            nombre: "Figura de acción",
+            descripcion: "Figura coleccionable de alta calidad.",
+            precio: 29.99,
+            imagen: "https://via.placeholder.com/150",
+            personaje: "Reimu Hakurei",
+        },
+        {
+            id: 2,
+            nombre: "Poster",
+            descripcion: "Poster oficial de Touhou.",
+            precio: 15.99,
+            imagen: "https://via.placeholder.com/150",
+            personaje: "Marisa Kirisame",
+        },
+    ];
+
+    // Cargar datos iniciales al montar el componente
+    useEffect(() => {
+        setResultados(datosIniciales);
+        setResultadosFiltrados(datosIniciales); // Mostrar todos los resultados al inicio
+    }, []);
+
+    // Guardar en sessionStorage
     useEffect(() => {
         saveToSessionStorage("mercancia_tipoBusqueda", tipoBusqueda);
         saveToSessionStorage("mercancia_filtros", filtros);
         saveToSessionStorage("mercancia_query", query);
-        saveToSessionStorage("mercancia_resultados", resultados);
-    }, [tipoBusqueda, filtros, query, resultados]);
+    }, [tipoBusqueda, filtros, query]);
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: waitAnimation,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice",
-        },
-    };
-
+    // Manejar selección del tipo de búsqueda
     const handleTipoBusquedaChange = (tipo) => {
         if (tipoBusqueda.includes(tipo)) {
             setTipoBusqueda(tipoBusqueda.filter((t) => t !== tipo));
@@ -49,21 +67,40 @@ export default function Mercancia() {
         }
     };
 
-    const handleBuscar = () => {
-        setLoading(true);
-        setTimeout(() => {
-            const mockResultados = [
-                {
-                    id: 1,
-                    nombre: "Figura de acción",
-                    descripcion: "Figura coleccionable de alta calidad.",
-                    precio: 29.99,
-                    imagen: "https://via.placeholder.com/150",
-                },
-            ];
-            setResultados(query || tipoBusqueda.length > 0 ? mockResultados : []);
-            setLoading(false);
-        }, 2000);
+    // Manejar cambios en los filtros
+    useEffect(() => {
+        filtrarResultados();
+    }, [tipoBusqueda, filtros, query]);
+
+    // Función para filtrar resultados
+    const filtrarResultados = () => {
+        let resultadosFiltrados = resultados;
+
+        // Filtrar por query (búsqueda por nombre)
+        if (query) {
+            resultadosFiltrados = resultadosFiltrados.filter((item) =>
+                item.nombre.toLowerCase().includes(query.toLowerCase())
+            );
+        }
+
+        // Filtrar por tipo de búsqueda (Precio o Personaje)
+        if (tipoBusqueda.includes("Precio")) {
+            if (filtros.precioMin) {
+                resultadosFiltrados = resultadosFiltrados.filter((item) => item.precio >= filtros.precioMin);
+            }
+            if (filtros.precioMax) {
+                resultadosFiltrados = resultadosFiltrados.filter((item) => item.precio <= filtros.precioMax);
+            }
+        }
+        if (tipoBusqueda.includes("Personaje")) {
+            if (filtros.personaje) {
+                resultadosFiltrados = resultadosFiltrados.filter((item) =>
+                    item.personaje.toLowerCase().includes(filtros.personaje.toLowerCase())
+                );
+            }
+        }
+
+        setResultadosFiltrados(resultadosFiltrados);
     };
 
     // Opciones de precio para el combo box
@@ -90,7 +127,7 @@ export default function Mercancia() {
                 />
                 <Button
                     variant="contained"
-                    onClick={handleBuscar}
+                    onClick={filtrarResultados}
                     disabled={!query && tipoBusqueda.length === 0}
                 >
                     Buscar
@@ -198,11 +235,28 @@ export default function Mercancia() {
                     <Box sx={{ marginTop: 2 }}>
                         {loading ? (
                             <Lottie options={defaultOptions} height={200} width={200} />
-                        ) : resultados.length === 0 ? (
-                            <Typography variant="body1">Sin resultados</Typography>
-                        ) : (
+                        ) : resultadosFiltrados.length === 0 ? (
                             <Grid container spacing={2}>
                                 {resultados.map((resultado) => (
+                                    <Grid item xs={12} sm={6} md={4} key={resultado.id}>
+                                        <Card>
+                                            <CardMedia
+                                                component="img"
+                                                height="150"
+                                                image={resultado.imagen}
+                                                alt={resultado.nombre}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="h6">{resultado.nombre}</Typography>
+                                                <Typography variant="body2">{resultado.descripcion}</Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        ) : (
+                            <Grid container spacing={2}>
+                                {resultadosFiltrados.map((resultado) => (
                                     <Grid item xs={12} sm={6} md={4} key={resultado.id}>
                                         <Card>
                                             <CardMedia

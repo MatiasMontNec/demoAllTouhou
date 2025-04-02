@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import { Box, Typography, LinearProgress, Button } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import testCharacter from "../Images/Character.jpg";
@@ -20,6 +21,7 @@ const pinkTheme = createTheme({
 const Preguntas = () => {
     const { id } = useParams(); // Obtener el id de la URL
 
+    const [character, setCharacter] = useState(null);
     // Datos del test
     const testData = {
         1: {
@@ -231,8 +233,21 @@ const Preguntas = () => {
 
     const handleFinish = () => {
         // Aquí iría la lógica para mostrar los resultados
+        fetchRandomCharacter()
         console.log("Test completado");
     };
+
+
+
+        const fetchRandomCharacter = async () => {
+            try {
+                const response = await axios.get("http://localhost:8090/api/characters/random");
+                console.log(response.data);
+                setCharacter(response.data);
+            } catch (error) {
+                console.error("Error fetching random character:", error);
+            }
+        };
 
     const areAllQuestionsAnswered = () => {
         // Comprobar si las tres preguntas actuales han sido respondidas
@@ -393,7 +408,7 @@ const Preguntas = () => {
                     </Box>
 
                     {/* Botón de Ver resultados en su propia fila */}
-                    <Box sx={{ marginTop: "20px" }}>
+                    <Box sx={{marginTop: "20px"}}>
                         <Button
                             variant="contained"
                             color="primary"
@@ -408,6 +423,17 @@ const Preguntas = () => {
                         >
                             Ver mis resultados
                         </Button>
+
+                        <div>
+                            <Button variant="contained" onClick={handleFinish}>
+                                Summon Character
+                            </Button>
+                            {character && (
+                                <Typography variant="body1">
+                                    {JSON.stringify(character)}
+                                </Typography>
+                            )}
+                        </div>
                     </Box>
                 </Box>
 

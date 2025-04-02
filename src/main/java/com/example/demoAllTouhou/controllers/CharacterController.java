@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/characters")
@@ -37,5 +38,14 @@ public class CharacterController {
         return characterService.filterCharacters(
                 characters, edadMin, edadMax, genero, especie, alturaMin, alturaMax, pesoMin, pesoMax
         );
+    }
+
+    @GetMapping("/random")
+    public ResponseEntity<CharacterEntity> getRandomCharacter() {
+        CharacterEntity character = characterService.getRandomCharacter();
+        /**if (character == null) {
+            return ResponseEntity.ok(new CharacterEntity());
+        }**/
+        return ResponseEntity.ok(character);
     }
 }

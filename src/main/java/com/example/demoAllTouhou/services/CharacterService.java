@@ -5,6 +5,8 @@ import com.example.demoAllTouhou.repositories.CharacterRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -177,5 +179,22 @@ public class CharacterService {
                 .filter(character -> pesoMin == null || character.getWeight() >= pesoMin)
                 .filter(character -> pesoMax == null || character.getWeight() <= pesoMax)
                 .collect(Collectors.toList());
+    }
+
+
+    public CharacterEntity getRandomCharacter() {
+        Random random = new Random(42);
+        int randomNumber = random.nextInt();
+
+        if (randomNumber % 2 == 0) {
+            return null;
+        } else {
+            long totalCharacters = characterRepository.count();
+            if (totalCharacters == 0) {
+                return null;
+            }
+            long characterId = randomNumber % totalCharacters;
+            return characterRepository.findById(characterId).orElse(null);
+        }
     }
 }

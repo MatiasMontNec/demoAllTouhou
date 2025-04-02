@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface CharacterRepository extends JpaRepository<CharacterEntity, Long> {
 
+
     // Encontrar un personaje por nombre
     Optional<CharacterEntity> findByName(String name);
 

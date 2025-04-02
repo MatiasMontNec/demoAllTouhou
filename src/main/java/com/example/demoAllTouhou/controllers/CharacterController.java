@@ -1,6 +1,6 @@
 package com.example.demoAllTouhou.controllers;
 
-import com.example.demoAllTouhou.dto.CharacterDTO;
+import com.example.demoAllTouhou.entities.CharacterEntity;
 import com.example.demoAllTouhou.services.CharacterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +17,14 @@ public class CharacterController {
     }
 
     @GetMapping("/firstImage")
-    public ResponseEntity<List<CharacterDTO>> getAllCharacters() {
-        List<CharacterDTO> characters = characterService.getAllCharactersWithSelectedAttributes();
+    public ResponseEntity<List<CharacterEntity>> getAllCharacters() {
+        List<CharacterEntity> characters = characterService.getAllCharacters();
         return ResponseEntity.ok(characters);
     }
 
     @PostMapping("/filter")
-    public List<CharacterDTO> filterCharacters(
-            @RequestBody List<CharacterDTO> characters,
+    public List<CharacterEntity> filterCharacters(
+            @RequestBody List<CharacterEntity> characters,
             @RequestParam(required = false) Integer edadMin,
             @RequestParam(required = false) Integer edadMax,
             @RequestParam(required = false) String genero,

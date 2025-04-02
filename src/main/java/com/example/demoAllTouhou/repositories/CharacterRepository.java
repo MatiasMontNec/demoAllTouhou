@@ -32,7 +32,7 @@ public interface CharacterRepository extends JpaRepository<CharacterEntity, Long
     List<CharacterEntity> findByWeightLessThan(int weight);
 
     // Encontrar personajes que contienen texto en importantFacts (case insensitive)
-    List<CharacterEntity> findByImportantFactsContainingIgnoreCase(String keyword);
+    //List<CharacterEntity> findByImportantFactsContainingIgnoreCase(String keyword);
 
-    List<CharacterEntity> findBySpecies_NameIgnoreCase(String species);
+    //List<CharacterEntity> findBySpecies_NameIgnoreCase(String species);
 }

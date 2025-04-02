@@ -27,46 +27,4 @@ public class CharacterEntity {
     private String biography;
     private String livesIn;
     private int groupSpecies;
-
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<MerchEntity> merch; // Lista de mercancías asociadas al personaje
-
-    // Otras relaciones existentes
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<CharacterRelationEntity> characterRelations;
-
-    @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<CharacterRelationEntity> relatedCharacterRelations;
-
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DislikesEntity> dislikes;
-
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<LikesEntity> likes;
-
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PowersEntity> powers;
-
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<SpeciesEntity> species;
-
-    // Es parte de...
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<GameEntity> games;
-
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<MangaEntity> manga;
-
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<SongEntity> songs;
-
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<ImagesEntity> images;
 }

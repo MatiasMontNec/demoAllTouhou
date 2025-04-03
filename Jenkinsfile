@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    tools{
+        maven "maven"
+    }
+    stages {
+        stage('Build JAR File'){
+            steps{
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])
+                script {
+                    bat 'mvn clean install'
+                }
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                script {
+                    bat 'mvn test'
+                }
+            }
+        }
+        stage('Build Frontend') {
+            steps {
+                script {
+                    bat 'cd Frontend && npm install && npm run build'
+                }
+            }
+        }
+    }
+    post {
+        failure {
+            echo 'Error in pipeline.'
+        }
+        success {
+            echo 'Pipeline completed.'
+        }
+    }
+}

@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build JAR File'){
             steps{
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])
+                checkout scmGit(branches: [[name: 'origin/ramajorge_QA']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])
                 script {
                     bat 'mvn clean install'
                 }

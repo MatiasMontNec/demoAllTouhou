@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import { Box, Typography, LinearProgress, Button } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
@@ -8,6 +8,7 @@ import testLike from "../Images/Like.jpg";
 import testHate from "../Images/Hate.jpg";
 import testPlace from "../Images/Place.jpg";
 import { saveToSessionStorage, loadFromSessionStorage } from "../services/sessionStorageServiceId";
+import characterService from "../services/characterService.js";
 
 const pinkTheme = createTheme({
     palette: {
@@ -19,6 +20,7 @@ const pinkTheme = createTheme({
 });
 
 const Preguntas = () => {
+    const navigate = useNavigate();
     const { id } = useParams(); // Obtener el id de la URL
 
     const [character, setCharacter] = useState(null);
@@ -231,23 +233,27 @@ const Preguntas = () => {
         }
     };
 
-    const handleFinish = () => {
-        // Aquí iría la lógica para mostrar los resultados
-        fetchRandomCharacter()
-        console.log("Test completado");
-    };
+    const handleFinish = async () => {
+        try {
+            console.log("Iniciando obtención de personaje aleatorio...");
+            const response = await characterService.getRandomCharacter();
+            console.log("Respuesta completa:", response);
+            console.log("Datos recibidos:", response.data);
 
+            const randomCharacter = response.data;
+            console.log("Personaje aleatorio:", randomCharacter);
 
-
-        const fetchRandomCharacter = async () => {
-            try {
-                const response = await axios.get("http://localhost:8090/api/characters/random");
-                console.log(response.data);
-                setCharacter(response.data);
-            } catch (error) {
-                console.error("Error fetching random character:", error);
+            if (!randomCharacter || !randomCharacter.id) {
+                throw new Error("No se recibió un personaje válido");
             }
-        };
+
+            console.log(`Redirigiendo a /Resultados/${id}/${randomCharacter.id}`);
+            navigate(`/Resultados/${id}/${randomCharacter.id}`);
+        } catch (error) {
+            console.error("Error en handleFinish:", error);
+            // Puedes mostrar un mensaje al usuario aquí
+        }
+    };
 
     const areAllQuestionsAnswered = () => {
         // Comprobar si las tres preguntas actuales han sido respondidas
@@ -425,9 +431,6 @@ const Preguntas = () => {
                         </Button>
 
                         <div>
-                            <Button variant="contained" onClick={handleFinish}>
-                                Summon Character
-                            </Button>
                             {character && (
                                 <Typography variant="body1">
                                     {JSON.stringify(character)}

@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Table(name = "character")
 @Data
@@ -27,4 +25,11 @@ public class CharacterEntity {
     private String biography;
     private String livesIn;
     private int groupSpecies;
+    private String link1;
+    private String link2;
+    private String imagePath1;
+    private String imagePath2;
+    private String imagePath3;
+    private String imagePath4;
+    private String imagePath5;
 }

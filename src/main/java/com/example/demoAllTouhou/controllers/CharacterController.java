@@ -2,6 +2,7 @@ package com.example.demoAllTouhou.controllers;
 
 import com.example.demoAllTouhou.entities.CharacterEntity;
 import com.example.demoAllTouhou.services.CharacterService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,12 @@ public class CharacterController {
 
     public CharacterController(CharacterService characterService) {
         this.characterService = characterService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CharacterEntity> getCharacterById(@PathVariable Long id) {
+        CharacterEntity character = characterService.getCharacterById(id);
+        return ResponseEntity.ok(character);
     }
 
     @GetMapping("/firstImage")
@@ -42,10 +49,12 @@ public class CharacterController {
 
     @GetMapping("/random")
     public ResponseEntity<CharacterEntity> getRandomCharacter() {
-        CharacterEntity character = characterService.getRandomCharacter();
-        /**if (character == null) {
-            return ResponseEntity.ok(new CharacterEntity());
-        }**/
-        return ResponseEntity.ok(character);
+        try {
+            CharacterEntity character = characterService.getRandomCharacter();
+            return ResponseEntity.ok(character);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // O puedes devolver un CharacterEntity vacío
+        }
     }
 }

@@ -183,18 +183,19 @@ public class CharacterService {
 
 
     public CharacterEntity getRandomCharacter() {
-        Random random = new Random(42);
-        int randomNumber = random.nextInt();
-
-        if (randomNumber % 2 == 0) {
-            return null;
-        } else {
-            long totalCharacters = characterRepository.count();
-            if (totalCharacters == 0) {
-                return null;
-            }
-            long characterId = randomNumber % totalCharacters;
-            return characterRepository.findById(characterId).orElse(null);
+        long totalCharacters = characterRepository.count();
+        if (totalCharacters == 0) {
+            throw new RuntimeException("No hay personajes en la base de datos");
         }
+
+        // Obtener todos los IDs disponibles
+        List<Long> allIds = characterRepository.findAllIds(); // Necesitarás crear este método
+
+        // Seleccionar un ID aleatorio
+        Random random = new Random();
+        Long randomId = allIds.get(random.nextInt(allIds.size()));
+
+        return characterRepository.findById(randomId)
+                .orElseThrow(() -> new RuntimeException("Error al obtener personaje aleatorio"));
     }
 }

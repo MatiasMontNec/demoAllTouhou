@@ -2,6 +2,7 @@ package com.example.demoAllTouhou.repositories;
 
 import com.example.demoAllTouhou.entities.CharacterEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,4 +37,7 @@ public interface CharacterRepository extends JpaRepository<CharacterEntity, Long
     //List<CharacterEntity> findByImportantFactsContainingIgnoreCase(String keyword);
 
     //List<CharacterEntity> findBySpecies_NameIgnoreCase(String species);
+
+    @Query("SELECT c.id FROM CharacterEntity c")
+    List<Long> findAllIds();
 }

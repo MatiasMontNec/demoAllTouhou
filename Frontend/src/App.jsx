@@ -4,7 +4,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from "./components/Home.jsx";
 import Navbar from "./components/NavBar.jsx";
 import NotFound from "./components/NotFound.jsx";
-import Preguntas from "./components/Preguntas.jsx"; // Importamos el nuevo componente
+import Preguntas from "./components/Preguntas.jsx";
+import Resultados from "./components/Results.jsx";
 import { ThemeProvider } from "@mui/material";
 import {
     homeTheme,
@@ -14,7 +15,8 @@ import {
     testsTheme,
     mangasTheme,
     notFoundTheme,
-    pinkTheme // Importamos el nuevo tema
+    pinkTheme,
+    resultsTheme
 } from "./theme";
 import Footer from './components/Footer';
 import Buscador from "./components/Buscador.jsx";
@@ -55,7 +57,9 @@ function App() {
             case "mangas":
                 return mangasTheme;
             case "Preguntas":
-                return pinkTheme; // Tema para Preguntas
+                return pinkTheme;
+            case "Resultados":
+                return resultsTheme;
             default:
                 return location.pathname === "/" ? homeTheme : notFoundTheme;
         }
@@ -75,6 +79,7 @@ function App() {
                             <Route path="/mangas" element={<Mangas />} />
                             <Route path="/tests" element={<Tests />} />
                             <Route path="/Preguntas/:id" element={<Preguntas />} />
+                            <Route path="/Resultados/:id1/:id2" element={<Resultados />} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                         <Footer />

@@ -1,12 +1,14 @@
 pipeline {
     agent any
     tools{
-        maven "maven"
+        maven "maven_3_9_9"
+        jdk "jdk_17"
+        nodejs "nodejs_18_17_1"
     }
     stages {
         stage('Build JAR File'){
             steps{
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])
+                checkout scmGit(branches: [[name: '.*ramajorge_QA']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])
                 script {
                     bat 'mvn clean install'
                 }

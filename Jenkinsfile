@@ -3,7 +3,7 @@ pipeline {
     tools{
         maven "maven_3_9_9"
         jdk "jdk_17"
-        nodejs "node_18_17_1"
+        nodejs "nodejs_18_17_1"
     }
     stages {
         stage('Build JAR File'){

@@ -105,6 +105,19 @@ const pinkTheme = createTheme({
     },
 });
 
+const resultsTheme = createTheme({
+    palette: {
+        primary: { main: "#4CAF50" }, // Verde puro
+        secondary: { main: "#8BC34A" }, // Verde lima
+        background: { default: "#212121", paper: "#424242" },
+        text: { primary: "#69F0AE", secondary: "#4CAF50" },
+        neon: {
+            primary: "#69F0AE", // Verde neón claro
+            secondary: "#00E676", // Verde neón intenso
+        },
+    },
+});
+
 export {
     homeTheme,
     searchTheme,
@@ -114,4 +127,5 @@ export {
     mangasTheme,
     notFoundTheme,
     pinkTheme,
+    resultsTheme,
 };

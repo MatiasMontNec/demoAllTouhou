@@ -2,6 +2,7 @@ package com.example.demoAllTouhou.repositories;
 
 import com.example.demoAllTouhou.entities.CharacterEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface CharacterRepository extends JpaRepository<CharacterEntity, Long> {
+
 
     // Encontrar un personaje por nombre
     Optional<CharacterEntity> findByName(String name);
@@ -32,7 +34,10 @@ public interface CharacterRepository extends JpaRepository<CharacterEntity, Long
     List<CharacterEntity> findByWeightLessThan(int weight);
 
     // Encontrar personajes que contienen texto en importantFacts (case insensitive)
-    List<CharacterEntity> findByImportantFactsContainingIgnoreCase(String keyword);
+    //List<CharacterEntity> findByImportantFactsContainingIgnoreCase(String keyword);
 
-    List<CharacterEntity> findBySpecies_NameIgnoreCase(String species);
+    //List<CharacterEntity> findBySpecies_NameIgnoreCase(String species);
+
+    @Query("SELECT c.id FROM CharacterEntity c")
+    List<Long> findAllIds();
 }

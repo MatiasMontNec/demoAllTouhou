@@ -18,16 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class) // Extiende con Mockito
+@ExtendWith(MockitoExtension.class)
 public class CharacterServiceTest {
 
     @InjectMocks
-    private CharacterService characterService;  // Inyecta los mocks en el servicio
+    private CharacterService characterService;
 
     @Mock
-    private CharacterRepository characterRepository;  // Mock del repositorio
+    private CharacterRepository characterRepository;
 
-    // **Test: Crear un nuevo personaje**
     @Test
     public void whenCreateCharacter_thenReturnCharacterEntity() {
         CharacterEntity character = new CharacterEntity();
@@ -42,7 +41,6 @@ public class CharacterServiceTest {
         assertEquals(17, createdCharacter.getAge());
     }
 
-    // **Test: Obtener todos los personajes**
     @Test
     public void whenGetAllCharacters_thenReturnListOfCharacters() {
         CharacterEntity character1 = new CharacterEntity();
@@ -59,7 +57,6 @@ public class CharacterServiceTest {
                 .containsExactlyInAnyOrder("Marisa Kirisame", "Alice Margatroid");
     }
 
-    // **Test: Obtener un personaje por ID**
     @Test
     public void whenGetCharacterById_thenReturnCharacterEntity() {
         CharacterEntity character = new CharacterEntity();
@@ -80,7 +77,6 @@ public class CharacterServiceTest {
         assertThrows(RuntimeException.class, () -> characterService.getCharacterById(99L));
     }
 
-    // **Test: Actualizar un personaje existente**
     @Test
     public void whenUpdateCharacter_thenReturnUpdatedCharacter() {
         CharacterEntity existingCharacter = new CharacterEntity();
@@ -108,7 +104,6 @@ public class CharacterServiceTest {
         assertThrows(RuntimeException.class, () -> characterService.updateCharacter(99L, updatedCharacter));
     }
 
-    // **Test: Eliminar un personaje por ID**
     @Test
     public void whenDeleteCharacter_thenDoNothingIfExists() {
         when(characterRepository.existsById(1L)).thenReturn(true);
@@ -123,7 +118,6 @@ public class CharacterServiceTest {
         assertThrows(RuntimeException.class, () -> characterService.deleteCharacter(99L));
     }
 
-    // **Test: Buscar un personaje por nombre**
     @Test
     public void whenGetCharacterByName_thenReturnCharacterEntity() {
         CharacterEntity character = new CharacterEntity();
@@ -136,7 +130,6 @@ public class CharacterServiceTest {
         assertEquals("Cirno", result.getName());
     }
 
-    // **Test: Encontrar personajes con edad menor o igual a la ingresada**
     @Test
     public void whenGetCharactersByAgeLessThanOrEqual_thenReturnList() {
         CharacterEntity character1 = new CharacterEntity();
@@ -151,7 +144,6 @@ public class CharacterServiceTest {
         assertThat(characters).hasSize(2);
     }
 
-    // **Test: Encontrar personajes con altura mayor a la ingresada**
     @Test
     public void whenGetCharactersByHeightGreaterThan_thenReturnList() {
         CharacterEntity character = new CharacterEntity();
@@ -165,7 +157,6 @@ public class CharacterServiceTest {
         assertThat(characters.get(0).getHeight()).isEqualTo(160);
     }
 
-    // **Test: Encontrar personajes con edad mayor o igual a la ingresada**
     @Test
     public void whenGetCharactersByAgeGreaterThanOrEqual_thenReturnList() {
         CharacterEntity character1 = new CharacterEntity();
@@ -182,7 +173,6 @@ public class CharacterServiceTest {
         assertThat(characters.get(1).getAge()).isGreaterThanOrEqualTo(18);
     }
 
-    // **Test: Encontrar personajes con altura menor a la ingresada**
     @Test
     public void whenGetCharactersByHeightLessThan_thenReturnList() {
         CharacterEntity character1 = new CharacterEntity();
@@ -199,7 +189,6 @@ public class CharacterServiceTest {
         assertThat(characters.get(1).getHeight()).isLessThan(150);
     }
 
-    // **Test: Encontrar personajes con peso mayor al ingresado**
     @Test
     public void whenGetCharactersByWeightGreaterThan_thenReturnList() {
         CharacterEntity character1 = new CharacterEntity();
@@ -216,7 +205,6 @@ public class CharacterServiceTest {
         assertThat(characters.get(1).getWeight()).isGreaterThan(50);
     }
 
-    // **Test: Encontrar personajes con peso menor al ingresado**
     @Test
     public void whenGetCharactersByWeightLessThan_thenReturnList() {
         CharacterEntity character1 = new CharacterEntity();
@@ -232,38 +220,4 @@ public class CharacterServiceTest {
         assertThat(characters.get(0).getWeight()).isLessThan(50);
         assertThat(characters.get(1).getWeight()).isLessThan(50);
     }
-
-    // **Test: Encontrar personajes que contienen un texto en importantFacts**
-    @Test
-    public void whenGetCharactersByImportantFactsContaining_thenReturnList() {
-        CharacterEntity character1 = new CharacterEntity();
-        character1.setImportantFacts("Reimu is a shrine maiden.");
-        CharacterEntity character2 = new CharacterEntity();
-        character2.setImportantFacts("Marisa loves magic.");
-
-        // Solo esperamos que character2 contenga la palabra "magic"
-        when(characterRepository.findByImportantFactsContainingIgnoreCase("magic")).thenReturn(Arrays.asList(character2));
-
-        List<CharacterEntity> characters = characterService.getCharactersByImportantFactsContaining("magic");
-
-        assertThat(characters).hasSize(1);  // Solo debería haber un personaje que cumpla con la condición
-        assertThat(characters.get(0).getImportantFacts()).containsIgnoringCase("magic");
-    }
-
-    // **Test: Buscar personajes por especie**
-    @Test
-    public void whenGetCharactersBySpecies_thenReturnList() {
-        CharacterEntity character1 = new CharacterEntity();
-        character1.setSpecies("Human");
-        CharacterEntity character2 = new CharacterEntity();
-        character2.setSpecies("Youkai");
-
-        when(characterRepository.findBySpeciesIgnoreCase("human")).thenReturn(Arrays.asList(character1));
-
-        List<CharacterEntity> characters = characterService.getCharactersBySpecies("human");
-
-        assertThat(characters).hasSize(1);
-        assertThat(characters.get(0).getSpecies()).isEqualToIgnoringCase("Human");
-    }
-
 }

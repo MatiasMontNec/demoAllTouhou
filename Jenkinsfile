@@ -1,9 +1,7 @@
 pipeline {
     agent any
     tools{
-        maven "maven_3_9_9"
-        jdk "jdk_17"
-        nodejs "nodejs_18_17_1"
+        maven "maven"
     }
     stages {
         stage('Build JAR File'){

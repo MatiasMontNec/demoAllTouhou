@@ -28,37 +28,6 @@ pipeline {
                 }
             }
         }
-        stage('Construir archivo JAR') {
-            steps {
-                checkout([$class: 'GitSCM',
-                    branches: [[name: 'refs/heads/master']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/MatiasMontNec/demoAllTouhou',
-                        credentialsId: "${GITHUB_TOKEN}"
-                    ]]
-                ])
-
-                script {
-                    bat 'mvn clean install'
-                }
-            }
-        }
-
-        stage('Test unitarios') {
-            steps {
-                script {
-                    bat 'mvn test'
-                }
-            }
-        }
-
-        stage('Construir Frontend') {
-            steps {
-                script {
-                    bat 'cd Frontend && npm install && npm run build'
-                }
-            }
-        }
 
         stage('Mandando cambios al repositorio') {
             steps {

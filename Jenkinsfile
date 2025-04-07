@@ -29,7 +29,8 @@ pipeline {
                     Set-Content -Path $filePath -Value $content"
                     '''
                 }
-
+            }
+        }
 
         stage('Mandando cambios al repositorio') {
             steps {

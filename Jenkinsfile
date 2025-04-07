@@ -7,6 +7,16 @@ pipeline {
         GITHUB_TOKEN = '33ff7af5-264a-4e8c-8b5e-f2000831c9cc'
     }
     stages {
+
+         stage('Obtener repositorio') {
+             steps {
+                 script {
+                     bat '''
+                     git checkout master
+                     git pull origin master                     '''
+                 }
+             }
+         }
         stage('Agregar funcionalidad de test') {
             steps {
                 script {
@@ -23,7 +33,7 @@ pipeline {
                     branches: [[name: 'refs/heads/master']],
                     userRemoteConfigs: [[
                         url: 'https://github.com/MatiasMontNec/demoAllTouhou',
-                        credentialsId: '$GITHUB_TOKEN'
+                        credentialsId: "${GITHUB_TOKEN}"
                     ]]
                 ])
 

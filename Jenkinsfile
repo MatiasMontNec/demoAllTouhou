@@ -19,13 +19,10 @@ pipeline {
         stage('Add Method to CharacterController') {
             steps {
                 script {
-                    bat '''
-                    echo. >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    echo     @GetMapping("/test") >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    echo     public ResponseEntity<String> testEndpoint() { >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    echo         return ResponseEntity.ok("Test endpoint is working!"); >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    echo     } >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    '''
+                    powershell """
+                    $code = '@GetMapping(\"/test\")`npublic ResponseEntity[String] testEndpoint() {`nreturn ResponseEntity.ok(\"Test endpoint is working!\");`n}'
+                    (Get-Content 'src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java') -replace '\\}\\s*\$','`n' + \$code + \"\n}\" | Set-Content 'src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java'
+                    """
                 }
             }
         }

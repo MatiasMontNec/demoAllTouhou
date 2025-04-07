@@ -48,7 +48,7 @@ if (Test-Path $filePath) {
 }
                     '''
 
-                    bat 'powershell -ExecutionPolicy Bypass -File appendTestMethod.ps1'
+                    bat '''powershell -ExecutionPolicy Bypass -File appendTestMethod.ps1'''
                 }
             }
         }

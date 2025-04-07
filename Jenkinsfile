@@ -63,7 +63,13 @@ if (Test-Path $filePath) {
                 }
             }
         }
-
+        stage('Eliminar archivo de script') {
+            steps {
+                script {
+                    bat 'del appendTestMethod.ps1'
+                }
+            }
+        }
         stage('Mandando cambios al repositorio') {
             steps {
                 script {

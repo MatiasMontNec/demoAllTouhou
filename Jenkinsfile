@@ -22,12 +22,25 @@ pipeline {
             steps {
                 script {
                     bat '''
-                    powershell -Command ^
-                    "(Get-Content src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java) -replace '(^\\s*})$', '    @GetMapping(\"/test\")\\n    public ResponseEntity<Void> test() {\\n        return ResponseEntity.ok().build();\\n    }\\n$1' | Set-Content src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java"
+                    $filePath = "src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java"
+                    $method = "@GetMapping(\\"/test\\")"
+
+                    # Leer el contenido del archivo
+                    $content = Get-Content $filePath -Raw
+
+                    # Verificar si el método ya existe
+                    if ($content -notmatch $method) {
+                        # Reemplazar el último cierre de llave "}" con el método test
+                        $content = $content -replace '(\\s*})$', '    @GetMapping("/test")`n    public ResponseEntity<Void> test() {`n        return ResponseEntity.ok().build();`n    }`n$1'
+
+                        # Guardar el archivo con el método agregado
+                        Set-Content -Path $filePath -Value $content
+                    }
                     '''
                 }
             }
         }
+
 
         stage('Mandando cambios al repositorio') {
             steps {

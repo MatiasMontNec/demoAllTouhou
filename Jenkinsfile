@@ -37,7 +37,7 @@ pipeline {
 
         "@
 
-                $content = $content -replace "(?s)(^.*)(\n\})", "`$1" + $method + "`$2"
+                $content = $content -replace "(?s)(^.*)(\\\n\\})", "`$1" + $method + "`$2"
                 Set-Content -Path $filePath -Value $content
                 Write-Output "Método añadido exitosamente."
             } else {

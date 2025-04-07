@@ -11,8 +11,7 @@ pipeline {
             steps {
                 script {
                     bat '''
-                    powershell -Command ^
-                    "(Get-Content src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java) -replace '(^\\s*})$', '    @GetMapping(\"/test\")\\n    public ResponseEntity<Void> test() {\\n        return ResponseEntity.ok().build();\\n    }\\n$1' | Set-Content src\\main\\java\\com\\tu\\paquete\\controller\\CharacterController.java"
+                    powershell -Command "(Get-Content src\main\java\com\example\demoAllTouhou\controllers\CharacterController.java) -replace '(^\s*})$', '    @GetMapping(\"/test\")`n    public ResponseEntity<Void> test() {`n        return ResponseEntity.ok().build();`n    }`n$1' | Set-Content src\main\java\com\example\demoAllTouhou\controllers\CharacterController.java"
                     '''
                 }
             }

@@ -21,8 +21,12 @@ pipeline {
                 script {
                     powershell """
                     \$code = '@GetMapping(\"/test\")`npublic ResponseEntity<String> testEndpoint() {`nreturn ResponseEntity.ok(\"Test endpoint is working!\");`n}'
-                    (Get-Content 'src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java') -replace '\\}\\s*\$','`n' + \$code + "`n}" | Set-Content 'src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java'
+                    \$filePath = 'src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java'
+                    \$content = Get-Content \$filePath -Raw
+                    \$newContent = \$content -replace '\\}\\s*\$', \"`n\$code`n}\"
+                    Set-Content \$filePath \$newContent
                     """
+
 
                 }
             }

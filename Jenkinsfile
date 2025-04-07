@@ -1,11 +1,11 @@
 pipeline {
     agent any
-    tools{
+    tools {
         maven "maven"
     }
     stages {
-        stage('Build JAR File'){
-            steps{
+        stage('Build JAR File') {
+            steps {
                 checkout scmGit(branches: [[name: '.*master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])
                 script {
                     bat 'mvn clean install'
@@ -20,6 +20,34 @@ pipeline {
                 }
             }
         }
+
+        stage('Add Method to CharacterController') {
+            steps {
+                script {
+                    bat '''
+                    echo @GetMapping("/test") >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    echo public ResponseEntity<String> testEndpoint() { >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    echo return ResponseEntity.ok("Test endpoint is working!"); >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    echo } >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    '''
+                }
+            }
+        }
+
+        stage('Commit and Push Changes') {
+            steps {
+                script {
+                    bat '''
+                    git config user.email "you@example.com"
+                    git config user.name "Your Name"
+                    git add src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    git commit -m "Add test endpoint to CharacterController"
+                    git push origin master
+                    '''
+                }
+            }
+        }
+
         stage('Build Frontend') {
             steps {
                 script {
@@ -27,6 +55,7 @@ pipeline {
                 }
             }
         }
+
     }
     post {
         failure {

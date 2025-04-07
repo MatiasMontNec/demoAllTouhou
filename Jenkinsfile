@@ -18,6 +18,7 @@ pipeline {
                  }
              }
          }
+
         stage('Agregar funcionalidad de test') {
             steps {
                 script {
@@ -41,7 +42,6 @@ pipeline {
             }
         }
 
-
         stage('Mandando cambios al repositorio') {
             steps {
                 script {
@@ -56,8 +56,8 @@ pipeline {
                 }
             }
         }
-
     }
+
     post {
         failure {
             echo 'Error en pipeline.'

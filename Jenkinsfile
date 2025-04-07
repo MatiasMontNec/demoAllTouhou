@@ -3,15 +3,20 @@ pipeline {
     tools {
         maven "maven"
     }
+    enviroment {
+        GITHUB_TOKEN = credentials('${GITHUB_TOKEN}')
+    }
     stages {
         stage('Add Method to CharacterController') {
             steps {
                 script {
                     bat '''
-                    echo @GetMapping("/test") >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                    echo public ResponseEntity<String> testEndpoint() { >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                    echo return ResponseEntity.ok("Test endpoint is working!"); >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                    echo } >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    git config user.email "patricio.paez@usach.com"
+                    git config user.name "niptuS"
+                    git add src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    git commit -m "Add test endpoint to CharacterController"
+                    git remote set-url origin https://$GITHUB_TOKEN@github.com/MatiasMontNec/demoAllTouhou.git
+                    git push origin master
                     '''
                 }
             }
@@ -38,8 +43,8 @@ pipeline {
             steps {
                 script {
                     bat '''
-                    git config user.email "you@example.com"
-                    git config user.name "Your Name"
+                    git config user.email "patricio.paez@usach.com"
+                    git config user.name "niptuS"
                     git add src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
                     git commit -m "Add test endpoint to CharacterController"
                     git push origin master

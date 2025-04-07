@@ -46,7 +46,7 @@ pipeline {
                     git add src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
                     git commit -m "Add test endpoint to CharacterController"
                     git remote set-url origin https://$GITHUB_TOKEN@github.com/MatiasMontNec/demoAllTouhou.git
-                    git push origin main
+                    git push origin/master
                     '''
                 }
             }

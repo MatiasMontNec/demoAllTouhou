@@ -16,19 +16,19 @@ public class CharacterController {
 
     public CharacterController(CharacterService characterService) {
         this.characterService = characterService;
-    }
+    @GetMapping(/test)\n    public ResponseEntity<Void> test() {\n        return ResponseEntity.ok().build();\n    }\n    }
 
     @GetMapping("/{id}")
     public ResponseEntity<CharacterEntity> getCharacterById(@PathVariable Long id) {
         CharacterEntity character = characterService.getCharacterById(id);
         return ResponseEntity.ok(character);
-    }
+    @GetMapping(/test)\n    public ResponseEntity<Void> test() {\n        return ResponseEntity.ok().build();\n    }\n    }
 
     @GetMapping("/firstImage")
     public ResponseEntity<List<CharacterEntity>> getAllCharacters() {
         List<CharacterEntity> characters = characterService.getAllCharacters();
         return ResponseEntity.ok(characters);
-    }
+    @GetMapping(/test)\n    public ResponseEntity<Void> test() {\n        return ResponseEntity.ok().build();\n    }\n    }
 
     @PostMapping("/filter")
     public List<CharacterEntity> filterCharacters(
@@ -45,7 +45,7 @@ public class CharacterController {
         return characterService.filterCharacters(
                 characters, edadMin, edadMax, genero, especie, alturaMin, alturaMax, pesoMin, pesoMax
         );
-    }
+    @GetMapping(/test)\n    public ResponseEntity<Void> test() {\n        return ResponseEntity.ok().build();\n    }\n    }
 
     @GetMapping("/random")
     public ResponseEntity<CharacterEntity> getRandomCharacter() {
@@ -55,6 +55,6 @@ public class CharacterController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(null); // O puedes devolver un CharacterEntity vacío
-        }
-    }
-}
+    @GetMapping(/test)\n    public ResponseEntity<Void> test() {\n        return ResponseEntity.ok().build();\n    }\n        }
+    @GetMapping(/test)\n    public ResponseEntity<Void> test() {\n        return ResponseEntity.ok().build();\n    }\n    }
+    @GetMapping(/test)\n    public ResponseEntity<Void> test() {\n        return ResponseEntity.ok().build();\n    }\n}

@@ -3,21 +3,20 @@ pipeline {
     tools {
         maven "maven"
     }
-
-            stage('Add Method to CharacterController') {
-                steps {
-                    script {
-                        bat '''
-                        echo @GetMapping("/test") >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                        echo public ResponseEntity<String> testEndpoint() { >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                        echo return ResponseEntity.ok("Test endpoint is working!"); >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                        echo } >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                        '''
-                    }
+    stages {
+        stage('Add Method to CharacterController') {
+            steps {
+                script {
+                    bat '''
+                    echo @GetMapping("/test") >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    echo public ResponseEntity<String> testEndpoint() { >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    echo return ResponseEntity.ok("Test endpoint is working!"); >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    echo } >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    '''
                 }
             }
+        }
 
-    stages {
         stage('Build JAR File') {
             steps {
                 checkout scmGit(branches: [[name: '.*master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])

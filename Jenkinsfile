@@ -4,9 +4,17 @@ pipeline {
         maven "maven"
     }
     environment {
-        GITHUB_TOKEN = credentials('${GITHUB_TOKEN}')
+        GITHUB_TOKEN = ''
     }
     stages {
+        stage('Load .env') {
+            steps {
+                script {
+                    def props = readProperties file: '.env'
+                    env.GITHUB_TOKEN = props['GITHUB_TOKEN']
+                }
+            }
+        }
         stage('Add Method to CharacterController') {
             steps {
                 script {

@@ -7,7 +7,7 @@ pipeline {
         GITHUB_TOKEN = '33ff7af5-264a-4e8c-8b5e-f2000831c9cc'
     }
     stages {
-        stage('Agregar funcionalidad de prueba') {
+        stage('Agregar funcionalidad de test') {
             steps {
                 script {
                     bat '''

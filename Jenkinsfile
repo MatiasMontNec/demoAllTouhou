@@ -20,10 +20,10 @@ pipeline {
             steps {
                 script {
                     bat '''
-                    echo @GetMapping("/test") >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                    echo public ResponseEntity<String> testEndpoint() { >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                    echo return ResponseEntity.ok("Test endpoint is working!"); >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
-                    echo } >> src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    echo @GetMapping("/test") >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
+                    echo public ResponseEntity<String> testEndpoint() { >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
+                    echo return ResponseEntity.ok("Test endpoint is working!"); >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
+                    echo } >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
                     '''
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
                     bat '''
                     git config user.email "patricio.paez@usach.com"
                     git config user.name "niptuS"
-                    git add src/main/java/com/example/demoAllTouhou/controllers/CharacterController.java
+                    git add src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
                     git commit -m "Add test endpoint to CharacterController"
                     git remote set-url origin https://$GITHUB_TOKEN@github.com/MatiasMontNec/demoAllTouhou.git
                     git push origin master

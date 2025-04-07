@@ -20,10 +20,11 @@ pipeline {
             steps {
                 script {
                     bat '''
-                    echo @GetMapping("/test") >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    echo public ResponseEntity<String> testEndpoint() { >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    echo return ResponseEntity.ok("Test endpoint is working!"); >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    echo } >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
+                    echo. >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
+                    echo     @GetMapping("/test") >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
+                    echo     public ResponseEntity<String> testEndpoint() { >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
+                    echo         return ResponseEntity.ok("Test endpoint is working!"); >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
+                    echo     } >> src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
                     '''
                 }
             }

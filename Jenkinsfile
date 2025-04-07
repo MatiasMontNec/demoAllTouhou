@@ -22,12 +22,12 @@ pipeline {
             steps {
                 script {
                     writeFile file: 'appendTestMethod.ps1', text: '''
-        $filePath = "src\main\java\com\example\demoAllTouhou\controllers\CharacterController.java"
+        $filePath = "src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java"
 
         if (Test-Path $filePath) {
             $content = Get-Content $filePath -Raw
 
-            if ($content -notmatch '@GetMapping\("/test"\)') {
+            if ($content -notmatch '@GetMapping\\("/test"\\)') {
 
                 $method = @"
             @GetMapping("/test")

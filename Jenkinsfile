@@ -10,7 +10,14 @@ pipeline {
 
         stage('Construir archivo JAR') {
             steps {
-                checkout scmGit(branches: [[name: '.*master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])
+                checkout([$class: 'GitSCM',
+                    branches: [[name: 'refs/heads/master']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/MatiasMontNec/demoAllTouhou',
+                        credentialsId: '$GITHUB_TOKEN'
+                    ]]
+                ])
+
                 script {
                     bat 'mvn clean install'
                 }
@@ -37,12 +44,12 @@ pipeline {
             steps {
                 script {
                     bat '''
-                    git config user.email "patricio.paez@usach.com"
-                    git config user.name "niptuS"
-                    git add .
-                    git commit -m "Añadido CharacterController"
-                    git remote set-url origin https://$GITHUB_TOKEN@github.com/MatiasMontNec/demoAllTouhou.git
-                    git push origin master
+                        git checkout master
+                        git config user.email "patricio.paez@usach.com"
+                        git config user.name "niptuS"
+                        git add .
+                        git commit -m "Añadido CharacterController" || echo "Nada que commitear"
+                        git push origin master
                     '''
                 }
             }
@@ -51,10 +58,10 @@ pipeline {
     }
     post {
         failure {
-            echo 'Error in pipeline.'
+            echo 'Error en pipeline.'
         }
         success {
-            echo 'Pipeline completed.'
+            echo 'Pipeline completado.'
         }
     }
 }

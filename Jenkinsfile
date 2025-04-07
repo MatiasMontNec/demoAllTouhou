@@ -3,7 +3,7 @@ pipeline {
     tools {
         maven "maven"
     }
-    enviroment {
+    environment {
         GITHUB_TOKEN = credentials('${GITHUB_TOKEN}')
     }
     stages {

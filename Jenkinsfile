@@ -7,7 +7,16 @@ pipeline {
         GITHUB_TOKEN = '33ff7af5-264a-4e8c-8b5e-f2000831c9cc'
     }
     stages {
-
+        stage('Agregar funcionalidad de prueba') {
+            steps {
+                script {
+                    bat '''
+                    powershell -Command ^
+                    "(Get-Content src\\main\\java\\com\\tu\\paquete\\controller\\CharacterController.java) -replace '(^\\s*})$', '    @GetMapping(\"/test\")\\n    public ResponseEntity<Void> test() {\\n        return ResponseEntity.ok().build();\\n    }\\n$1' | Set-Content src\\main\\java\\com\\tu\\paquete\\controller\\CharacterController.java"
+                    '''
+                }
+            }
+        }
         stage('Construir archivo JAR') {
             steps {
                 checkout([$class: 'GitSCM',
@@ -48,7 +57,7 @@ pipeline {
                         git config user.email "patricio.paez@usach.com"
                         git config user.name "niptuS"
                         git add .
-                        git commit -m "Añadido CharacterController" || echo "Nada que commitear"
+                        git commit -m "Añadido los cambios al repositorio" || echo "Nada que commitear"
                         git push origin master
                     '''
                 }

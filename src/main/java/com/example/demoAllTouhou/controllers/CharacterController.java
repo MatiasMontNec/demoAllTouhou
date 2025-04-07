@@ -57,7 +57,13 @@ public class CharacterController {
                     .body(null); // O puedes devolver un CharacterEntity vacío
         }
     }
+    @GetMapping("/test")
+    public ResponseEntity<Void> test() {
+        return ResponseEntity.ok().build();
+    }
+
 }
+
 
 
 

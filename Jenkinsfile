@@ -7,11 +7,11 @@ pipeline {
         GITHUB_TOKEN = '33ff7af5-264a-4e8c-8b5e-f2000831c9cc'
     }
     stages {
-        stage('Checkout Main Branch') {
+        stage('Checkout Master Branch') {
             steps {
                 script {
                     bat '''
-                    git checkout main
+                    git checkout master
                     '''
                 }
             }

@@ -23,12 +23,12 @@ pipeline {
                 script {
                     writeFile file: 'appendTestMethod.ps1', text: '''
 
-$filePath = "src\main\java\com\example\demoAllTouhou\controllers\CharacterController.java"
+$filePath = "src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java"
 
 if (Test-Path $filePath) {
     $content = Get-Content $filePath -Raw
 
-    if ($content -notmatch '@GetMapping\("/test"\)') {
+    if ($content -notmatch '@GetMapping\\("/test"\\)') {
 
         $method = @"
     @GetMapping("/test")
@@ -39,7 +39,7 @@ if (Test-Path $filePath) {
 "@
 
         # Utilizar [regex] para reemplazo con grupos
-        $pattern = "(?s)(.*)(\n\})"
+        $pattern = "(?s)(.*)(\\n\\})"
         $replacement = '${1}' + "`n" + $method + '${2}'
         $content = [regex]::Replace($content, $pattern, $replacement)
 

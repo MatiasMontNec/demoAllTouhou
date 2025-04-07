@@ -18,29 +18,18 @@ pipeline {
                  }
              }
          }
-
         stage('Agregar funcionalidad de test') {
             steps {
                 script {
                     bat '''
-                    $filePath = "src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java"
-                    $method = "@GetMapping(\\"/test\\")"
-
-                    # Leer el contenido del archivo
-                    $content = Get-Content $filePath -Raw
-
-                    # Verificar si el método ya existe
-                    if ($content -notmatch $method) {
-                        # Reemplazar el último cierre de llave "}" con el método test
-                        $content = $content -replace '(\\s*})$', '    @GetMapping("/test")`n    public ResponseEntity<Void> test() {`n        return ResponseEntity.ok().build();`n    }`n$1'
-
-                        # Guardar el archivo con el método agregado
-                        Set-Content -Path $filePath -Value $content
-                    }
+                    powershell -Command ^
+                    "$filePath = 'src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java'; ^
+                    $content = Get-Content $filePath; ^
+                    $content = $content -replace '(?s)(.*)(\\s*\\})$', '$1    @GetMapping(\"/test\")\\n    public ResponseEntity<Void> test() {\\n        return ResponseEntity.ok().build();\\n    }\\n$2'; ^
+                    Set-Content -Path $filePath -Value $content"
                     '''
                 }
-            }
-        }
+
 
         stage('Mandando cambios al repositorio') {
             steps {
@@ -56,8 +45,8 @@ pipeline {
                 }
             }
         }
-    }
 
+    }
     post {
         failure {
             echo 'Error en pipeline.'

@@ -5,12 +5,18 @@ $filePath = "src\main\java\com\example\demoAllTouhou\controllers\CharacterContro
 if (Test-Path $filePath) {
     $content = Get-Content $filePath -Raw
 
-    if ($content -notmatch '@GetMapping\("/test"\)') {
+    if ($content -notmatch '@GetMapping\("/random"\)') {
 
         $method = @"
-    @GetMapping("/test")
-    public ResponseEntity<Void> test() {
-        return ResponseEntity.ok().build();
+    @GetMapping("/random")
+    public ResponseEntity<CharacterEntity> getRandomCharacter() {
+        try {
+            CharacterEntity character = characterService.getRandomCharacter();
+            return ResponseEntity.ok(character);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // O puedes devolver un CharacterEntity vacío
+        }
     }
 
 "@

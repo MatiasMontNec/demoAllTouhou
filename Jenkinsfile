@@ -22,11 +22,19 @@ pipeline {
             steps {
                 script {
                     bat '''
-                    powershell -Command "$filePath = 'src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java'; $content = Get-Content $filePath; if ($content -notmatch '@GetMapping\\(\"/test\"\\)') { $content = $content -replace '(?s)(.*)(\\s*\\})$', '$1    @GetMapping(\\"/test\\")\\n    public ResponseEntity<Void> test() {\\n        return ResponseEntity.ok().build();\\n    }\\n$2'; Set-Content -Path $filePath -Value $content }"
+                        powershell -Command ^
+                        "$filePath = 'src\\\\main\\\\java\\\\com\\\\example\\\\demoAllTouhou\\\\controllers\\\\CharacterController.java'; ^
+                        $content = Get-Content $filePath -Raw; ^
+                        if ($content -notmatch '@GetMapping\\(\"/test\"\\)') { ^
+                            $method = '\\n    @GetMapping(\\"/test\\")\\n    public ResponseEntity<Void> test() {\\n        return ResponseEntity.ok().build();\\n    }\\n'; ^
+                            $content = $content -replace '(?s)(^.*)(\\n\\})$', '${1}' + $method + '${2}'; ^
+                            Set-Content -Path $filePath -Value $content ^
+                        }"
                     '''
                 }
             }
         }
+
 
         stage('Mandando cambios al repositorio') {
             steps {

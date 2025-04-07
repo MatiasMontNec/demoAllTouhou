@@ -7,32 +7,8 @@ pipeline {
         GITHUB_TOKEN = '33ff7af5-264a-4e8c-8b5e-f2000831c9cc'
     }
     stages {
-        stage('Checkout Master Branch') {
-            steps {
-                script {
-                    bat '''
-                    git checkout master
-                    '''
-                }
-            }
-        }
-        stage('Add Method to CharacterController') {
-            steps {
-                script {
-                    powershell """
-                    \$code = '@GetMapping(\"/test\")`npublic ResponseEntity<String> testEndpoint() {`nreturn ResponseEntity.ok(\"Test endpoint is working!\");`n}'
-                    \$filePath = 'src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java'
-                    \$content = Get-Content \$filePath -Raw
-                    \$newContent = \$content -replace '\\}\\s*\$', \"`n\$code`n}\"
-                    Set-Content \$filePath \$newContent
-                    """
 
-
-                }
-            }
-        }
-
-        stage('Build JAR File') {
+        stage('Construir archivo JAR') {
             steps {
                 checkout scmGit(branches: [[name: '.*master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MatiasMontNec/demoAllTouhou']])
                 script {
@@ -41,7 +17,7 @@ pipeline {
             }
         }
 
-        stage('Unit Tests') {
+        stage('Test unitarios') {
             steps {
                 script {
                     bat 'mvn test'
@@ -49,25 +25,25 @@ pipeline {
             }
         }
 
-        stage('Commit and Push Changes') {
+        stage('Construir Frontend') {
+            steps {
+                script {
+                    bat 'cd Frontend && npm install && npm run build'
+                }
+            }
+        }
+
+        stage('Mandando cambios al repositorio') {
             steps {
                 script {
                     bat '''
                     git config user.email "patricio.paez@usach.com"
                     git config user.name "niptuS"
-                    git add src\\main\\java\\com\\example\\demoAllTouhou\\controllers\\CharacterController.java
-                    git commit -m "Add test endpoint to CharacterController"
+                    git add .
+                    git commit -m "Añadido CharacterController"
                     git remote set-url origin https://$GITHUB_TOKEN@github.com/MatiasMontNec/demoAllTouhou.git
                     git push origin master
                     '''
-                }
-            }
-        }
-
-        stage('Build Frontend') {
-            steps {
-                script {
-                    bat 'cd Frontend && npm install && npm run build'
                 }
             }
         }

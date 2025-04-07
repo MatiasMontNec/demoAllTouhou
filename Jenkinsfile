@@ -13,7 +13,8 @@ pipeline {
                  script {
                      bat '''
                      git checkout master
-                     git pull origin master                     '''
+                     git pull origin master
+                     '''
                  }
              }
          }

@@ -46,17 +46,6 @@ public class CharacterController {
                 characters, edadMin, edadMax, genero, especie, alturaMin, alturaMax, pesoMin, pesoMax
         );
     }
-
-    @GetMapping("/random")
-    public ResponseEntity<CharacterEntity> getRandomCharacter() {
-        try {
-            CharacterEntity character = characterService.getRandomCharacter();
-            return ResponseEntity.ok(character);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null); // O puedes devolver un CharacterEntity vacío
-        }
-    }
 }
 
 
